@@ -6,13 +6,14 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-defaultUser = User.create([
+users = User.create([
   {
     name: "Default User",
     email: nil
   }
 ])
 
+user1 = users[0]
 
 tags = Tag.create([
   {
@@ -26,15 +27,17 @@ tags = Tag.create([
   }
 ])
 
-label = defaultUser.labels.create([
+labels = Label.create([
   {
+    user_id: user1.id,
     description: "Label 1"
   }
 ])
 
 
-task = defaultUser.tasks.create([
+projectlessTasks = Task.create([
   {
+    user_id: user1.id,
     deadline: nil,
     content: "Task 1",
     priority: 3,
@@ -43,9 +46,32 @@ task = defaultUser.tasks.create([
   }
 ])
 
-project = defaultUser.projects.create([
+projects = Project.create([
   {
-    
+    user_id: user1.id,
+    title: "Project 1",
+    content: "This is a sample project",
+    completed: false
   }
 ])
 
+project1 = projects[0]
+
+projectTasks = Task.create([
+  {
+    user_id: user1.id,
+    project_id: project1.id,
+    deadline: nil,
+    content: "Task 2",
+    priority: 5,
+    completed: false,
+  },
+  {
+    user_id: user1.id,
+    project_id: project1.id,
+    deadline: nil,
+    content: "Task 3",
+    priority: 6,
+    completed: false,
+  }
+])

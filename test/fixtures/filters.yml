@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  time_filter: 2020-12-17 11:48:02
+  priority_filter: 
+  user: one
+
+two:
+  time_filter: 2020-12-17 11:48:02
+  priority_filter: 
+  user: two

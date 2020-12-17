@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  deadline: 2020-12-17 11:43:58
+  content: MyString
+  priority: 
+  completed: false
+  user: one
+  project: one
+
+two:
+  deadline: 2020-12-17 11:43:58
+  content: MyString
+  priority: 
+  completed: false
+  user: two
+  project: two

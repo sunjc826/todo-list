@@ -3,6 +3,11 @@ Rails.application.routes.draw do
   get "/welcome", to: "welcome#index"
   get "/welcome/index", to: "welcome#index"
 
+  # note that the only: fields are not yet in sync with the controllers
+  # e.g. some resources without :new still have :new fn in the controller 
+
+  # TODO: nested resources (https://guides.rubyonrails.org/routing.html#nested-resources)
+
   namespace :api do
     namespace :v1 do
       resources :comments, only: [:create, :update, :destroy]
@@ -15,7 +20,7 @@ Rails.application.routes.draw do
       resources :tag_tasks
       resources :tags
       resources :tasks
-      resources :users
+      resources :users, only: [:show, :create, :update, :destroy]
     end
   end
 

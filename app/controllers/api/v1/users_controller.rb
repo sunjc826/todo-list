@@ -3,10 +3,11 @@ module Api
     class UsersController < ApplicationController
       def show
         user = User.find(params[:id])
-        
+        render json: UserSerializer.new(user).serializable_hash.to_json
       end
 
       def new
+        
       end
 
       def create

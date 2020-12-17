@@ -14,4 +14,38 @@ defaultUser = User.create([
 ])
 
 
+tags = Tag.create([
+  {
+    description: "Work"
+  },
+  {
+    description: "Social"
+  },
+  {
+    description: "Personal"
+  }
+])
+
+label = defaultUser.labels.create([
+  {
+    description: "Label 1"
+  }
+])
+
+
+task = defaultUser.tasks.create([
+  {
+    deadline: nil,
+    content: "Task 1",
+    priority: 3,
+    completed: false,
+    project_id: nil
+  }
+])
+
+project = defaultUser.projects.create([
+  {
+    
+  }
+])
 

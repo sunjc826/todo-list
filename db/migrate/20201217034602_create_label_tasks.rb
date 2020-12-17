@@ -6,7 +6,6 @@ class CreateLabelTasks < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
-    add_index :label_tasks, :label
-    add_index :label_tasks, :task
+
   end
 end

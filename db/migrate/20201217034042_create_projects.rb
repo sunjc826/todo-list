@@ -6,6 +6,6 @@ class CreateProjects < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
-    add_index :projects, :user
+
   end
 end

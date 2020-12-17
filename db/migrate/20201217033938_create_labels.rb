@@ -6,6 +6,6 @@ class CreateLabels < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
-    add_index :labels, :user
+
   end
 end

@@ -6,7 +6,6 @@ class CreateTagTasks < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
-    add_index :tag_tasks, :tag
-    add_index :tag_tasks, :task
+
   end
 end

@@ -1,39 +1,39 @@
 import {
-  FETCH_USER_REQUEST,
-  FETCH_USER_SUCCESS,
-  FETCH_USER_FAILURE,
-  SET_USER_DATA,
-} from "./userTypes";
+  FETCH_COMMENT_REQUEST,
+  FETCH_COMMENT_SUCCESS,
+  FETCH_COMMENT_FAILURE,
+  SET_COMMENT_DATA,
+} from "./commentTypes";
 
-const initialUserState = {
+const initialCommentState = {
   loading: false,
   data: null,
   errMsg: "",
 };
 
-const userReducer = (state = initialUserState, action) => {
+const commentReducer = (state = initialCommentState, action) => {
   switch (action.type) {
-    case FETCH_USER_REQUEST:
+    case FETCH_COMMENT_REQUEST:
       return {
         ...state,
         loading: true,
         data: null,
         errMsg: "",
       };
-    case FETCH_USER_SUCCESS:
+    case FETCH_COMMENT_SUCCESS:
       return {
         ...state,
         loading: false,
         errMsg: "",
       };
-    case FETCH_USER_FAILURE:
+    case FETCH_COMMENT_FAILURE:
       return {
         ...state,
         loading: false,
         data: null,
         errMsg: action.payload,
       };
-    case SET_USER_DATA:
+    case SET_COMMENT_DATA:
       return {
         ...state,
         data: action.payload,
@@ -43,4 +43,4 @@ const userReducer = (state = initialUserState, action) => {
   }
 };
 
-export default userReducer;
+export default commentReducer;

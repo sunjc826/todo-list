@@ -18,7 +18,16 @@ const Content = styled.div`
   width: 100%;
 `;
 
-const Main = ({ userState, tagState, fetchUserData, fetchTagsData }) => {
+const Main = ({
+  labelState,
+  projectState,
+  subtaskState,
+  tagState,
+  taskState,
+  userState,
+  fetchUserData,
+  fetchTagsData,
+}) => {
   useEffect(() => {
     // console.log("fetching data");
     fetchUserData();
@@ -48,8 +57,12 @@ const Main = ({ userState, tagState, fetchUserData, fetchTagsData }) => {
 };
 
 const mapStateToProps = (state) => ({
-  userState: state.user,
+  labelState: state.label,
+  projectState: state.project,
+  subtaskState: state.subtask,
   tagState: state.tag,
+  taskState: state.task,
+  userState: state.user,
 });
 
 const mapDispatchToProps = (dispatch) => ({

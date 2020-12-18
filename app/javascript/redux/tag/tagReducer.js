@@ -2,11 +2,12 @@ import {
   FETCH_TAGS_REQUEST,
   FETCH_TAGS_SUCCESS,
   FETCH_TAGS_FAILURE,
+  SET_TAGS_DATA,
 } from "./tagTypes";
 
 const defaultTags = {
   loading: false,
-  data: [],
+  data: null,
   errMsg: "",
 };
 
@@ -16,22 +17,26 @@ const tagReducer = (state = defaultTags, action) => {
       return {
         ...state,
         loading: true,
-        data: [],
-        err: "",
+        data: null,
+        errMsg: "",
       };
     case FETCH_TAGS_SUCCESS:
       return {
         ...state,
         loading: false,
-        data: action.payload,
-        err: "",
+        errMsg: "",
       };
     case FETCH_TAGS_FAILURE:
       return {
         ...state,
         loading: false,
-        data: {},
-        err: action.payload,
+        data: null,
+        errMsg: action.payload,
+      };
+    case SET_TAGS_DATA:
+      return {
+        ...state,
+        data: action.payload,
       };
     default:
       return state;

@@ -1,9 +1,38 @@
-import { SET_LABEL_DATA } from "./labelTypes";
+import {
+  FETCH_LABEL_REQUEST,
+  FETCH_LABEL_SUCCESS,
+  FETCH_LABEL_FAILURE,
+  SET_LABEL_DATA,
+} from "./labelTypes";
 
-const initialLabelState = { data: null };
+const initialLabelState = {
+  loading: false,
+  data: null,
+  errMsg: "",
+};
 
 const labelReducer = (state = initialLabelState, action) => {
   switch (action.type) {
+    case FETCH_LABEL_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        data: null,
+        errMsg: "",
+      };
+    case FETCH_LABEL_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        errMsg: "",
+      };
+    case FETCH_LABEL_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        data: null,
+        errMsg: action.payload,
+      };
     case SET_LABEL_DATA:
       return {
         ...state,

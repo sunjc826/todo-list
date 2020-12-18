@@ -2,6 +2,7 @@ import {
   FETCH_TAGS_REQUEST,
   FETCH_TAGS_SUCCESS,
   FETCH_TAGS_FAILURE,
+  SET_TAGS_DATA,
 } from "./tagTypes";
 import normalize from "json-api-normalizer";
 
@@ -11,14 +12,18 @@ const fetchTagsRequest = () => ({
   type: FETCH_TAGS_REQUEST,
 });
 
-const fetchTagsSuccess = (userData) => ({
+const fetchTagsSuccess = () => ({
   type: FETCH_TAGS_SUCCESS,
-  payload: userData,
 });
 
 const fetchTagsFailure = (errMsg) => ({
   type: FETCH_TAGS_FAILURE,
   payload: errMsg,
+});
+
+const setTagsData = (tagsData) => ({
+  type: SET_TAGS_DATA,
+  payload: tagsData,
 });
 
 const fetchTagsData = () => (dispatch) => {
@@ -36,7 +41,8 @@ const fetchTagsData = () => (dispatch) => {
       return normalize(res);
     })
     .then((res) => {
-      dispatch(fetchTagsSuccess(res));
+      dispatch(fetchTagsSuccess());
+      dispatch(setTagsData(res));
     })
     .catch((err) => {
       dispatch(fetchTagsFailure(err.message));

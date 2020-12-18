@@ -5,8 +5,8 @@ import { fetchUserData, fetchTagsData } from "../redux/actions";
 import styled from "styled-components";
 import Sidebar from "./sidebar/Sidebar";
 import Home from "./main/Home";
-import Tasks from "./main/Tasks";
-import Projects from "./main/Projects";
+import Tasks from "./main/task/Tasks";
+import Projects from "./main/project/Projects";
 
 const Wrapper = styled.div`
   display: flex;
@@ -41,13 +41,13 @@ const Main = ({
         <Content>
           <Switch>
             <Route exact path="/tasks">
-              <Tasks />
+              <Tasks taskState={taskState} />
             </Route>
             <Route exact path="/projects">
-              <Projects />
+              <Projects projectState={projectState} />
             </Route>
             <Route path="/">
-              <Home />
+              <Home userState={userState} />
             </Route>
           </Switch>
         </Content>

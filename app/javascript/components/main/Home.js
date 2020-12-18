@@ -4,14 +4,11 @@ import { Row, Col, Container, Jumbotron } from "reactstrap";
 
 const user_id = 1;
 
-const Home = () => {
-  const userState = useSelector((state) => state.user);
-  console.log("USER STATE");
+const Home = ({ userState }) => {
+  // const userState = useSelector((state) => state.user);
+  const userLoading = userState.loading;
   const userData = userState.data;
-  console.log(userData);
-  // console.log(userData["1"]);
-  // const userData = userState.data[user_id.toString()].attributes;
-  // const { name, email } = userData;
+  const userErrMsg = userState.errMsg;
 
   return (
     <div>
@@ -23,7 +20,9 @@ const Home = () => {
       <Container>
         <Row>
           <Col xs="12">
-            <p>Hello, </p>
+            {userLoading || !userData ? null : (
+              <p>Welcome, {userData["1"].attributes.name}</p>
+            )}
           </Col>
         </Row>
       </Container>

@@ -23,4 +23,9 @@ const setLabelData = (labelData) => ({
   payload: labelData,
 });
 
-export { setLabelData };
+export {
+  fetchLabelRequest,
+  fetchLabelSuccess,
+  fetchLabelFailure,
+  setLabelData,
+};

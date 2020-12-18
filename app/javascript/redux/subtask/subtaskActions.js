@@ -22,3 +22,10 @@ const setSubtaskData = (subtaskData) => ({
   type: SET_SUBTASK_DATA,
   payload: subtaskData,
 });
+
+export {
+  fetchSubtaskRequest,
+  fetchSubtaskSuccess,
+  fetchSubtaskFailure,
+  setSubtaskData,
+};

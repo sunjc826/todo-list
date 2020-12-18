@@ -23,4 +23,9 @@ const setProjectData = (projectData) => ({
   payload: projectData,
 });
 
-export { setProjectData };
+export {
+  fetchProjectRequest,
+  fetchProjectSuccess,
+  fetchProjectFailure,
+  setProjectData,
+};

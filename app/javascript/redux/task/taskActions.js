@@ -23,4 +23,4 @@ const setTaskData = (taskData) => ({
   payload: taskData,
 });
 
-export { setTaskData };
+export { fetchTaskRequest, fetchTaskSuccess, fetchTaskFailure, setTaskData };

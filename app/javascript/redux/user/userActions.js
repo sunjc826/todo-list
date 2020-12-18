@@ -1,13 +1,28 @@
+import normalize from "json-api-normalizer";
 import {
   FETCH_USER_REQUEST,
   FETCH_USER_SUCCESS,
   FETCH_USER_FAILURE,
   SET_USER_DATA,
 } from "./userTypes";
-import normalize from "json-api-normalizer";
-import { setProjectData } from "../project/projectActions";
-import { setTaskData } from "../task/taskActions";
-import { setLabelData } from "../label/labelActions";
+import {
+  fetchProjectRequest,
+  fetchProjectSuccess,
+  fetchProjectFailure,
+  setProjectData,
+} from "../project/projectActions";
+import {
+  fetchTaskRequest,
+  fetchTaskSuccess,
+  fetchTaskFailure,
+  setTaskData,
+} from "../task/taskActions";
+import {
+  fetchLabelRequest,
+  fetchLabelSuccess,
+  fetchLabelFailure,
+  setLabelData,
+} from "../label/labelActions";
 
 const usersUrl = "/api/v1/users";
 
@@ -32,6 +47,9 @@ const setUserData = (userData) => ({
 const fetchUserData = (userId = 1) => (dispatch) => {
   // TODO: implement login system
   dispatch(fetchUserRequest());
+  dispatch(fetchProjectRequest());
+  dispatch(fetchTaskRequest());
+  dispatch(fetchLabelRequest());
   const url = `${usersUrl}/${userId}`;
   fetch(url)
     .then((res) => {
@@ -43,12 +61,14 @@ const fetchUserData = (userId = 1) => (dispatch) => {
     })
     .then((res) => {
       // console.log(res);
-      console.log(normalize(res));
+      // console.log(normalize(res));
       return normalize(res);
     })
     .then((res) => {
       dispatch(fetchUserSuccess());
-
+      dispatch(fetchProjectSuccess());
+      dispatch(fetchTaskSuccess());
+      dispatch(fetchLabelSuccess());
       // break up compound document into parts
       // and store into different parts of the redux store
       const { user, project, task, label } = res;
@@ -64,6 +84,9 @@ const fetchUserData = (userId = 1) => (dispatch) => {
     .catch((err) => {
       // console.log(err);
       dispatch(fetchUserFailure(err.message));
+      dispatch(fetchProjectFailure(err.message));
+      dispatch(fetchTaskFailure(err.message));
+      dispatch(fetchLabelFailure(err.message));
     });
 };
 

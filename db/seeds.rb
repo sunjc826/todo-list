@@ -38,7 +38,7 @@ labels = Label.create([
 projectlessTasks = Task.create([
   {
     user_id: user1.id,
-    deadline: nil,
+    deadline: Time.now,
     content: "Task 1",
     priority: 3,
     completed: false,

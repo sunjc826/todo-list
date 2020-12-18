@@ -23,3 +23,10 @@ const setCommentData = (commentData) => ({
   type: SET_COMMENT_DATA,
   payload: commentData,
 });
+
+export {
+  fetchCommentRequest,
+  fetchCommentSuccess,
+  fetchCommentFailure,
+  setCommentData,
+};

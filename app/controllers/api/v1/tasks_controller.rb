@@ -2,7 +2,7 @@ module Api
   module V1
     class TasksController < ApplicationController
       def index
-        tasks = Task.all
+        tasks = Task.all.order(deadline: :desc)
         render json: TaskSerializer.new(tasks).serializable_hash.to_json
       end
 

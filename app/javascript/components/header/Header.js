@@ -6,10 +6,10 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
   Collapse,
   Tooltip,
 } from "reactstrap";
+import { NavLink } from "react-router-dom";
 import SearchBar from "./SearchBar";
 
 const Header = () => {
@@ -22,7 +22,7 @@ const Header = () => {
 
   return (
     <Navbar color="dark" dark expand="md">
-      <Container>
+      <Container fluid>
         <NavbarBrand href="/">
           <span>Todo App</span>
         </NavbarBrand>
@@ -30,7 +30,7 @@ const Header = () => {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <NavLink>
+              <NavLink to="/" className="nav-link">
                 <i className="fas fa-bars fa-lg" id="bars"></i>
               </NavLink>
               <Tooltip
@@ -43,17 +43,17 @@ const Header = () => {
               </Tooltip>
             </NavItem>
             <NavItem>
-              <NavLink>
+              <NavLink to="/home" className="nav-link">
                 <i className="fas fa-home fa-lg" id="home"></i>
-                <Tooltip
-                  placement="right"
-                  target="home"
-                  isOpen={homeTooltipOpen}
-                  toggle={() => setHomeTooltipOpen(!homeTooltipOpen)}
-                >
-                  Homepage
-                </Tooltip>
               </NavLink>
+              <Tooltip
+                placement="right"
+                target="home"
+                isOpen={homeTooltipOpen}
+                toggle={() => setHomeTooltipOpen(!homeTooltipOpen)}
+              >
+                Homepage
+              </Tooltip>
             </NavItem>
             <NavItem>
               <SearchBar />
@@ -61,7 +61,7 @@ const Header = () => {
           </Nav>
           <Nav className="ml-auto" navbar>
             <NavItem className="mx-3">
-              <NavLink>
+              <NavLink to="/" className="nav-link">
                 <i className="far fa-plus-square fa-lg" id="plus"></i>
               </NavLink>
 
@@ -76,7 +76,7 @@ const Header = () => {
             </NavItem>
 
             <NavItem className="mx-3">
-              <NavLink>
+              <NavLink to="/" className="nav-link">
                 <i className="far fa-question-circle fa-lg" id="question"></i>
               </NavLink>
               <Tooltip
@@ -89,7 +89,7 @@ const Header = () => {
               </Tooltip>
             </NavItem>
             <NavItem className="mx-3">
-              <NavLink>
+              <NavLink to="/" className="nav-link">
                 <i className="far fa-bell fa-lg" id="bell"></i>
               </NavLink>
               <Tooltip

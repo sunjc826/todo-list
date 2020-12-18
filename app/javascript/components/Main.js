@@ -1,22 +1,60 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
+import { connect } from "react-redux";
+import { fetchUserData, fetchTagsData } from "../redux/actions";
+import styled from "styled-components";
 import Sidebar from "./sidebar/Sidebar";
+import Home from "./main/Home";
 import Tasks from "./main/Tasks";
+import Projects from "./main/Projects";
 
-const Main = () => {
+const Wrapper = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+`;
+
+const Content = styled.div`
+  width: 100%;
+`;
+
+const Main = ({ userState, tagState, fetchUserData, fetchTagsData }) => {
+  useEffect(() => {
+    // console.log("fetching data");
+    fetchUserData();
+    fetchTagsData();
+  }, []);
+
   return (
     <Fragment>
-      <Sidebar />
-      <Switch>
-        <Route>
-          <Tasks />
-        </Route>
-        <Route>
-          <Projects />
-        </Route>
-      </Switch>
+      <Wrapper>
+        <Sidebar />
+        <Content>
+          <Switch>
+            <Route exact path="/tasks">
+              <Tasks />
+            </Route>
+            <Route exact path="/projects">
+              <Projects />
+            </Route>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </Content>
+      </Wrapper>
     </Fragment>
   );
 };
 
-export default Main;
+const mapStateToProps = (state) => ({
+  userState: state.user,
+  tagState: state.tag,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchUserData: () => dispatch(fetchUserData()),
+  fetchTagsData: () => dispatch(fetchTagsData()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

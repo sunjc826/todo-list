@@ -1,7 +1,7 @@
 import {
-  FETCH_COMMENT_REQUEST,
-  FETCH_COMMENT_SUCCESS,
-  FETCH_COMMENT_FAILURE,
+  FETCH_COMMENTS_REQUEST,
+  FETCH_COMMENTS_SUCCESS,
+  FETCH_COMMENTS_FAILURE,
   SET_COMMENT_DATA,
 } from "./commentTypes";
 
@@ -13,20 +13,20 @@ const initialCommentState = {
 
 const commentReducer = (state = initialCommentState, action) => {
   switch (action.type) {
-    case FETCH_COMMENT_REQUEST:
+    case FETCH_COMMENTS_REQUEST:
       return {
         ...state,
         loading: true,
         data: null,
         errMsg: "",
       };
-    case FETCH_COMMENT_SUCCESS:
+    case FETCH_COMMENTS_SUCCESS:
       return {
         ...state,
         loading: false,
         errMsg: "",
       };
-    case FETCH_COMMENT_FAILURE:
+    case FETCH_COMMENTS_FAILURE:
       return {
         ...state,
         loading: false,

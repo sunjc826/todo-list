@@ -1,10 +1,10 @@
 import React from "react";
 import { Row, Col, ListGroup, ListGroupItem } from "reactstrap";
-import OverdueTask from "./OverdueTask";
+import Task from "./Task";
 
 const OverdueTaskList = ({ tasklist }) => {
   const taskComponentList = tasklist.map((task) => {
-    return <OverdueTask key={task.id} task={task} />;
+    return <Task key={task.id} task={task} overdue />;
   });
 
   return (

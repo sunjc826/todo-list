@@ -1,7 +1,7 @@
 import {
-  FETCH_PROJECT_REQUEST,
-  FETCH_PROJECT_SUCCESS,
-  FETCH_PROJECT_FAILURE,
+  FETCH_PROJECTS_REQUEST,
+  FETCH_PROJECTS_SUCCESS,
+  FETCH_PROJECTS_FAILURE,
   SET_PROJECT_DATA,
 } from "./projectTypes";
 
@@ -13,20 +13,20 @@ const initialProjectState = {
 
 const projectReducer = (state = initialProjectState, action) => {
   switch (action.type) {
-    case FETCH_PROJECT_REQUEST:
+    case FETCH_PROJECTS_REQUEST:
       return {
         ...state,
         loading: true,
         data: null,
         errMsg: "",
       };
-    case FETCH_PROJECT_SUCCESS:
+    case FETCH_PROJECTS_SUCCESS:
       return {
         ...state,
         loading: false,
         errMsg: "",
       };
-    case FETCH_PROJECT_FAILURE:
+    case FETCH_PROJECTS_FAILURE:
       return {
         ...state,
         loading: false,

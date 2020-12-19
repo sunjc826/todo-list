@@ -4,7 +4,7 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Provider } from "react-redux";
 import store from "../redux/store";
-import "./css/app.css";
+import "./app.css";
 
 import Header from "./header/Header";
 import Main from "./Main";

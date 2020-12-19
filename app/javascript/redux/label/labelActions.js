@@ -1,20 +1,20 @@
 import {
-  FETCH_LABEL_REQUEST,
-  FETCH_LABEL_SUCCESS,
-  FETCH_LABEL_FAILURE,
+  FETCH_LABELS_REQUEST,
+  FETCH_LABELS_SUCCESS,
+  FETCH_LABELS_FAILURE,
   SET_LABEL_DATA,
 } from "./labelTypes";
 
-const fetchLabelRequest = () => ({
-  type: FETCH_LABEL_REQUEST,
+const fetchLabelsRequest = () => ({
+  type: FETCH_LABELS_REQUEST,
 });
 
-const fetchLabelSuccess = () => ({
-  type: FETCH_LABEL_SUCCESS,
+const fetchLabelsSuccess = () => ({
+  type: FETCH_LABELS_SUCCESS,
 });
 
-const fetchLabelFailure = (errMsg) => ({
-  type: FETCH_LABEL_FAILURE,
+const fetchLabelsFailure = (errMsg) => ({
+  type: FETCH_LABELS_FAILURE,
   payload: errMsg,
 });
 
@@ -24,8 +24,8 @@ const setLabelData = (labelData) => ({
 });
 
 export {
-  fetchLabelRequest,
-  fetchLabelSuccess,
-  fetchLabelFailure,
+  fetchLabelsRequest,
+  fetchLabelsSuccess,
+  fetchLabelsFailure,
   setLabelData,
 };

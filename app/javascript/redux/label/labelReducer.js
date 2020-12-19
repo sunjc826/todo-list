@@ -1,7 +1,7 @@
 import {
-  FETCH_LABEL_REQUEST,
-  FETCH_LABEL_SUCCESS,
-  FETCH_LABEL_FAILURE,
+  FETCH_LABELS_REQUEST,
+  FETCH_LABELS_SUCCESS,
+  FETCH_LABELS_FAILURE,
   SET_LABEL_DATA,
 } from "./labelTypes";
 
@@ -13,20 +13,20 @@ const initialLabelState = {
 
 const labelReducer = (state = initialLabelState, action) => {
   switch (action.type) {
-    case FETCH_LABEL_REQUEST:
+    case FETCH_LABELS_REQUEST:
       return {
         ...state,
         loading: true,
         data: null,
         errMsg: "",
       };
-    case FETCH_LABEL_SUCCESS:
+    case FETCH_LABELS_SUCCESS:
       return {
         ...state,
         loading: false,
         errMsg: "",
       };
-    case FETCH_LABEL_FAILURE:
+    case FETCH_LABELS_FAILURE:
       return {
         ...state,
         loading: false,

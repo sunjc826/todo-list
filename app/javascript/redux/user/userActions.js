@@ -6,21 +6,21 @@ import {
   SET_USER_DATA,
 } from "./userTypes";
 import {
-  fetchProjectRequest,
-  fetchProjectSuccess,
-  fetchProjectFailure,
+  fetchProjectsRequest,
+  fetchProjectsSuccess,
+  fetchProjectsFailure,
   setProjectData,
 } from "../project/projectActions";
 import {
-  fetchTaskRequest,
-  fetchTaskSuccess,
-  fetchTaskFailure,
+  fetchTasksRequest,
+  fetchTasksSuccess,
+  fetchTasksFailure,
   setTaskData,
 } from "../task/taskActions";
 import {
-  fetchLabelRequest,
-  fetchLabelSuccess,
-  fetchLabelFailure,
+  fetchLabelsRequest,
+  fetchLabelsSuccess,
+  fetchLabelsFailure,
   setLabelData,
 } from "../label/labelActions";
 
@@ -47,9 +47,9 @@ const setUserData = (userData) => ({
 const fetchUserData = (userId = 1) => (dispatch) => {
   // TODO: implement login system
   dispatch(fetchUserRequest());
-  dispatch(fetchProjectRequest());
-  dispatch(fetchTaskRequest());
-  dispatch(fetchLabelRequest());
+  dispatch(fetchProjectsRequest());
+  dispatch(fetchTasksRequest());
+  dispatch(fetchLabelsRequest());
   const url = `${usersUrl}/${userId}`;
   fetch(url)
     .then((res) => {
@@ -65,10 +65,6 @@ const fetchUserData = (userId = 1) => (dispatch) => {
       return normalize(res);
     })
     .then((res) => {
-      dispatch(fetchUserSuccess());
-      dispatch(fetchProjectSuccess());
-      dispatch(fetchTaskSuccess());
-      dispatch(fetchLabelSuccess());
       // break up compound document into parts
       // and store into different parts of the redux store
       const { user, project, task, label } = res;
@@ -80,13 +76,17 @@ const fetchUserData = (userId = 1) => (dispatch) => {
       dispatch(setProjectData(project));
       dispatch(setTaskData(task));
       dispatch(setLabelData(label));
+      dispatch(fetchUserSuccess());
+      dispatch(fetchProjectsSuccess());
+      dispatch(fetchTasksSuccess());
+      dispatch(fetchLabelsSuccess());
     })
     .catch((err) => {
       // console.log(err);
       dispatch(fetchUserFailure(err.message));
-      dispatch(fetchProjectFailure(err.message));
-      dispatch(fetchTaskFailure(err.message));
-      dispatch(fetchLabelFailure(err.message));
+      dispatch(fetchProjectsFailure(err.message));
+      dispatch(fetchTasksFailure(err.message));
+      dispatch(fetchLabelsFailure(err.message));
     });
 };
 

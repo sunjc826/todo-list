@@ -1,21 +1,20 @@
-import { SET_USER_DATA } from "../user/userTypes";
 import {
-  FETCH_COMMENT_REQUEST,
-  FETCH_COMMENT_SUCCESS,
-  FETCH_COMMENT_FAILURE,
+  FETCH_COMMENTS_REQUEST,
+  FETCH_COMMENTS_SUCCESS,
+  FETCH_COMMENTS_FAILURE,
   SET_COMMENT_DATA,
 } from "./commentTypes";
 
-const fetchCommentRequest = () => ({
-  type: FETCH_COMMENT_REQUEST,
+const fetchCommentsRequest = () => ({
+  type: FETCH_COMMENTS_REQUEST,
 });
 
-const fetchCommentSuccess = () => ({
-  type: FETCH_COMMENT_SUCCESS,
+const fetchCommentsSuccess = () => ({
+  type: FETCH_COMMENTS_SUCCESS,
 });
 
-const fetchCommentFailure = (errMsg) => ({
-  type: FETCH_COMMENT_FAILURE,
+const fetchCommentsFailure = (errMsg) => ({
+  type: FETCH_COMMENTS_FAILURE,
   payload: errMsg,
 });
 
@@ -25,8 +24,8 @@ const setCommentData = (commentData) => ({
 });
 
 export {
-  fetchCommentRequest,
-  fetchCommentSuccess,
-  fetchCommentFailure,
+  fetchCommentsRequest,
+  fetchCommentsSuccess,
+  fetchCommentsFailure,
   setCommentData,
 };

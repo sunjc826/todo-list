@@ -1,20 +1,21 @@
 import {
-  FETCH_SUBTASK_REQUEST,
-  FETCH_SUBTASK_SUCCESS,
-  FETCH_SUBTASK_FAILURE,
+  FETCH_SUBTASKS_REQUEST,
+  FETCH_SUBTASKS_SUCCESS,
+  FETCH_SUBTASKS_FAILURE,
   SET_SUBTASK_DATA,
+  UPDATE_SUBTASK_DATA,
 } from "./subtaskTypes";
 
-const fetchSubtaskRequest = () => ({
-  type: FETCH_SUBTASK_REQUEST,
+const fetchSubtasksRequest = () => ({
+  type: FETCH_SUBTASKS_REQUEST,
 });
 
-const fetchSubtaskSuccess = () => ({
-  type: FETCH_SUBTASK_SUCCESS,
+const fetchSubtasksSuccess = () => ({
+  type: FETCH_SUBTASKS_SUCCESS,
 });
 
-const fetchSubtaskFailure = (errMsg) => ({
-  type: FETCH_SUBTASK_FAILURE,
+const fetchSubtasksFailure = (errMsg) => ({
+  type: FETCH_SUBTASKS_FAILURE,
   payload: errMsg,
 });
 
@@ -23,9 +24,15 @@ const setSubtaskData = (subtaskData) => ({
   payload: subtaskData,
 });
 
+const updateSubtaskData = (subtaskData) => ({
+  type: UPDATE_SUBTASK_DATA,
+  payload: subtaskData,
+});
+
 export {
-  fetchSubtaskRequest,
-  fetchSubtaskSuccess,
-  fetchSubtaskFailure,
+  fetchSubtasksRequest,
+  fetchSubtasksSuccess,
+  fetchSubtasksFailure,
   setSubtaskData,
+  updateSubtaskData,
 };

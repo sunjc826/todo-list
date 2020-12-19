@@ -9,11 +9,16 @@
 users = User.create([
   {
     name: "Default User",
-    email: nil
+    email: "default@email.com"
+  },
+  {
+    name: "User 1",
+    email: "hello@world.com"
   }
 ])
 
 user1 = users[0]
+user2 = users[1]
 
 tags = Tag.create([
   {
@@ -96,6 +101,13 @@ projectlessTasks = Task.create([
     user_id: user1.id,
     deadline: Time.new(2020, 12, 20),
     content: "Task 6",
+    priority: 3,
+    completed: false,
+    project_id: nil
+  }, {
+    user_id: user2.id,
+    deadline: Time.new(2020, 12, 20),
+    content: "Task 7",
     priority: 3,
     completed: false,
     project_id: nil

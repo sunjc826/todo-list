@@ -1,7 +1,7 @@
 import {
-  FETCH_TASK_REQUEST,
-  FETCH_TASK_SUCCESS,
-  FETCH_TASK_FAILURE,
+  FETCH_TASKS_REQUEST,
+  FETCH_TASKS_SUCCESS,
+  FETCH_TASKS_FAILURE,
   SET_TASK_DATA,
 } from "./taskTypes";
 
@@ -13,20 +13,20 @@ const initialTaskState = {
 
 const taskReducer = (state = initialTaskState, action) => {
   switch (action.type) {
-    case FETCH_TASK_REQUEST:
+    case FETCH_TASKS_REQUEST:
       return {
         ...state,
         loading: true,
         data: null,
         errMsg: "",
       };
-    case FETCH_TASK_SUCCESS:
+    case FETCH_TASKS_SUCCESS:
       return {
         ...state,
         loading: false,
         errMsg: "",
       };
-    case FETCH_TASK_FAILURE:
+    case FETCH_TASKS_FAILURE:
       return {
         ...state,
         loading: false,

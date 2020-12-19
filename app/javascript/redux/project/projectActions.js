@@ -1,20 +1,20 @@
 import {
-  FETCH_PROJECT_REQUEST,
-  FETCH_PROJECT_SUCCESS,
-  FETCH_PROJECT_FAILURE,
+  FETCH_PROJECTS_REQUEST,
+  FETCH_PROJECTS_SUCCESS,
+  FETCH_PROJECTS_FAILURE,
   SET_PROJECT_DATA,
 } from "./projectTypes";
 
-const fetchProjectRequest = () => ({
-  type: FETCH_PROJECT_REQUEST,
+const fetchProjectsRequest = () => ({
+  type: FETCH_PROJECTS_REQUEST,
 });
 
-const fetchProjectSuccess = () => ({
-  type: FETCH_PROJECT_SUCCESS,
+const fetchProjectsSuccess = () => ({
+  type: FETCH_PROJECTS_SUCCESS,
 });
 
-const fetchProjectFailure = (errMsg) => ({
-  type: FETCH_PROJECT_FAILURE,
+const fetchProjectsFailure = (errMsg) => ({
+  type: FETCH_PROJECTS_FAILURE,
   payload: errMsg,
 });
 
@@ -24,8 +24,8 @@ const setProjectData = (projectData) => ({
 });
 
 export {
-  fetchProjectRequest,
-  fetchProjectSuccess,
-  fetchProjectFailure,
+  fetchProjectsRequest,
+  fetchProjectsSuccess,
+  fetchProjectsFailure,
   setProjectData,
 };

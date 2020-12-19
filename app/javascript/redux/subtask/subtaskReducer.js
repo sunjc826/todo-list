@@ -1,8 +1,9 @@
 import {
-  FETCH_SUBTASK_REQUEST,
-  FETCH_SUBTASK_SUCCESS,
-  FETCH_SUBTASK_FAILURE,
+  FETCH_SUBTASKS_REQUEST,
+  FETCH_SUBTASKS_SUCCESS,
+  FETCH_SUBTASKS_FAILURE,
   SET_SUBTASK_DATA,
+  UPDATE_SUBTASK_DATA,
 } from "./subtaskTypes";
 
 const initialSubtaskState = {
@@ -13,20 +14,20 @@ const initialSubtaskState = {
 
 const subtaskReducer = (state = initialSubtaskState, action) => {
   switch (action.type) {
-    case FETCH_SUBTASK_REQUEST:
+    case FETCH_SUBTASKS_REQUEST:
       return {
         ...state,
         loading: true,
         data: null,
         errMsg: "",
       };
-    case FETCH_SUBTASK_SUCCESS:
+    case FETCH_SUBTASKS_SUCCESS:
       return {
         ...state,
         loading: false,
         errMsg: "",
       };
-    case FETCH_SUBTASK_FAILURE:
+    case FETCH_SUBTASKS_FAILURE:
       return {
         ...state,
         loading: false,
@@ -37,6 +38,13 @@ const subtaskReducer = (state = initialSubtaskState, action) => {
       return {
         ...state,
         data: action.payload,
+      };
+    case UPDATE_SUBTASK_DATA:
+      const newData = { ...state.data, ...action.payload };
+
+      return {
+        ...state,
+        data: newData,
       };
     default:
       return state;

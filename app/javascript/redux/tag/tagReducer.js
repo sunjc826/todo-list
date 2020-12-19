@@ -17,8 +17,6 @@ const tagReducer = (state = defaultTags, action) => {
       return {
         ...state,
         loading: true,
-        data: null,
-        errMsg: "",
       };
     case FETCH_TAGS_SUCCESS:
       return {

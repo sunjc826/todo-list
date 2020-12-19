@@ -17,8 +17,6 @@ const userReducer = (state = initialUserState, action) => {
       return {
         ...state,
         loading: true,
-        data: null,
-        errMsg: "",
       };
     case FETCH_USER_SUCCESS:
       return {

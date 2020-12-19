@@ -6,9 +6,9 @@ import {
   SET_TASK_DATA,
 } from "./taskTypes";
 import {
-  fetchSubtaskRequest,
-  fetchSubtaskSuccess,
-  fetchSubtaskFailure,
+  fetchSubtasksRequest,
+  fetchSubtasksSuccess,
+  fetchSubtasksFailure,
   updateSubtaskData,
 } from "../subtask/subtaskActions";
 
@@ -44,9 +44,9 @@ const fetchTaskData = (taskId) => (dispatch) => {
   // TODO: How to denote a particular item as loading? Is this even required? (I don't think so)
 
   // note, unlike in fetchUserData, taskData is assumed to be loaded, hence, no need for fetchTaskRequest
-  dispatch(fetchSubtaskRequest());
+  dispatch(fetchSubtasksRequest());
 
-  const url = `${taskUrl}/${taskId}`;
+  const url = `${tasksUrl}/${taskId}`;
   fetch(url)
     .then((res) => {
       if (res.ok) {
@@ -63,10 +63,10 @@ const fetchTaskData = (taskId) => (dispatch) => {
       console.log(task);
       console.log(subtask);
       dispatch(updateSubtaskData(subtask));
-      dispatch(fetchSubtaskSuccess());
+      dispatch(fetchSubtasksSuccess());
     })
     .catch((err) => {
-      dispatch(fetchSubtaskFailure(err.message));
+      dispatch(fetchSubtasksFailure(err.message));
     });
 };
 

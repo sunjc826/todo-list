@@ -18,8 +18,6 @@ const subtaskReducer = (state = initialSubtaskState, action) => {
       return {
         ...state,
         loading: true,
-        data: null,
-        errMsg: "",
       };
     case FETCH_SUBTASKS_SUCCESS:
       return {

@@ -17,8 +17,6 @@ const labelReducer = (state = initialLabelState, action) => {
       return {
         ...state,
         loading: true,
-        data: null,
-        errMsg: "",
       };
     case FETCH_LABELS_SUCCESS:
       return {

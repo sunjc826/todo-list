@@ -17,8 +17,6 @@ const commentReducer = (state = initialCommentState, action) => {
       return {
         ...state,
         loading: true,
-        data: null,
-        errMsg: "",
       };
     case FETCH_COMMENTS_SUCCESS:
       return {

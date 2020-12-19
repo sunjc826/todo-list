@@ -17,8 +17,6 @@ const taskReducer = (state = initialTaskState, action) => {
       return {
         ...state,
         loading: true,
-        data: null,
-        errMsg: "",
       };
     case FETCH_TASKS_SUCCESS:
       return {

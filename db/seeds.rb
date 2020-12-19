@@ -113,3 +113,32 @@ projectlessTasks = Task.create([
     project_id: nil
   }
 ])
+task1 = projectTasks[0]
+task2 = projectTasks[1]
+Subtask.create([
+  {
+    content: "Subtask 1",
+    completed: false,
+    task_id: task1.id,
+  },
+  {
+    content: "Subtask 2",
+    completed: false,
+    task_id: task1.id,
+  },
+  {
+    content: "Subtask 3",
+    completed: false,
+    task_id: task2.id,
+  },
+  {
+    content: "Subtask 4",
+    completed: false,
+    task_id: task2.id,
+  },
+  {
+    content: "Subtask 5",
+    completed: false,
+    task_id: task2.id,
+  }
+])

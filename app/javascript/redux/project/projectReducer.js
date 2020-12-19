@@ -17,8 +17,6 @@ const projectReducer = (state = initialProjectState, action) => {
       return {
         ...state,
         loading: true,
-        data: null,
-        errMsg: "",
       };
     case FETCH_PROJECTS_SUCCESS:
       return {

@@ -3,6 +3,7 @@ import {
   FETCH_COMMENTS_SUCCESS,
   FETCH_COMMENTS_FAILURE,
   SET_COMMENT_DATA,
+  UPDATE_COMMENT_DATA,
 } from "./commentTypes";
 
 const initialCommentState = {
@@ -35,6 +36,15 @@ const commentReducer = (state = initialCommentState, action) => {
       return {
         ...state,
         data: action.payload,
+      };
+    case UPDATE_COMMENT_DATA:
+      const newData = {
+        ...state.data,
+        ...action.payload,
+      };
+      return {
+        ...state,
+        data: newData,
       };
     default:
       return state;

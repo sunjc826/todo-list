@@ -56,6 +56,10 @@ function compareDateByDay(date1, date2, strict) {
   }
 }
 
+const csrfToken = document
+  .querySelector("[name=csrf-token]")
+  .getAttribute("content");
+
 export {
   dateToString,
   sameDay,
@@ -63,4 +67,5 @@ export {
   getNextDay,
   generateDateList,
   compareDateByDay,
+  csrfToken,
 };

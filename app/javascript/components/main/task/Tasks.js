@@ -30,7 +30,8 @@ const Tasks = ({ taskState }) => {
     let overdueTasksComponent = null;
     let currentTasksComponent = null;
     let overdueTasklist = [];
-    for (const id in taskData) {
+
+    for (let id in taskData) {
       const ele = taskData[id];
       const taskDate = new Date(ele.attributes.dateString);
 

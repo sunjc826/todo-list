@@ -142,3 +142,22 @@ Subtask.create([
     task_id: task2.id,
   }
 ])
+
+Comment.create([
+  {
+    content: "Comment 1",
+    task_id: task1.id,
+  },
+  {
+    content: "Comment 2",
+    task_id: task1.id,
+  },
+  {
+    content: "Comment 3",
+    task_id: task1.id,
+  },
+  {
+    content: "Comment 4",
+    task_id: task2.id,
+  }
+])

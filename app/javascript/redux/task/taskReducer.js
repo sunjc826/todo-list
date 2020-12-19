@@ -3,6 +3,7 @@ import {
   FETCH_TASKS_SUCCESS,
   FETCH_TASKS_FAILURE,
   SET_TASK_DATA,
+  UPDATE_TASK_DATA,
 } from "./taskTypes";
 
 const initialTaskState = {
@@ -35,6 +36,15 @@ const taskReducer = (state = initialTaskState, action) => {
       return {
         ...state,
         data: action.payload,
+      };
+    case UPDATE_TASK_DATA:
+      const newData = {
+        ...state.data,
+        ...action.payload,
+      };
+      return {
+        ...state,
+        data: newData,
       };
     default:
       return state;

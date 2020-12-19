@@ -4,6 +4,7 @@ import {
   FETCH_TASKS_SUCCESS,
   FETCH_TASKS_FAILURE,
   SET_TASK_DATA,
+  UPDATE_TASK_DATA,
 } from "./taskTypes";
 import {
   fetchSubtasksRequest,
@@ -11,6 +12,12 @@ import {
   fetchSubtasksFailure,
   updateSubtaskData,
 } from "../subtask/subtaskActions";
+import {
+  fetchCommentsRequest,
+  fetchCommentsSuccess,
+  fetchCommentsFailure,
+  updateCommentData,
+} from "../comment/commentActions";
 
 const tasksUrl = "/api/v1/tasks";
 
@@ -45,7 +52,7 @@ const fetchTaskData = (taskId) => (dispatch) => {
 
   // note, unlike in fetchUserData, taskData is assumed to be loaded, hence, no need for fetchTaskRequest
   dispatch(fetchSubtasksRequest());
-
+  dispatch(fetchCommentsRequest());
   const url = `${tasksUrl}/${taskId}`;
   fetch(url)
     .then((res) => {
@@ -59,16 +66,22 @@ const fetchTaskData = (taskId) => (dispatch) => {
       return normalize(res);
     })
     .then((res) => {
-      const { task, subtask } = res;
-      console.log(task);
-      console.log(subtask);
+      const { task, subtask, comment } = res;
       dispatch(updateSubtaskData(subtask));
+      dispatch(updateCommentData(comment));
       dispatch(fetchSubtasksSuccess());
+      dispatch(fetchCommentsSuccess());
     })
     .catch((err) => {
       dispatch(fetchSubtasksFailure(err.message));
+      dispatch(fetchCommentsFailure(err.message));
     });
 };
+
+const updateTaskData = (taskData) => ({
+  type: UPDATE_TASK_DATA,
+  payload: taskData,
+});
 
 export {
   fetchTasksRequest,
@@ -76,4 +89,5 @@ export {
   fetchTasksFailure,
   setTaskData,
   fetchTaskData,
+  updateTaskData,
 };

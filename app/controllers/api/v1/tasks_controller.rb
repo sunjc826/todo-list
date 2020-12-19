@@ -8,16 +8,16 @@ module Api
 
       def show
         task = Task.find(params[:id])
-        render json: TaskSerializer.new(task, self.options).serializable_hash.to_json
+        render json: TaskSerializer.new(task, TasksController.options).serializable_hash.to_json
       end
 
 
-      private
-        def options
-          options = {}
-          options[:include] = [:subtasks]
-          return options
-        end
+
+      def self.options
+        options = {}
+        options[:include] = [:subtasks, :comments]
+        return options
+      end
     end
   end
 end

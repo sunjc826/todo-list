@@ -18,7 +18,7 @@ const TaskModal = ({
   dateString,
 }) => {
   return (
-    <Modal isOpen={modalOpen} toggle={toggleModal}>
+    <Modal isOpen={modalOpen} toggle={toggleModal} scrollable size="lg">
       <ModalHeader toggle={toggleModal}>
         {projectTitle ? <p>{projectTitle}</p> : null}
         <SmallHeading>{content}</SmallHeading>
@@ -27,10 +27,7 @@ const TaskModal = ({
         <Tabs />
       </ModalBody>
       <ModalFooter>
-        <Button className="btn-primary" onClick={toggleModal}>
-          Save and Exit
-        </Button>
-        <Button className="btn-danger" onClick={toggleModal}>
+        <Button color="danger" onClick={toggleModal}>
           Exit
         </Button>
       </ModalFooter>

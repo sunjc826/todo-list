@@ -4,3 +4,4 @@
 export { fetchUserData } from "./user/userActions";
 export { fetchTagsData } from "./tag/tagActions";
 export { fetchTaskData } from "./task/taskActions";
+export { postComment } from "./comment/commentActions";

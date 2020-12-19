@@ -1,6 +1,6 @@
 class TaskSerializer
   include JSONAPI::Serializer
-  attributes :deadline, :content, :priority, :completed, :user_id, :project_id
+  attributes :deadline, :date_string, :content, :priority, :completed, :user_id, :project_id
 
   belongs_to :user
   belongs_to :project

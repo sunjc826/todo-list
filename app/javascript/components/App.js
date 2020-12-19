@@ -25,6 +25,7 @@ function getMillisecondsToNextHour(time) {
 
 function App() {
   // global date
+
   const [date, setDate] = useState(new Date());
 
   // date updates hourly

@@ -35,16 +35,7 @@ labels = Label.create([
 ])
 
 
-projectlessTasks = Task.create([
-  {
-    user_id: user1.id,
-    deadline: Time.now,
-    content: "Task 1",
-    priority: 3,
-    completed: false,
-    project_id: nil
-  }
-])
+
 
 projects = Project.create([
   {
@@ -61,17 +52,52 @@ projectTasks = Task.create([
   {
     user_id: user1.id,
     project_id: project1.id,
-    deadline: nil,
-    content: "Task 2",
+    deadline: Time.new(2020, 12, 18),
+    content: "Task 1",
     priority: 5,
     completed: false,
   },
   {
     user_id: user1.id,
     project_id: project1.id,
-    deadline: nil,
-    content: "Task 3",
+    deadline: Time.new(2020, 12, 19),
+    content: "Task 2",
     priority: 6,
     completed: false,
+  }
+])
+
+projectlessTasks = Task.create([
+  {
+    user_id: user1.id,
+    deadline: Time.new(2020, 12, 19),
+    content: "Task 3",
+    priority: 3,
+    completed: false,
+    project_id: nil
+  },
+  {
+    user_id: user1.id,
+    deadline: Time.new(2020, 12, 19),
+    content: "Task 4",
+    priority: 3,
+    completed: false,
+    project_id: nil
+  },
+  {
+    user_id: user1.id,
+    deadline: Time.now,
+    content: "Task 5",
+    priority: 3,
+    completed: false,
+    project_id: nil
+  },
+  {
+    user_id: user1.id,
+    deadline: Time.new(2020, 12, 20),
+    content: "Task 6",
+    priority: 3,
+    completed: false,
+    project_id: nil
   }
 ])

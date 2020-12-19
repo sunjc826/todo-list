@@ -72,10 +72,10 @@ const fetchUserData = (userId = 1) => (dispatch) => {
       // break up compound document into parts
       // and store into different parts of the redux store
       const { user, project, task, label } = res;
-      console.log(user);
-      console.log(project);
-      console.log(task);
-      console.log(label);
+      // console.log(user);
+      // console.log(project);
+      // console.log(task);
+      // console.log(label);
       dispatch(setUserData(user));
       dispatch(setProjectData(project));
       dispatch(setTaskData(task));

@@ -1,14 +1,26 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Row, Col, ListGroupItem } from "reactstrap";
+import { dateToString } from "../../../helperFunctions";
+import styled from "styled-components";
 
-const Task = ({ task }) => {
+const Tiny = styled.div`
+  font-size: 0.7rem;
+`;
+
+const OverdueTask = ({ task }) => {
   const projectState = useSelector((state) => state.project);
   const projectLoading = projectState.loading;
   const projectErrMsg = projectState.errMsg;
   const projectData = projectState.data;
 
-  const { completed, content, priority, projectId } = task.attributes;
+  const {
+    completed,
+    content,
+    priority,
+    projectId,
+    dateString,
+  } = task.attributes;
   console.log(task);
   // Todo: change to more robust code handling loading and errors
   let project;
@@ -26,7 +38,18 @@ const Task = ({ task }) => {
     <ListGroupItem action>
       <Row>
         <Col xs="4" className="mr-auto">
-          <p>{content}</p>
+          <Row className="my-0 py-0">
+            <Col xs="12">
+              <p>{content}</p>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs="12">
+              <Tiny>
+                <p className="text-danger">{dateToString(dateString)}</p>
+              </Tiny>
+            </Col>
+          </Row>
         </Col>
         <Col xs="4">
           {project && <p className="text-right">{project.attributes.title}</p>}
@@ -36,4 +59,4 @@ const Task = ({ task }) => {
   );
 };
 
-export default Task;
+export default OverdueTask;

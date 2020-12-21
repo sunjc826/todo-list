@@ -1,55 +1,37 @@
-import React, { useState, useEffect, createContext } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
-import "@fortawesome/fontawesome-free/css/all.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Provider } from "react-redux";
-import store from "../redux/store";
-import "./app.css";
+import React, { useState, useEffect, createContext, Fragment } from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 
-import Header from "./header/Header";
+import { useSelector, useDispatch } from "react-redux";
+
+import Login from "./login/Login";
 import Main from "./Main";
-import Footer from "./footer/Footer";
+import { fetchIsLoggedIn } from "../redux/actions";
 
 const AppContext = createContext();
 
-// inspired by
-// https://stackoverflow.com/questions/34430704/update-react-native-view-on-day-change
-// is there a better way?
-function getMillisecondsToNextHour(time) {
-  const secondsInHour = 3600;
-  const minutes = time.getMinutes();
-  const seconds = time.getSeconds();
-  const totalSeconds = minutes * 60 + seconds;
-  return (secondsInHour - totalSeconds) * 1000;
-}
-
 function App() {
-  // global date
-
-  const [date, setDate] = useState(new Date());
-
-  // date updates hourly
+  const userState = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  // When we refresh the page, check if the user is logged in
+  // and update redux store accordingly
   useEffect(() => {
-    const millisecondsToNextHour = getMillisecondsToNextHour(date);
-    const timeout = setTimeout(() => {
-      setDate(new Date());
-    }, millisecondsToNextHour);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [date]);
+    dispatch(fetchIsLoggedIn());
+  }, []);
 
   return (
-    <Provider store={store}>
-      <AppContext.Provider value={{ date }}>
-        <Router>
-          <Header />
-          <Main />
-          <Footer />
-        </Router>
-      </AppContext.Provider>
-    </Provider>
+    <Switch>
+      <Route path="/login">
+        {userState.loggedIn ? <Redirect to="/home" /> : <Login />}
+      </Route>
+      <Route path="/">
+        {userState.loggedIn ? <Main /> : <Redirect to="/login" />}
+      </Route>
+    </Switch>
   );
 }
 

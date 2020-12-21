@@ -1,8 +1,11 @@
 import React, { Fragment, useEffect } from "react";
-import { Switch, Route } from "react-router-dom";
-import { connect } from "react-redux";
+import { Switch, Route, useRouteMatch } from "react-router-dom";
+import { connect, useSelector } from "react-redux";
 import { fetchUserData, fetchTagsData } from "../redux/actions";
 import styled from "styled-components";
+import Header from "./header/Header";
+import Footer from "./footer/Footer";
+
 import Sidebar from "./sidebar/Sidebar";
 import Home from "./main/Home";
 import Tasks from "./main/task/Tasks";
@@ -28,30 +31,38 @@ const Main = ({
   fetchUserData,
   fetchTagsData,
 }) => {
+  const userId = userState.userId;
+  console.log("USERSTATE");
+  console.log(userState);
+  console.log(userId);
   useEffect(() => {
-    // console.log("fetching data");
-    fetchUserData();
+    console.log("fetching data");
+    fetchUserData(userId);
     fetchTagsData();
   }, []);
 
+  const { url } = useRouteMatch();
+
   return (
     <Fragment>
+      <Header />
       <Wrapper>
         <Sidebar />
         <Content>
           <Switch>
-            <Route exact path="/tasks">
+            <Route exact path={url + "tasks"}>
               <Tasks taskState={taskState} />
             </Route>
-            <Route exact path="/projects">
+            <Route exact path={url + "projects"}>
               <Projects projectState={projectState} />
             </Route>
-            <Route path="/">
+            <Route path={url + "home"}>
               <Home userState={userState} />
             </Route>
           </Switch>
         </Content>
       </Wrapper>
+      <Footer />
     </Fragment>
   );
 };
@@ -66,7 +77,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchUserData: () => dispatch(fetchUserData()),
+  fetchUserData: (userId) => dispatch(fetchUserData(userId)),
   fetchTagsData: () => dispatch(fetchTagsData()),
 });
 

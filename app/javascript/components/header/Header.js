@@ -8,11 +8,16 @@ import {
   NavItem,
   Collapse,
   Tooltip,
+  Button,
 } from "reactstrap";
 import { NavLink } from "react-router-dom";
 import SearchBar from "./SearchBar";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/actions";
 
 const Header = () => {
+  const dispatch = useDispatch();
+
   const [isOpen, setIsOpen] = useState(false);
   const [barsTooltipOpen, setBarsTooltipOpen] = useState(false);
   const [homeTooltipOpen, setHomeTooltipOpen] = useState(false);
@@ -100,6 +105,9 @@ const Header = () => {
               >
                 Notifications
               </Tooltip>
+            </NavItem>
+            <NavItem>
+              <Button onClick={() => dispatch(logout())}>Logout</Button>
             </NavItem>
           </Nav>
         </Collapse>

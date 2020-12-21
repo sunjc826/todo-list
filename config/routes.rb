@@ -7,6 +7,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      # authentication
+      resources :registrations, only: [:create]
+      resources :sessions, only: [:index, :create]
+      delete "/sessions/logout", to: "sessions#logout"
+
       resources :filter_criteria
       resources :filters
       resources :label_tasks

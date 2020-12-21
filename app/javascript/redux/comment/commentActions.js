@@ -6,7 +6,7 @@ import {
   UPDATE_COMMENT_DATA,
 } from "./commentTypes";
 import { updateTaskData } from "../task/taskActions";
-import { csrfToken } from "../../helperFunctions";
+import { csrfToken, generatePostRequest } from "../../helperFunctions";
 import normalize from "json-api-normalizer";
 
 const commentUrl = "/api/v1/tasks/:task_id/comments";
@@ -36,17 +36,7 @@ const updateCommentData = (commentData) => ({
 
 const postComment = (taskId, comment) => (dispatch) => {
   const url = `/api/v1/tasks/${taskId}/comments`;
-  fetch(url, {
-    method: "POST",
-    headers: {
-      "X-Requested-With": "XMLHttpRequest",
-      "X-CSRF-Token": csrfToken,
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ comment }),
-    credentials: "same-origin",
-  })
+  fetch(url, generatePostRequest(JSON.stringify({ comment })))
     .then((res) => {
       if (res.ok) {
         return res.json();

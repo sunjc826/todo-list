@@ -6,6 +6,7 @@ const user_id = 1;
 
 const Home = ({ userState }) => {
   // const userState = useSelector((state) => state.user);
+  const userId = userState.userId;
   const userLoading = userState.loading;
   const userData = userState.data;
   const userErrMsg = userState.errMsg;
@@ -21,7 +22,7 @@ const Home = ({ userState }) => {
         <Row>
           <Col xs="12">
             {userLoading || !userData ? null : (
-              <p>Welcome, {userData["1"].attributes.name}</p>
+              <p>Welcome, {userData[userId.toString()].attributes.name}</p>
             )}
           </Col>
         </Row>

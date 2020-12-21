@@ -60,6 +60,29 @@ const csrfToken = document
   .querySelector("[name=csrf-token]")
   .getAttribute("content");
 
+const generatePostRequest = (body) => ({
+  method: "POST",
+  headers: {
+    "X-Requested-With": "XMLHttpRequest",
+    "X-CSRF-Token": csrfToken,
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  },
+  body: body,
+  credentials: "same-origin",
+});
+
+const generateDeleteRequest = (body) => ({
+  method: "DELETE",
+  headers: {
+    "X-Requested-With": "XMLHttpRequest",
+    "X-CSRF-Token": csrfToken,
+    Accept: "application/json",
+  },
+  body: body,
+  credentials: "same-origin",
+});
+
 export {
   dateToString,
   sameDay,
@@ -68,4 +91,6 @@ export {
   generateDateList,
   compareDateByDay,
   csrfToken,
+  generatePostRequest,
+  generateDeleteRequest,
 };

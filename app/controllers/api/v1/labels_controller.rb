@@ -1,10 +1,7 @@
 module Api
   module V1
     class LabelsController < ApplicationController
-      def index
-        label = Label.all
-        render json: LabelSerializer.new(labels).serializable_hash.to_json
-      end
+      include CurrentUserConcern
 
       def show
         label = Label.find(params[:id])

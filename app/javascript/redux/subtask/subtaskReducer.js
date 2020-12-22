@@ -38,8 +38,10 @@ const subtaskReducer = (state = initialSubtaskState, action) => {
         data: action.payload,
       };
     case UPDATE_SUBTASK_DATA:
-      const newData = { ...state.data, ...action.payload };
-
+      const newData = {
+        ...state.data,
+        ...action.payload,
+      };
       return {
         ...state,
         data: newData,

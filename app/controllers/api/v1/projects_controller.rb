@@ -1,10 +1,7 @@
 module Api
   module V1
     class ProjectsController < ApplicationController
-      def index
-        projects = Project.all
-        render json: ProjectSerializer.new(projects).serializable_hash.to_json
-      end
+      include CurrentUserConcern
 
       def show
         project = Project.find(params[:id])

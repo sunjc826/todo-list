@@ -1,24 +1,37 @@
 module Api
   module V1
     class SubtasksController < ApplicationController
-      def index
-        subtasks = Subtask.all
-        render json: SubtaskSerializer.new(subtasks).serializable_hash.to_json
-      end
-
+      include CurrentUserConcern
+      
       def show
-        subtask = Subtask.find(params[:id])
-        render json: SubtaskSerializer.new(subtask).serializable_hash.to_json
-      end
-
-      def new
-        
+        subtask = @current_user.tasks.find(params[:task_id]).try(:subtasks).try(:find, params[:id])
+        if subtask
+          render json: SubtaskSerializer.new(subtask).serializable_hash.to_json
+        else
+          render status: :not_found
+        end
       end
 
       def create
+        # Note to self: Need to start from @current_user
+        # This is so that we can confirm that the user in the current session is the same as the user who owns the task
+        task = @current_user
+          .tasks
+          .find(params[:task_id])
+        subtask = task
+          .try(:subtasks)
+          .try(:new, subtask_params)
+
+        if subtask && subtask.save
+          render json: TaskSerializer.new(task, TasksController.options).serializable_hash.to_json
+        else
+          render status: :unprocessable_entity
+        end
       end
 
-      def destroy
+      private
+      def subtask_params
+        params.require(:subtask).permit(:content, :completed)
       end
     end
   end

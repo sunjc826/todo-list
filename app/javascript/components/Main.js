@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
 import { connect, useSelector } from "react-redux";
 import { fetchUserData, fetchTagsData } from "../redux/actions";
@@ -32,11 +32,13 @@ const Main = ({
   fetchTagsData,
 }) => {
   const userId = userState.userId;
-  console.log("USERSTATE");
-  console.log(userState);
-  console.log(userId);
+  // console.log("USERSTATE");
+  // console.log(userState);
+  // console.log(userId);
+
+  const [doneEffect, setDoneEffect] = useState(false);
   useEffect(() => {
-    console.log("fetching data");
+    setDoneEffect(true);
     fetchUserData(userId);
     fetchTagsData();
   }, []);
@@ -46,22 +48,24 @@ const Main = ({
   return (
     <Fragment>
       <Header />
-      <Wrapper>
-        <Sidebar />
-        <Content>
-          <Switch>
-            <Route exact path={url + "tasks"}>
-              <Tasks taskState={taskState} />
-            </Route>
-            <Route exact path={url + "projects"}>
-              <Projects projectState={projectState} />
-            </Route>
-            <Route path={url + "home"}>
-              <Home userState={userState} />
-            </Route>
-          </Switch>
-        </Content>
-      </Wrapper>
+      {doneEffect && (
+        <Wrapper>
+          <Sidebar />
+          <Content>
+            <Switch>
+              <Route exact path={url + "tasks"}>
+                <Tasks taskState={taskState} />
+              </Route>
+              <Route exact path={url + "projects"}>
+                <Projects projectState={projectState} />
+              </Route>
+              <Route path={url + "home"}>
+                <Home userState={userState} />
+              </Route>
+            </Switch>
+          </Content>
+        </Wrapper>
+      )}
       <Footer />
     </Fragment>
   );

@@ -46,6 +46,7 @@ const CommentTab = ({ taskId, taskRelations }) => {
     e.preventDefault();
     // fetch post, then update store
     const formOutput = { content: formComment };
+    setFormComment("");
     dispatch(postComment(taskId, formOutput));
   };
 

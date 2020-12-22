@@ -5,7 +5,8 @@ module Api
 
       # login
       def create
-        # authenticate is an alias for authenticate_password
+        puts form_authenticity_token
+        # puts session[:_csrf_token]
         user = User
           .find_by(email: params[:user][:email])
           .try(:authenticate, params[:user][:password])
@@ -26,6 +27,8 @@ module Api
 
       # is_logged_in
       def index
+        puts form_authenticity_token
+        # puts session[:_csrf_token]
         if @current_user
           render json: {
             logged_in: true,
@@ -39,9 +42,11 @@ module Api
       end
       
       # logout
-      # the method is not named destroy since destroy (conventionally) requires an id
       def logout
+        puts form_authenticity_token
+        puts "Logged out"
         reset_session
+        @current_user = nil
         render json: {
           status: :ok,
           logged_out: true

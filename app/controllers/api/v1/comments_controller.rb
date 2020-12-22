@@ -1,12 +1,7 @@
 module Api
   module V1
     class CommentsController < ApplicationController
-      
-
-      def index
-        comments = Comment.all
-        render json: CommentSerializer.new(comments).serializable_hash.to_json
-      end
+      include CurrentUserConcern
 
       def show
         comment = Comment.find(params[:id])
@@ -14,10 +9,14 @@ module Api
       end
 
       def create
-        task = Task.find(params[:task_id])
-        comment = task.comments.new(comment_params)
+        task = @current_user
+          .tasks
+          .find(params[:task_id])
+        comment = task
+          .try(:comments)
+          .try(:new, comment_params)
 
-        if comment.save
+        if comment && comment.save
           render json: TaskSerializer.new(task, TasksController.options).serializable_hash.to_json
         else
           render json: {error: comment.errors.full_messages}, status: :unprocessable_entity
@@ -28,11 +27,9 @@ module Api
       end
 
       private
-        def comment_params
-          params.require(:comment).permit(:content)
-        end
-
-
+      def comment_params
+        params.require(:comment).permit(:content)
+      end
     end
   end
 end

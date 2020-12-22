@@ -9,11 +9,13 @@
 users = User.create([
   {
     name: "Default User",
-    email: "default@email.com"
+    email: "default@user.com",
+    password: "default_user"
   },
   {
-    name: "User 1",
-    email: "hello@world.com"
+    name: "Hello World",
+    email: "hello@world.com",
+    password: "hello_world"
   }
 ])
 

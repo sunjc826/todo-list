@@ -9,6 +9,7 @@ module CurrentUserConcern
   def set_current_user
     puts "CurrentUserConcern has been included"
     if session[:user_id]
+      puts "Current user set"
       @current_user = User.find(session[:user_id])
     end
   end

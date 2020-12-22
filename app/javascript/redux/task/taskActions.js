@@ -18,6 +18,12 @@ import {
   fetchCommentsFailure,
   updateCommentData,
 } from "../comment/commentActions";
+import { setUserData } from "../user/userActions";
+import { setProjectData } from "../project/projectActions";
+import { setLabelData } from "../label/labelActions";
+import {} from "../user/userActions";
+
+import { generatePostRequest } from "../../helperFunctions";
 
 const tasksUrl = "/api/v1/tasks";
 
@@ -83,6 +89,30 @@ const updateTaskData = (taskData) => ({
   payload: taskData,
 });
 
+const postTask = (task) => (dispatch) => {
+  fetch(tasksUrl, generatePostRequest(JSON.stringify({ task })))
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(res.statusText);
+      }
+    })
+    .then((res) => {
+      return normalize(res);
+    })
+    .then((res) => {
+      const { user, project, task, label } = res;
+      dispatch(setUserData(user));
+      dispatch(setProjectData(project));
+      dispatch(setTaskData(task));
+      dispatch(setLabelData(label));
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
 export {
   fetchTasksRequest,
   fetchTasksSuccess,
@@ -90,4 +120,5 @@ export {
   setTaskData,
   fetchTaskData,
   updateTaskData,
+  postTask,
 };

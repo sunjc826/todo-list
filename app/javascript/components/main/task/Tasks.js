@@ -20,7 +20,7 @@ const Tasks = ({ taskState }) => {
   const taskErrMsg = taskState.errMsg;
   const taskData = taskState.data;
 
-  const DAYS_DISPLAYED = 5;
+  const DAYS_DISPLAYED = 30;
   const dateList = generateDateList(date, DAYS_DISPLAYED);
   let tasksComponent = null;
 

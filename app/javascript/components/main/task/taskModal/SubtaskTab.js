@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Row, Col, ListGroup, ListGroupItem } from "reactstrap";
+import NewSubtask from "./NewSubtask";
 import Subtask from "./Subtask";
 
-const SubtaskTab = ({ taskRelations }) => {
+const SubtaskTab = ({ taskId, taskRelations }) => {
   const subtaskState = useSelector((state) => state.subtask);
 
   const subtaskLoading = subtaskState.loading;
@@ -32,10 +33,26 @@ const SubtaskTab = ({ taskRelations }) => {
     });
   }
 
+  const [newSubtask, setNewSubtask] = useState(false);
+
   return (
     <Row>
       <Col xs="12">
-        <ListGroup flush>{subtasksComponent}</ListGroup>
+        <ListGroup flush>
+          {subtasksComponent}
+          {newSubtask ? null : (
+            <ListGroupItem action onClick={() => setNewSubtask(true)}>
+              <p className="text-secondary">
+                <i className="fas fa-plus mr-1"></i>Add new task
+              </p>
+            </ListGroupItem>
+          )}
+          {newSubtask && (
+            <ListGroupItem>
+              <NewSubtask taskId={taskId} setNewSubtask={setNewSubtask} />
+            </ListGroupItem>
+          )}
+        </ListGroup>
       </Col>
     </Row>
   );

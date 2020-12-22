@@ -56,32 +56,38 @@ function compareDateByDay(date1, date2, strict) {
   }
 }
 
-const csrfToken = document
-  .querySelector("[name=csrf-token]")
-  .getAttribute("content");
+const generatePostRequest = (body) => {
+  const csrfToken = document
+    .querySelector("[name=csrf-token]")
+    .getAttribute("content");
+  console.log("csrfToken", csrfToken);
+  return {
+    method: "POST",
+    headers: {
+      "X-Requested-With": "XMLHttpRequest",
+      "X-CSRF-Token": csrfToken,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: body,
+    credentials: "same-origin",
+  };
+};
 
-const generatePostRequest = (body) => ({
-  method: "POST",
-  headers: {
-    "X-Requested-With": "XMLHttpRequest",
-    "X-CSRF-Token": csrfToken,
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
-  body: body,
-  credentials: "same-origin",
-});
-
-const generateDeleteRequest = (body) => ({
-  method: "DELETE",
-  headers: {
-    "X-Requested-With": "XMLHttpRequest",
-    "X-CSRF-Token": csrfToken,
-    Accept: "application/json",
-  },
-  body: body,
-  credentials: "same-origin",
-});
+const generateDeleteRequest = () => {
+  const csrfToken = document
+    .querySelector("[name=csrf-token]")
+    .getAttribute("content");
+  return {
+    method: "DELETE",
+    headers: {
+      "X-Requested-With": "XMLHttpRequest",
+      "X-CSRF-Token": csrfToken,
+      Accept: "application/json",
+    },
+    credentials: "same-origin",
+  };
+};
 
 export {
   dateToString,
@@ -90,7 +96,6 @@ export {
   getNextDay,
   generateDateList,
   compareDateByDay,
-  csrfToken,
   generatePostRequest,
   generateDeleteRequest,
 };

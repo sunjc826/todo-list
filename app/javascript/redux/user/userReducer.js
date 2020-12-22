@@ -8,6 +8,7 @@ import {
   SET_USER_DATA,
 } from "./userTypes";
 
+//check authentication
 const initialUserState = {
   loading: false,
   data: null,
@@ -37,6 +38,7 @@ const userReducer = (state = initialUserState, action) => {
         ...state,
         loggedIn: false,
         userId: null,
+        data: null, // protect user data from theft
       };
     case FETCH_USER_REQUEST:
       return {

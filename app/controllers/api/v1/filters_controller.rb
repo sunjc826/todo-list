@@ -1,10 +1,7 @@
 module Api
   module V1
     class FiltersController < ApplicationController
-      def index
-        filters = Filter.all
-        render json: FilterSerializer.new(filters).serializable_hash.to_json
-      end
+      include CurrentUserConcern
 
       def show
         filter = Filter.find(params[:id])

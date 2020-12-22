@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
-import { connect, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import { fetchUserData, fetchTagsData } from "../redux/actions";
 import styled from "styled-components";
 import Header from "./header/Header";
@@ -9,7 +9,7 @@ import Footer from "./footer/Footer";
 import Sidebar from "./sidebar/Sidebar";
 import Home from "./main/Home";
 import Tasks from "./main/task/Tasks";
-import Projects from "./main/project/Projects";
+import Project from "./main/project/Project";
 
 const Wrapper = styled.div`
   display: flex;
@@ -56,8 +56,8 @@ const Main = ({
               <Route exact path={url + "tasks"}>
                 <Tasks taskState={taskState} />
               </Route>
-              <Route exact path={url + "projects"}>
-                <Projects projectState={projectState} />
+              <Route exact path={url + "project/:projectId"}>
+                <Project projectState={projectState} taskState={taskState} />
               </Route>
               <Route path={url + "home"}>
                 <Home userState={userState} />

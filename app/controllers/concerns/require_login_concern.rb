@@ -6,18 +6,12 @@ module RequireLoginConcern
     before_action :require_login, only: [:show]
   end
 
+  # checks if there exists some user who is logged in
   def require_login
     if @current_user
-      puts "Comparing"
-      puts @current_user.id
-      puts params[:id]
-      if @current_user.id == params[:id].to_i
-        # do nothing
-      else
-        render json: {error: "Different user"}, status: :unauthorized
-      end
+      # Do nothing
     else
-      puts "Not logged in"
+      puts "No session"
       render json: {error: "Not logged in"}, status: :unauthorized
     end
   end

@@ -2,7 +2,7 @@ module Api
   module V1
     class SubtasksController < ApplicationController
       include CurrentUserConcern
-      
+      include RequireLoginConcern
       def show
         subtask = @current_user.tasks.find(params[:task_id]).try(:subtasks).try(:find, params[:id])
         if subtask
@@ -18,6 +18,8 @@ module Api
         task = @current_user
           .tasks
           .find(params[:task_id])
+        # TODO: https://stackoverflow.com/questions/37977721/why-is-safe-navigation-better-than-using-try-in-rails
+        # apparently "try" is not the best way to do things?
         subtask = task
           .try(:subtasks)
           .try(:new, subtask_params)

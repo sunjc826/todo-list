@@ -2,7 +2,7 @@ module Api
   module V1
     class CommentsController < ApplicationController
       include CurrentUserConcern
-
+      include RequireLoginConcern
       def show
         comment = Comment.find(params[:id])
         render json: CommentSerializer.new(comment).serializable_hash.to_json

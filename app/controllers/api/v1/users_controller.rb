@@ -6,8 +6,7 @@ module Api
 
       def show
         # puts form_authenticity_token
-        user = User.find(params[:id])
-        render json: UserSerializer.new(user, UsersController.options).serializable_hash.to_json
+        render json: UserSerializer.new(@current_user, UsersController.options).serializable_hash.to_json
       end
       
 

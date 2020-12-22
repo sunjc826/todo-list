@@ -2,7 +2,8 @@ module Api
   module V1
     class TasksController < ApplicationController
       include CurrentUserConcern
-
+      include RequireLoginConcern
+      
       def show
         # puts form_authenticity_token
 

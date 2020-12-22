@@ -14,6 +14,7 @@ import { NavLink } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/actions";
+import QuickNewTask from "./QuickNewTask";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -25,8 +26,12 @@ const Header = () => {
   const [questionTooltipOpen, setQuestionTooltipOpen] = useState(false);
   const [bellTooltipOpen, setBellTooltipOpen] = useState(false);
 
+  const [modalOpen, setModalOpen] = useState(false);
+  const toggleModal = () => setModalOpen(!modalOpen);
+
   return (
     <Navbar color="dark" dark expand="md">
+      <QuickNewTask modalOpen={modalOpen} toggleModal={toggleModal} />
       <Container fluid>
         <NavbarBrand href="/">
           <span>Todo App</span>
@@ -65,11 +70,8 @@ const Header = () => {
             </NavItem>
           </Nav>
           <Nav className="ml-auto" navbar>
-            <NavItem className="mx-3">
-              <NavLink to="/" className="nav-link">
-                <i className="far fa-plus-square fa-lg" id="plus"></i>
-              </NavLink>
-
+            <NavItem className="mx-3 nav-link" onClick={toggleModal}>
+              <i className="far fa-plus-square fa-lg" id="plus"></i>
               <Tooltip
                 placement="right"
                 target="plus"

@@ -3,12 +3,15 @@ import {
   FETCH_PROJECTS_SUCCESS,
   FETCH_PROJECTS_FAILURE,
   SET_PROJECT_DATA,
+  UPDATE_PROJECT_DATA,
+  SET_LAST_CREATED_PROJECT,
 } from "./projectTypes";
 
 const initialProjectState = {
   loading: false,
   data: null,
   errMsg: "",
+  lastCreatedProjectId: null,
 };
 
 const projectReducer = (state = initialProjectState, action) => {
@@ -35,6 +38,20 @@ const projectReducer = (state = initialProjectState, action) => {
       return {
         ...state,
         data: action.payload,
+      };
+    case UPDATE_PROJECT_DATA:
+      const newData = {
+        ...state.data,
+        ...action.payload,
+      };
+      return {
+        ...state,
+        data: newData,
+      };
+    case SET_LAST_CREATED_PROJECT:
+      return {
+        ...state,
+        lastCreatedProjectId: action.payload,
       };
     default:
       return state;

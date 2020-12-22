@@ -1,8 +1,13 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Collapse, ListGroup, ListGroupItem } from "reactstrap";
 import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
+import NewProject from "./NewProject";
+
 const ProjectList = ({ collapseOpen }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const toggleModal = () => setModalOpen(!modalOpen);
+
   const userState = useSelector((state) => state.user);
   const userId = userState.userId;
   const projectState = useSelector((state) => state.project);
@@ -46,12 +51,18 @@ const ProjectList = ({ collapseOpen }) => {
     });
   }
 
+  const handleClick = (e) => {
+    toggleModal();
+    e.stopPropagation();
+  };
+
   return (
     <Fragment>
+      <NewProject modalOpen={modalOpen} toggleModal={toggleModal} />
       <Collapse isOpen={collapseOpen}>
         <ListGroup flush>
           {projectListComponent}
-          <ListGroupItem action className="px-0">
+          <ListGroupItem action className="px-0" onClick={handleClick}>
             <p className="text-secondary">
               <i className="fas fa-plus mr-1"></i>Add new Project
             </p>

@@ -13,3 +13,4 @@ export { fetchTagsData } from "./tag/tagActions";
 export { fetchTaskData, postTask } from "./task/taskActions";
 export { postComment } from "./comment/commentActions";
 export { postSubtask } from "./subtask/subtaskActions";
+export { postProject } from "./project/projectActions";

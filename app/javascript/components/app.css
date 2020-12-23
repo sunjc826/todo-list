@@ -1,3 +1,19 @@
 .border-rect {
   border-radius: 0 !important;
 }
+
+.list-closed:after {
+  transform: rotate(-90deg);
+  color: rgb(255, 0, 0);
+}
+
+.list-open:after {
+  color: rgb(6, 255, 27);
+}
+
+.allow-rotate:after {
+  transition: transform 1.5s cubic-bezier(0.32, -100, 0.7, 100), color 1.5s ease;
+  /* transition-property: transform color;
+  transition-duration: 1.5s 1.5s;
+  transition-timing-function: cubic-bezier(0.32, -100, 0.7, 100) ease; */
+}

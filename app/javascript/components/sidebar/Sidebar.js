@@ -5,7 +5,7 @@ import "./sidebar.css";
 import ProjectList from "./project/ProjectList";
 import TagList from "./tag/TagList";
 import LabelList from "./label/LabelList";
-import FilterList from "./FilterList";
+import FilterList from "./filter/FilterList";
 
 const Sidebar = () => {
   const history = useHistory();
@@ -40,19 +40,43 @@ const Sidebar = () => {
                 <Link to="/tasks">All Tasks</Link>
               </ListGroupItem>
               <ListGroupItem action onClick={toggleCollapse("projects")}>
-                <p className="dropdown-toggle">Projects</p>
+                <p
+                  className={`dropdown-toggle allow-rotate ${
+                    collapseOpen.projects ? "list-open" : "list-closed"
+                  }`}
+                >
+                  Projects
+                </p>
                 <ProjectList collapseOpen={collapseOpen.projects} />
               </ListGroupItem>
               <ListGroupItem action onClick={toggleCollapse("tags")}>
-                <p className="dropdown-toggle">Tags</p>
+                <p
+                  className={`dropdown-toggle allow-rotate ${
+                    collapseOpen.tags ? "list-open" : "list-closed"
+                  }`}
+                >
+                  Tags
+                </p>
                 <TagList collapseOpen={collapseOpen.tags} />
               </ListGroupItem>
               <ListGroupItem action onClick={toggleCollapse("labels")}>
-                <p className="dropdown-toggle">Labels</p>
+                <p
+                  className={`dropdown-toggle allow-rotate ${
+                    collapseOpen.labels ? "list-open" : "list-closed"
+                  }`}
+                >
+                  Labels
+                </p>
                 <LabelList collapseOpen={collapseOpen.labels} />
               </ListGroupItem>
               <ListGroupItem action onClick={toggleCollapse("filters")}>
-                <p className="dropdown-toggle">Filters</p>
+                <p
+                  className={`dropdown-toggle allow-rotate ${
+                    collapseOpen.filters ? "list-open" : "list-closed"
+                  }`}
+                >
+                  Filters
+                </p>
                 <FilterList collapseOpen={collapseOpen.filters} />
               </ListGroupItem>
             </ListGroup>
@@ -64,3 +88,6 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+/*
+              
+*/

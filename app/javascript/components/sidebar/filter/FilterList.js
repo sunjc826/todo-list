@@ -1,13 +1,21 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Collapse, ListGroup, ListGroupItem } from "reactstrap";
+import NewFilter from "./NewFilter";
 
 const FilterList = ({ collapseOpen }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const toggleModal = () => setModalOpen(!modalOpen);
+
   let filterListComponent;
 
-  const handleClick = () => {};
+  const handleClick = (e) => {
+    toggleModal();
+    e.stopPropagation();
+  };
 
   return (
     <Fragment>
+      <NewFilter modalOpen={modalOpen} toggleModal={toggleModal} />
       <Collapse isOpen={collapseOpen}>
         <ListGroup flush>
           {filterListComponent}

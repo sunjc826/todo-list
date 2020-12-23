@@ -156,8 +156,7 @@ const fetchUserData = (userId) => (dispatch) => {
   dispatch(fetchLabelsRequest());
   dispatch(fetchTagsRequest());
   const url = `${usersUrl}/${userId}`;
-  console.log(url);
-  fetch(url)
+  return fetch(url)
     .then((res) => {
       if (res.ok) {
         return res.json();
@@ -191,7 +190,6 @@ const fetchUserData = (userId) => (dispatch) => {
       dispatch(fetchTagsSuccess());
     })
     .catch((err) => {
-      // console.log(err);
       dispatch(fetchUserFailure(err.message));
       dispatch(fetchProjectsFailure(err.message));
       dispatch(fetchTasksFailure(err.message));

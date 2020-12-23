@@ -1,18 +1,11 @@
-import React, { useState, useEffect, createContext, Fragment } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import React, { useEffect } from "react";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
 
 import Login from "./login/Login";
 import Main from "./Main";
 import { fetchIsLoggedIn } from "../redux/actions";
-
-const AppContext = createContext();
 
 function App() {
   const userState = useSelector((state) => state.user);
@@ -36,4 +29,3 @@ function App() {
 }
 
 export default App;
-export { AppContext };

@@ -106,9 +106,3 @@ const NewTask = ({ setNewTask, day, project }) => {
 };
 
 export default NewTask;
-// t.datetime "deadline"
-//     t.string "content"
-//     t.integer "priority"
-//     t.boolean "completed"
-//     t.bigint "user_id", null: false
-//     t.bigint "project_id"

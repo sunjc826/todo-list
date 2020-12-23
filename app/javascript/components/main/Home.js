@@ -5,7 +5,6 @@ import { Row, Col, Container, Jumbotron } from "reactstrap";
 const user_id = 1;
 
 const Home = ({ userState }) => {
-  // const userState = useSelector((state) => state.user);
   const userId = userState.userId;
   const userLoading = userState.loading;
   const userData = userState.data;

@@ -25,8 +25,6 @@ const Task = ({ task, overdue }) => {
     dateString,
   } = task.attributes;
 
-  // console.log(task);
-  // Todo: change to more robust code handling loading and errors
   let project;
   if (!projectLoading && projectId) {
     for (let id in projectData) {

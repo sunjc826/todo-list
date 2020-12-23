@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
-import { connect } from "react-redux";
-import { fetchUserData, fetchTagsData } from "../redux/actions";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUserData } from "../redux/actions";
 import styled from "styled-components";
 import Header from "./header/Header";
 import Footer from "./footer/Footer";
@@ -21,24 +21,17 @@ const Content = styled.div`
   width: 100%;
 `;
 
-const Main = ({
-  labelState,
-  projectState,
-  subtaskState,
-  tagState,
-  taskState,
-  userState,
-  fetchUserData,
-}) => {
+const Main = () => {
+  const userState = useSelector((state) => state.user);
+  const taskState = useSelector((state) => state.task);
+  const projectState = useSelector((state) => state.project);
+  const tagState = useSelector((state) => state.tag);
+  const labelState = useSelector((state) => state.label);
+  const dispatch = useDispatch();
   const userId = userState.userId;
-  // console.log("USERSTATE");
-  // console.log(userState);
-  // console.log(userId);
-
   const [doneEffect, setDoneEffect] = useState(false);
   useEffect(() => {
-    setDoneEffect(true);
-    fetchUserData(userId);
+    dispatch(fetchUserData(userId)).then((res) => setDoneEffect(true));
   }, []);
 
   const { url } = useRouteMatch();
@@ -73,17 +66,9 @@ const Main = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  labelState: state.label,
-  projectState: state.project,
-  subtaskState: state.subtask,
-  tagState: state.tag,
-  taskState: state.task,
-  userState: state.user,
-});
+export default Main;
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchUserData: (userId) => dispatch(fetchUserData(userId)),
-});
+/*
+          
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+*/

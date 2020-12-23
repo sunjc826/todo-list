@@ -2,7 +2,7 @@ import React, { useState, useEffect, createContext, Fragment } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Provider, useSelector } from "react-redux";
+import { Provider } from "react-redux";
 import store from "../redux/store";
 import "./app.css";
 

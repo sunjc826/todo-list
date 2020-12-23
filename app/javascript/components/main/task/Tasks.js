@@ -7,8 +7,6 @@ import OverdueTaskList from "./OverdueTaskList";
 import {
   dateToString,
   sameDay,
-  getPrevDay,
-  getNextDay,
   generateDateList,
   compareDateByDay,
 } from "../../../helperFunctions";

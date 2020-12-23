@@ -1,12 +1,12 @@
 import React from "react";
-import { Container, Row, Column } from "reactstrap";
+import { Container, Row } from "reactstrap";
 
 const Footer = () => {
   return (
     <footer className="footer">
       <Container>
         <Row>
-          <p>Created 2020 December</p>
+          <p>Created 2020</p>
         </Row>
       </Container>
     </footer>

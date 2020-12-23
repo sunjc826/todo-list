@@ -18,6 +18,7 @@ const NewLabel = ({ modalOpen, toggleModal }) => {
   };
 
   const [formState, setFormState] = useState(defaultFormState);
+
   const handleChange = (e) => {
     setFormState({
       ...formState,

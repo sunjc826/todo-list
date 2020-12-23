@@ -2,7 +2,8 @@ class TagSerializer
   include JSONAPI::Serializer
   attributes :description
 
-
+  belongs_to :user
+  
   has_many :tag_tasks
   has_many :filter_criteria, as: :filterable
   has_many :tasks, through: :tag_tasks

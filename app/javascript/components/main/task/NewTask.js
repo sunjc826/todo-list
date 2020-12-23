@@ -11,11 +11,13 @@ function useQuery() {
 
 const NewTask = ({ setNewTask, day }) => {
   const query = useQuery();
+  let tagId, labelId;
   if (query.has("tagId")) {
-    const tagId = query.get("tagId");
+    tagId = query.get("tagId");
   } else if (query.has("labelId")) {
-    const labelId = query.get("labelId");
+    labelId = query.get("labelId");
   }
+
   const defaultFormState = {
     content: "",
     priority: 3,
@@ -47,7 +49,7 @@ const NewTask = ({ setNewTask, day }) => {
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postTask(formState));
+    dispatch(postTask(formState, { tagId, labelId }));
     setNewTask(false);
   };
 

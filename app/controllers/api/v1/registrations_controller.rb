@@ -8,6 +8,18 @@ module Api
           password: params[:user][:password],
           password_confirmation: params[:user][:password_confirmation]
         })
+        
+        user.tags.new([
+          {
+            description: "Work"
+          },
+          {
+            description: "Social"
+          },
+          {
+            description: "Personal"
+          }
+        ])
 
         if user.save
           session[:user_id] = user.id

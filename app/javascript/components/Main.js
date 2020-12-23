@@ -29,7 +29,6 @@ const Main = ({
   taskState,
   userState,
   fetchUserData,
-  fetchTagsData,
 }) => {
   const userId = userState.userId;
   // console.log("USERSTATE");
@@ -40,7 +39,6 @@ const Main = ({
   useEffect(() => {
     setDoneEffect(true);
     fetchUserData(userId);
-    fetchTagsData();
   }, []);
 
   const { url } = useRouteMatch();
@@ -86,7 +84,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchUserData: (userId) => dispatch(fetchUserData(userId)),
-  fetchTagsData: () => dispatch(fetchTagsData()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

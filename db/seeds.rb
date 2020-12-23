@@ -22,21 +22,21 @@ users = User.create([
 user1 = users[0]
 user2 = users[1]
 
-tags = Tag.create([
-  {
-    description: "Work"
-  },
-  {
-    description: "Social"
-  },
-  {
-    description: "Personal"
-  }
-])
+# tags = Tag.create([
+#   {
+#     description: "Work"
+#   },
+#   {
+#     description: "Social"
+#   },
+#   {
+#     description: "Personal"
+#   }
+# ])
 
-work_tag = tags[0]
-social_tag = tags[1]
-personal_tag = tags[2]
+# work_tag = tags[0]
+# social_tag = tags[1]
+# personal_tag = tags[2]
 
 labels = Label.create([
   {
@@ -170,17 +170,17 @@ Comment.create([
 ])
 
 
-tag_tasks = TagTask.create([
-  {
-    tag_id: work_tag.id,
-    task_id: task1.id,
-  },
-  {
-    tag_id: work_tag.id,
-    task_id: task2.id,
-  },
-  {
-    tag_id: work_tag.id,
-    task_id: task7.id,
-  }
-])
+# tag_tasks = TagTask.create([
+#   {
+#     tag_id: work_tag.id,
+#     task_id: task1.id,
+#   },
+#   {
+#     tag_id: work_tag.id,
+#     task_id: task2.id,
+#   },
+#   {
+#     tag_id: work_tag.id,
+#     task_id: task7.id,
+#   }
+# ])

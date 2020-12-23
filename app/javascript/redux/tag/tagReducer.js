@@ -2,7 +2,7 @@ import {
   FETCH_TAGS_REQUEST,
   FETCH_TAGS_SUCCESS,
   FETCH_TAGS_FAILURE,
-  SET_TAGS_DATA,
+  SET_TAG_DATA,
 } from "./tagTypes";
 
 const defaultTags = {
@@ -31,7 +31,7 @@ const tagReducer = (state = defaultTags, action) => {
         data: null,
         errMsg: action.payload,
       };
-    case SET_TAGS_DATA:
+    case SET_TAG_DATA:
       return {
         ...state,
         data: action.payload,

@@ -21,7 +21,7 @@ import {
 import { setUserData } from "../user/userActions";
 import { setProjectData } from "../project/projectActions";
 import { setLabelData } from "../label/labelActions";
-import {} from "../user/userActions";
+import { setTagData } from "../tag/tagActions";
 
 import { generatePostRequest } from "../../helperFunctions";
 
@@ -91,10 +91,10 @@ const updateTaskData = (taskData) => ({
 
 // no need to supply userId since the session cookie containing user_id is sent over
 // and converted to @current_user
-const postTask = (task, { tag, label }) => (dispatch) => {
-  // const tagTasksUrl = "/api/v1/tag_tasks";
-  // fetch(tagTasksUrl, generatePostRequest(JSON.stringify({ tagTask: tag })));
-  fetch(tasksUrl, generatePostRequest(JSON.stringify({ task })))
+const postTask = (task, { tagId, labelId }) => (dispatch) => {
+  const post = { task, tag: { tag_id: tagId }, label: { label_id: labelId } };
+
+  fetch(tasksUrl, generatePostRequest(JSON.stringify(post)))
     .then((res) => {
       if (res.ok) {
         return res.json();
@@ -106,11 +106,12 @@ const postTask = (task, { tag, label }) => (dispatch) => {
       return normalize(res);
     })
     .then((res) => {
-      const { user, project, task, label } = res;
+      const { user, project, task, label, tag } = res;
       dispatch(setUserData(user));
       dispatch(setProjectData(project));
       dispatch(setTaskData(task));
       dispatch(setLabelData(label));
+      dispatch(setTagData(tag));
     })
     .catch((err) => {
       console.log(err.message);

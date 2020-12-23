@@ -4,12 +4,9 @@ module Api
       include CurrentUserConcern
       include RequireLoginConcern
 
-      def index
-        # TODO: 
-        # Currently this will return all tasks associated with this tag
-        # Need to restrict to only the tasks owned by the current user
-        tags = Tag.all
-        render json: TagSerializer.new(tags).serializable_hash.to_json
+      def show
+        tag = @current_user.tags.find(params[:id])
+        render json: LabelSerializer.new(label).serializable_hash.to_json
       end
     end
   end

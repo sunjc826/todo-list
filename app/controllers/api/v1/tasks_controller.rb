@@ -16,16 +16,17 @@ module Api
       end
 
       def create
-        puts params
         
         task = @current_user.tasks.new(task_params)
         
         tag_id = tag_params[:tag_id]
         # For some reason, placing the next 3 lines within task.save does not work
         # Perhaps it has something to do with the save method.
-        tag = @current_user.tags.find(tag_id)
-        tag.tasks << task
-        task.tags << tag
+        unless tag_id.nil?
+          tag = @current_user.tags.find(tag_id)
+          tag.tasks << task
+          task.tags << tag
+        end
 
         # Not using this because I did not create has_many tag_tasks in User model
         # tag_task = @current_user.tag_tasks.create(task_id: task.id, tag_id: tag_params[:tag_id])

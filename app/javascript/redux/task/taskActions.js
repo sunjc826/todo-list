@@ -91,7 +91,9 @@ const updateTaskData = (taskData) => ({
 
 // no need to supply userId since the session cookie containing user_id is sent over
 // and converted to @current_user
-const postTask = (task) => (dispatch) => {
+const postTask = (task, { tag, label }) => (dispatch) => {
+  // const tagTasksUrl = "/api/v1/tag_tasks";
+  // fetch(tagTasksUrl, generatePostRequest(JSON.stringify({ tagTask: tag })));
   fetch(tasksUrl, generatePostRequest(JSON.stringify({ task })))
     .then((res) => {
       if (res.ok) {

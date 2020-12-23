@@ -121,6 +121,7 @@ projectlessTasks = Task.create([
 ])
 task1 = projectTasks[0]
 task2 = projectTasks[1]
+task7 = projectlessTasks[4]
 Subtask.create([
   {
     content: "Subtask 1",
@@ -177,5 +178,9 @@ tag_tasks = TagTask.create([
   {
     tag_id: work_tag.id,
     task_id: task2.id,
+  },
+  {
+    tag_id: work_tag.id,
+    task_id: task7.id,
   }
 ])

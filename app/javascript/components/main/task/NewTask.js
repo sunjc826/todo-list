@@ -3,10 +3,19 @@ import React, { useState } from "react";
 import { ButtonGroup, Form, FormGroup, Input, Button } from "reactstrap";
 import { useDispatch } from "react-redux";
 import { postTask } from "../../../redux/actions";
+import { useLocation } from "react-router-dom";
+
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
 const NewTask = ({ setNewTask, day }) => {
-  const dispatch = useDispatch();
-
+  const query = useQuery();
+  if (query.has("tagId")) {
+    const tagId = query.get("tagId");
+  } else if (query.has("labelId")) {
+    const labelId = query.get("labelId");
+  }
   const defaultFormState = {
     content: "",
     priority: 3,
@@ -35,6 +44,7 @@ const NewTask = ({ setNewTask, day }) => {
     );
   });
 
+  const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(postTask(formState));

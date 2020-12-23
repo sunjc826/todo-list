@@ -18,7 +18,7 @@ Rails.application.routes.draw do
       resources :labels
       resources :projects
       resources :tag_tasks
-      resources :tags
+      resources :tags, only: [:index]
       resources :tasks do
         resources :subtasks, only: [:create, :update, :destroy]
         resources :comments, only: [:create, :update, :destroy]

@@ -54,7 +54,11 @@ const Main = ({
           <Content>
             <Switch>
               <Route exact path={url + "tasks"}>
-                <Tasks taskState={taskState} />
+                <Tasks
+                  taskState={taskState}
+                  tagState={tagState}
+                  labelState={labelState}
+                />
               </Route>
               <Route exact path={url + "project/:projectId"}>
                 <Project projectState={projectState} taskState={taskState} />

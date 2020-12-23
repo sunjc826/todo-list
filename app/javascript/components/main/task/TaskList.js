@@ -11,7 +11,7 @@ const TaskList = ({ day, tasklist }) => {
   });
 
   const [newTask, setNewTask] = useState(false);
-  console.log(day);
+  // console.log(day);
   return (
     <React.Fragment>
       <Row>

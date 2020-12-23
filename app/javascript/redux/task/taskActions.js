@@ -89,6 +89,8 @@ const updateTaskData = (taskData) => ({
   payload: taskData,
 });
 
+// no need to supply userId since the session cookie containing user_id is sent over
+// and converted to @current_user
 const postTask = (task) => (dispatch) => {
   fetch(tasksUrl, generatePostRequest(JSON.stringify({ task })))
     .then((res) => {

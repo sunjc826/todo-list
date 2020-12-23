@@ -34,6 +34,10 @@ tags = Tag.create([
   }
 ])
 
+work_tag = tags[0]
+social_tag = tags[1]
+personal_tag = tags[2]
+
 labels = Label.create([
   {
     user_id: user1.id,
@@ -160,6 +164,18 @@ Comment.create([
   },
   {
     content: "Comment 4",
+    task_id: task2.id,
+  }
+])
+
+
+tag_tasks = TagTask.create([
+  {
+    tag_id: work_tag.id,
+    task_id: task1.id,
+  },
+  {
+    tag_id: work_tag.id,
     task_id: task2.id,
   }
 ])

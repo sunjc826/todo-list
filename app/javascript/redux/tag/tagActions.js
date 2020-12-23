@@ -41,8 +41,9 @@ const fetchTagsData = () => (dispatch) => {
       return normalize(res);
     })
     .then((res) => {
+      const { tag } = res;
       dispatch(fetchTagsSuccess());
-      dispatch(setTagsData(res));
+      dispatch(setTagsData(tag));
     })
     .catch((err) => {
       dispatch(fetchTagsFailure(err.message));

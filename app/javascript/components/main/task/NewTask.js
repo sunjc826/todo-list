@@ -11,7 +11,8 @@ function useQuery() {
 
 const NewTask = ({ setNewTask, day }) => {
   const query = useQuery();
-  let tagId, labelId;
+  let tagId = null;
+  let labelId = null;
   if (query.has("tagId")) {
     tagId = query.get("tagId");
   } else if (query.has("labelId")) {

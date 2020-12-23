@@ -47,7 +47,7 @@ const QuickNewTask = ({ modalOpen, toggleModal }) => {
   const history = useHistory();
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postTask(formState));
+    dispatch(postTask(formState, { tagId: null, labelId: null }));
     toggleModal();
     history.push("/tasks");
   };

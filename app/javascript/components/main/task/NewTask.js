@@ -3,13 +3,14 @@ import React, { useState } from "react";
 import { ButtonGroup, Form, FormGroup, Input, Button } from "reactstrap";
 import { useDispatch } from "react-redux";
 import { postTask } from "../../../redux/actions";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
-const NewTask = ({ setNewTask, day }) => {
+const NewTask = ({ setNewTask, day, project }) => {
+  // check whether task has tags or labels
   const query = useQuery();
   let tagId = null;
   let labelId = null;
@@ -19,11 +20,19 @@ const NewTask = ({ setNewTask, day }) => {
     labelId = query.get("labelId");
   }
 
+  // check whether task is part of a project
+  const params = useParams();
+  let projectId = null;
+  if (project) {
+    projectId = params.projectId;
+  }
+
   const defaultFormState = {
     content: "",
     priority: 3,
     deadline: day,
     completed: false,
+    project_id: projectId,
   };
   const [formState, setFormState] = useState(defaultFormState);
 
@@ -50,7 +59,7 @@ const NewTask = ({ setNewTask, day }) => {
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postTask(formState, { tagId, labelId }));
+    dispatch(postTask(formState, { tagId, labelId, projectId }));
     setNewTask(false);
   };
 
@@ -71,9 +80,21 @@ const NewTask = ({ setNewTask, day }) => {
           onChange={handleChange}
         />
       </FormGroup>
+      {project && (
+        <FormGroup>
+          <Input
+            type="date"
+            id="deadline"
+            name="deadline"
+            value={formState.deadline}
+            onChange={handleChange}
+          />
+        </FormGroup>
+      )}
       <FormGroup>
         <ButtonGroup>{priorityButtons}</ButtonGroup>
       </FormGroup>
+
       <Button type="submit" color="primary" onClick={handleSubmit}>
         Add task
       </Button>

@@ -27,9 +27,18 @@ module Api
           tag.tasks << task
           task.tags << tag
         end
-
         # Not using this because I did not create has_many tag_tasks in User model
         # tag_task = @current_user.tag_tasks.create(task_id: task.id, tag_id: tag_params[:tag_id])
+
+
+        label_id = label_params[:label_id]
+        unless label_id.nil?
+          label = @current_user.labels.find(label_id)
+          label.tasks << task
+          task.labels << label
+        end
+
+        
 
         if task.save
           render json: UserSerializer.new(@current_user, UsersController.options).serializable_hash.to_json
@@ -53,6 +62,14 @@ module Api
       def tag_params
         params.require(:tag).permit(:tag_id)
       end
+
+      def label_params
+        params.require(:label).permit(:label_id)
+      end
+
+      # def project_params
+      #   params.require(:project).permit(:project_id)
+      # end
     end
   end
 end

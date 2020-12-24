@@ -89,6 +89,14 @@ const generateDeleteRequest = () => {
   };
 };
 
+// returns true if smaller list is contained in larger list
+const listContains = ({ smaller, larger }) => {
+  const largerSet = new Set(larger);
+  return smaller.reduce((accumulator, curValue) => {
+    return accumulator && largerSet.has(curValue);
+  }, true);
+};
+
 export {
   dateToString,
   sameDay,
@@ -98,4 +106,5 @@ export {
   compareDateByDay,
   generatePostRequest,
   generateDeleteRequest,
+  listContains,
 };

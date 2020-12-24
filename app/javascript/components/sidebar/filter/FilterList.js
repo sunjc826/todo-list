@@ -24,6 +24,7 @@ const FilterList = ({ collapseOpen }) => {
       const filterAttributes = ele.attributes;
 
       const handleClick = (e) => {
+        history.push(`/tasks?filterId=${key}`);
         e.stopPropagation();
       };
 

@@ -9,13 +9,14 @@ import {
   sameDay,
   generateDateList,
   compareDateByDay,
+  listContains,
 } from "../../../helperFunctions";
 
-function useQuery() {
+const useQuery = () => {
   return new URLSearchParams(useLocation().search);
-}
+};
 
-const Tasks = ({ taskState, tagState, labelState }) => {
+const Tasks = ({ taskState, tagState, labelState, filterState }) => {
   const { date } = useContext(AppContext);
   const dateString = dateToString(date);
 
@@ -46,7 +47,7 @@ const Tasks = ({ taskState, tagState, labelState }) => {
       taskData = filteredTaskData;
     } else if (query.has("labelId")) {
       const labelId = query.get("labelId");
-      // set taskData to only include Tasks with the given tag.
+      // set taskData to only include Tasks with the given label.
       const labelData = labelState.data;
       const label = labelData[labelId];
       const relatedTasks = label.relationships.tasks.data;
@@ -55,6 +56,30 @@ const Tasks = ({ taskState, tagState, labelState }) => {
         const taskId = task.id;
         filteredTaskData[taskId] = taskData[taskId];
       });
+      taskData = filteredTaskData;
+    } else if (query.has("filterId")) {
+      const filterId = query.get("filterId");
+      // set taskData to only include Tasks with the given filter.
+      const filterData = filterState.data;
+      const filter = filterData[filterId];
+      const filterTags = filter.relationships.tags.data.map((tag) => tag.id);
+      const filterLabels = filter.relationships.labels.data.map(
+        (label) => label.id
+      );
+      const filteredTaskData = {};
+      for (const key in taskData) {
+        const ele = taskData[key];
+        const taskTags = ele.relationships.tags.data.map((tag) => tag.id);
+        const taskLabels = ele.relationships.labels.data.map(
+          (label) => label.id
+        );
+        if (
+          listContains({ smaller: taskTags, larger: filterTags }) &&
+          listContains({ smaller: taskLabels, larger: filterLabels })
+        ) {
+          filteredTaskData[key] = ele;
+        }
+      }
       taskData = filteredTaskData;
     }
 
@@ -86,7 +111,14 @@ const Tasks = ({ taskState, tagState, labelState }) => {
         }
       }
       // console.log(tasklist);
-      return <TaskList key={day} day={day} tasklist={tasklist} />;
+      return (
+        <TaskList
+          key={day}
+          day={day}
+          tasklist={tasklist}
+          isFilter={query.has("filterId")}
+        />
+      );
     });
 
     currentTasksComponent.unshift(overdueTasksComponent);

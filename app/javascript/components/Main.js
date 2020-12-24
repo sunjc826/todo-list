@@ -27,6 +27,7 @@ const Main = () => {
   const projectState = useSelector((state) => state.project);
   const tagState = useSelector((state) => state.tag);
   const labelState = useSelector((state) => state.label);
+  const filterState = useSelector((state) => state.filter);
   const dispatch = useDispatch();
   const userId = userState.userId;
   const [doneEffect, setDoneEffect] = useState(false);
@@ -49,6 +50,7 @@ const Main = () => {
                   taskState={taskState}
                   tagState={tagState}
                   labelState={labelState}
+                  filterState={filterState}
                 />
               </Route>
               <Route exact path={url + "project/:projectId"}>

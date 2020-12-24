@@ -44,6 +44,14 @@ const NewFilter = ({ modalOpen, toggleModal }) => {
       },
     };
     setFormState(newState);
+    // TODO: For some reason, clicking on a checkbox toggles the open and closing of the
+    // Collapse component
+  };
+
+  // Prevents the parent element ListGroup from capturing the event
+  // and toggling the Collapse component
+  const stopProp = (e) => {
+    e.stopPropagation();
   };
 
   const tagState = useSelector((state) => state.tag);
@@ -69,52 +77,6 @@ const NewFilter = ({ modalOpen, toggleModal }) => {
         defaultFormState.label[key] = false;
       }
       setFormState(defaultFormState);
-      // alternative way
-      // const tempFormState = formState ? formState : defaultFormState;
-
-      //   const tempTagsComponent = [];
-      //   const tempLabelsComponent = [];
-      //   for (const key in tagData) {
-      //     const ele = tagData[key];
-      //     tempTagsComponent.push(
-      //       <FormGroup check key={key}>
-      //         <Label check>
-      //           <Input
-      //             type="checkbox"
-      //             name={key}
-      //             checked={
-      //               formState.tag ? formState.tag[key] : defaultFormState.tag[key]
-      //             }
-      //             onChange={handleCheckChange("tag")}
-      //           />{" "}
-      //           {ele.attributes.description}
-      //         </Label>
-      //       </FormGroup>
-      //     );
-      //   }
-      //   for (const key in labelData) {
-      //     const ele = labelData[key];
-      //     tempLabelsComponent.push(
-      //       <FormGroup check key={key}>
-      //         <Label check>
-      //           <Input
-      //             type="checkbox"
-      //             name={key}
-      //             checked={
-      //               formState.label
-      //                 ? formState.label[key]
-      //                 : defaultFormState.label[key]
-      //             }
-      //             onChange={handleCheckChange("label")}
-      //           />{" "}
-      //           {ele.attributes.description}
-      //         </Label>
-      //       </FormGroup>
-      //     );
-      //   }
-
-      //   setTagsComponent(tempTagsComponent);
-      //   setLabelsComponent(tempLabelsComponent);
     }
     setEffectUsed(true);
     // considering that setState methods are async, does everything in a useEffect
@@ -137,6 +99,7 @@ const NewFilter = ({ modalOpen, toggleModal }) => {
               name={key}
               checked={formState.tag[key]}
               onChange={handleCheckChange("tag")}
+              onClick={stopProp}
             />{" "}
             {ele.attributes.description}
           </Label>
@@ -153,6 +116,7 @@ const NewFilter = ({ modalOpen, toggleModal }) => {
               name={key}
               checked={formState.label[key]}
               onChange={handleCheckChange("label")}
+              onClick={stopProp}
             />{" "}
             {ele.attributes.description}
           </Label>

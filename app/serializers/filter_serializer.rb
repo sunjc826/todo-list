@@ -1,6 +1,6 @@
 class FilterSerializer
   include JSONAPI::Serializer
-  attributes :time_filter, :priority_filter, :user_id
+  attributes :time_filter, :priority_filter, :user_id, :description
 
   belongs_to :user
 

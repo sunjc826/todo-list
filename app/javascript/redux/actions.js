@@ -14,3 +14,4 @@ export { postComment } from "./comment/commentActions";
 export { postSubtask } from "./subtask/subtaskActions";
 export { postProject } from "./project/projectActions";
 export { postLabel } from "./label/labelActions";
+export { postFilter } from "./filter/filterActions";

@@ -24,7 +24,9 @@ module Api
         # Perhaps it has something to do with the save method.
         unless tag_id.nil?
           tag = @current_user.tags.find(tag_id)
-          tag.tasks << task
+          # Only one of these 2 are needed
+          # If both are executed, rails will actually create 2 TagTask objects
+          # tag.tasks << task
           task.tags << tag
         end
         # Not using this because I did not create has_many tag_tasks in User model
@@ -34,7 +36,7 @@ module Api
         label_id = label_params[:label_id]
         unless label_id.nil?
           label = @current_user.labels.find(label_id)
-          label.tasks << task
+          # label.tasks << task
           task.labels << label
         end
 

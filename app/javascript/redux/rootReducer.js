@@ -6,6 +6,7 @@ import projectReducer from "./project/projectReducer";
 import taskReducer from "./task/taskReducer";
 import commentReducer from "./comment/commentReducer";
 import subtaskReducer from "./subtask/subtaskReducer";
+import filterReducer from "./filter/filterReducer";
 
 const rootReducer = combineReducers({
   comment: commentReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   tag: tagReducer,
   task: taskReducer,
   user: userReducer,
+  filter: filterReducer,
 });
 
 export default rootReducer;

@@ -34,7 +34,6 @@ const Task = ({ task, overdue }) => {
       }
     }
   }
-  // console.log(project);
 
   const [modalOpen, setModalOpen] = useState(false);
   const toggleModal = () => {

@@ -33,6 +33,12 @@ import {
   setTagData,
 } from "../tag/tagActions";
 import {
+  fetchFiltersRequest,
+  fetchFiltersSuccess,
+  fetchFiltersFailure,
+  setFilterData,
+} from "../filter/filterActions";
+import {
   generatePostRequest,
   generateDeleteRequest,
 } from "../../helperFunctions";
@@ -155,6 +161,7 @@ const fetchUserData = (userId) => (dispatch) => {
   dispatch(fetchTasksRequest());
   dispatch(fetchLabelsRequest());
   dispatch(fetchTagsRequest());
+  dispatch(fetchFiltersRequest());
   const url = `${usersUrl}/${userId}`;
   return fetch(url)
     .then((res) => {
@@ -172,7 +179,7 @@ const fetchUserData = (userId) => (dispatch) => {
     .then((res) => {
       // break up compound document into parts
       // and store into different parts of the redux store
-      const { user, project, task, label, tag } = res;
+      const { user, project, task, label, tag, filter } = res;
       // console.log(user);
       // console.log(project);
       // console.log(task);
@@ -183,11 +190,13 @@ const fetchUserData = (userId) => (dispatch) => {
       dispatch(setTaskData(task));
       dispatch(setLabelData(label));
       dispatch(setTagData(tag));
+      dispatch(setFilterData(filter));
       dispatch(fetchUserSuccess());
       dispatch(fetchProjectsSuccess());
       dispatch(fetchTasksSuccess());
       dispatch(fetchLabelsSuccess());
       dispatch(fetchTagsSuccess());
+      dispatch(fetchFiltersSuccess());
     })
     .catch((err) => {
       dispatch(fetchUserFailure(err.message));
@@ -195,6 +204,7 @@ const fetchUserData = (userId) => (dispatch) => {
       dispatch(fetchTasksFailure(err.message));
       dispatch(fetchLabelsFailure(err.message));
       dispatch(fetchTagsFailure(err.message));
+      dispatch(fetchFiltersFailure(err.message));
     });
 };
 

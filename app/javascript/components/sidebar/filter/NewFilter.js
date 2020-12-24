@@ -10,20 +10,47 @@ import {
   Label,
   Input,
 } from "reactstrap";
-import { useSelector } from "react-redux";
-import { setLabelData } from "../../../redux/label/labelActions";
+import { useSelector, useDispatch } from "react-redux";
+import { postFilter } from "../../../redux/actions";
 
 const NewFilter = ({ modalOpen, toggleModal }) => {
   const defaultFormState = {
+    filter: {
+      description: "",
+    },
     tag: {},
     label: {},
   };
-  const [formState, setFormState] = useState();
-  const handleChange = (type) => (e) => ({
-    ...formState,
-    [type]: {
-      [e.target.name]: !formState[type][e.target.name],
-    },
+  const [formState, setFormState] = useState(defaultFormState);
+
+  const handleChange = (type) => (e) => {
+    console.log("old state", formState);
+    const newState = {
+      ...formState,
+      [type]: {
+        ...formState[type],
+        [e.target.name]: e.target.value,
+      },
+    };
+    setFormState(newState);
+    console.log("new state", newState);
+  };
+
+  const handleCheckChange = (type) => (e) => {
+    console.log("old state", formState);
+    const newState = {
+      ...formState,
+      [type]: {
+        ...formState[type],
+        [e.target.name]: false, //!formState[type][e.target.name],
+      },
+    };
+    console.log("new state", newState);
+    setFormState(newState);
+  };
+
+  useEffect(() => {
+    console.log("form state", formState);
   });
 
   const tagState = useSelector((state) => state.tag);
@@ -43,10 +70,10 @@ const NewFilter = ({ modalOpen, toggleModal }) => {
     } else if (tagErrMsg) {
     } else {
       for (const key in tagData) {
-        defaultFormState.tag[key] = false;
+        defaultFormState.tag[key] = true;
       }
       for (const key in labelData) {
-        defaultFormState.label[key] = false;
+        defaultFormState.label[key] = true;
       }
       setFormState(defaultFormState);
       // alternative way
@@ -63,9 +90,9 @@ const NewFilter = ({ modalOpen, toggleModal }) => {
                 type="checkbox"
                 name={key}
                 checked={
-                  formState ? formState.tag[key] : defaultFormState.tag[key]
+                  formState.tag ? formState.tag[key] : defaultFormState.tag[key]
                 }
-                onChange={handleChange("tag")}
+                onChange={handleCheckChange("tag")}
               />{" "}
               {ele.attributes.description}
             </Label>
@@ -81,9 +108,11 @@ const NewFilter = ({ modalOpen, toggleModal }) => {
                 type="checkbox"
                 name={key}
                 checked={
-                  formState ? formState.label[key] : defaultFormState.label[key]
+                  formState.label
+                    ? formState.label[key]
+                    : defaultFormState.label[key]
                 }
-                onChange={handleChange("label")}
+                onChange={handleCheckChange("label")}
               />{" "}
               {ele.attributes.description}
             </Label>
@@ -96,8 +125,10 @@ const NewFilter = ({ modalOpen, toggleModal }) => {
     }
   }, [labelState]);
 
+  const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(postFilter(formState));
     toggleModal();
   };
   const handleCancel = () => {
@@ -110,7 +141,12 @@ const NewFilter = ({ modalOpen, toggleModal }) => {
       <ModalBody>
         <Form id="filterForm">
           <FormGroup>
-            <Input type="text" name="description" />
+            <Input
+              type="text"
+              name="description"
+              value={formState.filter.description}
+              onChange={handleChange("filter")}
+            />
           </FormGroup>
           <FormGroup
             tag="fieldset"

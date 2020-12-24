@@ -22,9 +22,9 @@ const NewFilter = ({ modalOpen, toggleModal }) => {
     label: {},
   };
   const [formState, setFormState] = useState(defaultFormState);
+  const [effectUsed, setEffectUsed] = useState(false);
 
   const handleChange = (type) => (e) => {
-    console.log("old state", formState);
     const newState = {
       ...formState,
       [type]: {
@@ -33,25 +33,18 @@ const NewFilter = ({ modalOpen, toggleModal }) => {
       },
     };
     setFormState(newState);
-    console.log("new state", newState);
   };
 
   const handleCheckChange = (type) => (e) => {
-    console.log("old state", formState);
     const newState = {
       ...formState,
       [type]: {
         ...formState[type],
-        [e.target.name]: false, //!formState[type][e.target.name],
+        [e.target.name]: !formState[type][e.target.name],
       },
     };
-    console.log("new state", newState);
     setFormState(newState);
   };
-
-  useEffect(() => {
-    console.log("form state", formState);
-  });
 
   const tagState = useSelector((state) => state.tag);
   const tagLoading = tagState.loading;
@@ -62,68 +55,111 @@ const NewFilter = ({ modalOpen, toggleModal }) => {
   const labelErrMsg = labelState.errMsg;
   const labelData = labelState.data;
 
-  let [tagsComponent, setTagsComponent] = useState([]);
-  let [labelsComponent, setLabelsComponent] = useState([]);
+  let tagsComponent = [];
+  let labelsComponent = [];
 
   useEffect(() => {
     if (tagLoading) {
     } else if (tagErrMsg) {
     } else {
       for (const key in tagData) {
-        defaultFormState.tag[key] = true;
+        defaultFormState.tag[key] = false;
       }
       for (const key in labelData) {
-        defaultFormState.label[key] = true;
+        defaultFormState.label[key] = false;
       }
       setFormState(defaultFormState);
       // alternative way
       // const tempFormState = formState ? formState : defaultFormState;
 
-      const tempTagsComponent = [];
-      const tempLabelsComponent = [];
-      for (const key in tagData) {
-        const ele = tagData[key];
-        tempTagsComponent.push(
-          <FormGroup check key={key}>
-            <Label check>
-              <Input
-                type="checkbox"
-                name={key}
-                checked={
-                  formState.tag ? formState.tag[key] : defaultFormState.tag[key]
-                }
-                onChange={handleCheckChange("tag")}
-              />{" "}
-              {ele.attributes.description}
-            </Label>
-          </FormGroup>
-        );
-      }
-      for (const key in labelData) {
-        const ele = labelData[key];
-        tempLabelsComponent.push(
-          <FormGroup check key={key}>
-            <Label check>
-              <Input
-                type="checkbox"
-                name={key}
-                checked={
-                  formState.label
-                    ? formState.label[key]
-                    : defaultFormState.label[key]
-                }
-                onChange={handleCheckChange("label")}
-              />{" "}
-              {ele.attributes.description}
-            </Label>
-          </FormGroup>
-        );
-      }
+      //   const tempTagsComponent = [];
+      //   const tempLabelsComponent = [];
+      //   for (const key in tagData) {
+      //     const ele = tagData[key];
+      //     tempTagsComponent.push(
+      //       <FormGroup check key={key}>
+      //         <Label check>
+      //           <Input
+      //             type="checkbox"
+      //             name={key}
+      //             checked={
+      //               formState.tag ? formState.tag[key] : defaultFormState.tag[key]
+      //             }
+      //             onChange={handleCheckChange("tag")}
+      //           />{" "}
+      //           {ele.attributes.description}
+      //         </Label>
+      //       </FormGroup>
+      //     );
+      //   }
+      //   for (const key in labelData) {
+      //     const ele = labelData[key];
+      //     tempLabelsComponent.push(
+      //       <FormGroup check key={key}>
+      //         <Label check>
+      //           <Input
+      //             type="checkbox"
+      //             name={key}
+      //             checked={
+      //               formState.label
+      //                 ? formState.label[key]
+      //                 : defaultFormState.label[key]
+      //             }
+      //             onChange={handleCheckChange("label")}
+      //           />{" "}
+      //           {ele.attributes.description}
+      //         </Label>
+      //       </FormGroup>
+      //     );
+      //   }
 
-      setTagsComponent(tempTagsComponent);
-      setLabelsComponent(tempLabelsComponent);
+      //   setTagsComponent(tempTagsComponent);
+      //   setLabelsComponent(tempLabelsComponent);
     }
+    setEffectUsed(true);
+    // considering that setState methods are async, does everything in a useEffect
+    // always finish execution before the next render?
   }, [labelState]);
+
+  // runs on second render and beyond
+  // TODO: Use callbacks to achieve this instead of the effectUsed hack?
+  if (effectUsed) {
+    // alternative way
+    // const tempFormState = formState ? formState : defaultFormState;
+
+    for (const key in tagData) {
+      const ele = tagData[key];
+      tagsComponent.push(
+        <FormGroup check key={key}>
+          <Label check>
+            <Input
+              type="checkbox"
+              name={key}
+              checked={formState.tag[key]}
+              onChange={handleCheckChange("tag")}
+            />{" "}
+            {ele.attributes.description}
+          </Label>
+        </FormGroup>
+      );
+    }
+    for (const key in labelData) {
+      const ele = labelData[key];
+      labelsComponent.push(
+        <FormGroup check key={key}>
+          <Label check>
+            <Input
+              type="checkbox"
+              name={key}
+              checked={formState.label[key]}
+              onChange={handleCheckChange("label")}
+            />{" "}
+            {ele.attributes.description}
+          </Label>
+        </FormGroup>
+      );
+    }
+  }
 
   const dispatch = useDispatch();
   const handleSubmit = (e) => {

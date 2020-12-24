@@ -12,6 +12,6 @@ export {
 export { fetchTaskData, postTask, deleteTask } from "./task/taskActions";
 export { postComment, deleteComment } from "./comment/commentActions";
 export { postSubtask, deleteSubtask } from "./subtask/subtaskActions";
-export { postProject } from "./project/projectActions";
+export { postProject, deleteProject } from "./project/projectActions";
 export { postLabel } from "./label/labelActions";
 export { postFilter } from "./filter/filterActions";

@@ -1,10 +1,19 @@
 import React, { useContext, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Container, Row, Col, ListGroup, ListGroupItem } from "reactstrap";
+import { useParams, useHistory } from "react-router-dom";
+import {
+  Container,
+  Row,
+  Col,
+  ListGroup,
+  ListGroupItem,
+  Button,
+} from "reactstrap";
 import Task from "../task/Task";
 import { compareDateByDay } from "../../../helperFunctions";
 import { AppContext } from "../../Index";
 import NewTask from "../task/NewTask";
+import { useDispatch } from "react-redux";
+import { deleteProject } from "../../../redux/actions";
 
 const Project = ({ projectState, taskState }) => {
   const { projectId } = useParams();
@@ -43,11 +52,24 @@ const Project = ({ projectState, taskState }) => {
       return <Task task={task} overdue={isBeforeToday} key={task.id} />;
     });
 
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const handleClick = (e) => {
+      history.push("/home");
+      dispatch(deleteProject(projectId));
+      e.stopPropagation();
+    };
+
     projectComponent = (
       <Container>
-        <Row>
-          <Col xs="12">
+        <Row className="my-3">
+          <Col xs="8">
             <h2>{title}</h2>
+          </Col>
+          <Col xs="4" className="text-right">
+            <Button type="button" color="danger" onClick={handleClick}>
+              Delete Project
+            </Button>
           </Col>
         </Row>
         <Row>

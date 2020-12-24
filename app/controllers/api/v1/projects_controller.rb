@@ -21,6 +21,14 @@ module Api
       end
 
       def destroy
+        project_id = params[:id]
+        to_destroy = @current_user.projects.find(project_id)
+        to_destroy.destroy
+        if to_destroy.destroyed?
+          render json: UserSerializer.new(@current_user, UsersController.options).serializable_hash.to_json
+        else
+          render json: :unprocessable_entity
+        end
       end
 
       def self.options(last_created_project_id)

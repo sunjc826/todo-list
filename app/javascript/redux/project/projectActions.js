@@ -7,7 +7,10 @@ import {
   UPDATE_PROJECT_DATA,
   SET_LAST_CREATED_PROJECT,
 } from "./projectTypes";
-import { generatePostRequest } from "../../helperFunctions";
+import {
+  generateDeleteRequest,
+  generatePostRequest,
+} from "../../helperFunctions";
 import { setUserData } from "../user/userActions";
 
 const projectsUrl = "/api/v1/projects";
@@ -67,8 +70,31 @@ const postProject = (project) => (dispatch) => {
       const { user, project } = json;
       dispatch(setUserData(user));
       dispatch(setProjectData(project));
-      dispatch(setLastCreatedProjectId(lastCreatedProjectId));
+      dispatch(setLastCreatedProjectId(lastCreatedProjectId)); // unnecessary
       return lastCreatedProjectId;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+const deleteProject = (projectId) => (dispatch) => {
+  const url = `${projectsUrl}/${projectId}`;
+  return fetch(url, generateDeleteRequest())
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(res.statusText);
+      }
+    })
+    .then((res) => {
+      return normalize(res);
+    })
+    .then((res) => {
+      const { user, project } = res;
+      dispatch(setUserData(user));
+      dispatch(setProjectData(project));
     })
     .catch((err) => {
       console.log(err.message);
@@ -82,4 +108,5 @@ export {
   setProjectData,
   updateProjectData,
   postProject,
+  deleteProject,
 };

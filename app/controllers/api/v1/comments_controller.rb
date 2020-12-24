@@ -24,6 +24,16 @@ module Api
       end
 
       def destroy
+        task_id = params[:task_id]
+        comment_id = params[:id]
+        task = @current_user.tasks.find(task_id)
+        to_destroy = task.comments.find(comment_id)
+        to_destroy.destroy
+        if to_destroy.destroyed?
+          render json: TaskSerializer.new(task, TasksController.options).serializable_hash.to_json
+        else
+          render json: {error: comment.errors.full_messages}, status: :unprocessable_entity
+        end
       end
 
       private

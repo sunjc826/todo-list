@@ -50,6 +50,22 @@ module Api
       end
 
 
+      def destroy
+        task_id = params[:id]
+        to_destroy = @current_user.tasks.find(task_id)
+        to_destroy.destroy
+
+        if to_destroy.destroyed?
+          render json: UserSerializer.new(@current_user, UsersController.options).serializable_hash.to_json
+        else
+          render status: :unprocessable_entity
+        end
+      end
+
+      
+
+      # helper functions
+
       def self.options
         options = {}
         options[:include] = [:subtasks, :comments]
@@ -72,6 +88,7 @@ module Api
       # def project_params
       #   params.require(:project).permit(:project_id)
       # end
+
     end
   end
 end

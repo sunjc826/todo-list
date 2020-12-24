@@ -31,6 +31,20 @@ module Api
         end
       end
 
+      def destroy
+        # is there a need to use "try"?
+        task_id = params[:task_id]
+        subtask_id = params[:id]
+        task = @current_user.tasks.find(task_id)
+        to_destroy = task.subtasks.find(subtask_id)
+        to_destroy.destroy
+        if to_destroy.destroyed?
+          render json: TaskSerializer.new(task, TasksController.options).serializable_hash.to_json
+        else
+          render status: :unprocessable_entity
+        end
+      end
+
       private
       def subtask_params
         params.require(:subtask).permit(:content, :completed)

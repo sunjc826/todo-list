@@ -26,7 +26,11 @@ const SubtaskTab = ({ taskId, taskRelations }) => {
       return (
         <Row key={subtask.id}>
           <Col xs="12">
-            <Subtask {...subtask.attributes} />
+            <Subtask
+              {...subtask.attributes}
+              taskId={taskId}
+              subtaskId={subtask.id}
+            />
           </Col>
         </Row>
       );

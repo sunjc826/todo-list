@@ -7,10 +7,10 @@ class Task < ApplicationRecord
   # hence the need to explicitly declare optional: true.
   belongs_to :project, optional: true
 
-  has_many :subtasks
-  has_many :comments
-  has_many :tag_tasks
-  has_many :label_tasks
+  has_many :subtasks, dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :tag_tasks, dependent: :destroy
+  has_many :label_tasks, dependent: :destroy
   has_many :tags, through: :tag_tasks
   has_many :labels, through: :label_tasks
 

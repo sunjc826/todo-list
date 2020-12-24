@@ -1,5 +1,8 @@
 import normalize from "json-api-normalizer";
-import { generatePostRequest } from "../../helperFunctions";
+import {
+  generateDeleteRequest,
+  generatePostRequest,
+} from "../../helperFunctions";
 
 import {
   FETCH_SUBTASKS_REQUEST,
@@ -56,6 +59,29 @@ const postSubtask = (taskId, subtask) => (dispatch) => {
     });
 };
 
+const deleteSubtask = (taskId, subtaskId) => (dispatch) => {
+  const url = `/api/v1/tasks/${taskId}/subtasks/${subtaskId}`;
+  fetch(url, generateDeleteRequest())
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(res.statusText);
+      }
+    })
+    .then((res) => {
+      return normalize(res);
+    })
+    .then((res) => {
+      const { task, subtask } = res;
+      dispatch(updateSubtaskData(subtask));
+      dispatch(updateTaskData(task));
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
 export {
   fetchSubtasksRequest,
   fetchSubtasksSuccess,
@@ -63,4 +89,5 @@ export {
   setSubtaskData,
   updateSubtaskData,
   postSubtask,
+  deleteSubtask,
 };

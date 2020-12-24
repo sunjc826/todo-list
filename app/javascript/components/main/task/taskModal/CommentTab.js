@@ -34,7 +34,11 @@ const CommentTab = ({ taskId, taskRelations }) => {
       return (
         <Row key={comment.id}>
           <Col xs="12">
-            <Comment {...comment.attributes} />
+            <Comment
+              {...comment.attributes}
+              taskId={taskId}
+              commentId={comment.id}
+            />
           </Col>
         </Row>
       );

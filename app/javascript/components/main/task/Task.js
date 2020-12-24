@@ -1,12 +1,21 @@
 import React, { createContext, useContext, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Row, Col, ListGroupItem } from "reactstrap";
 import { dateToString } from "../../../helperFunctions";
 import styled from "styled-components";
 import TaskModal from "./taskModal/TaskModal";
+import { deleteTask } from "../../../redux/actions";
 
 const Tiny = styled.div`
   font-size: 0.7rem;
+`;
+
+const DeleteButton = styled.i`
+  transition: color 0.5s ease-out;
+
+  &:hover {
+    color: red;
+  }
 `;
 
 const TaskContext = createContext();
@@ -40,6 +49,12 @@ const Task = ({ task, overdue }) => {
     setModalOpen(!modalOpen);
   };
 
+  const dispatch = useDispatch();
+  const handleClick = (e) => {
+    dispatch(deleteTask(task.id));
+    e.stopPropagation();
+  };
+
   return (
     <TaskContext.Provider value={{ taskId: task.id }}>
       <ListGroupItem action>
@@ -53,7 +68,13 @@ const Task = ({ task, overdue }) => {
           <Col xs="4" className="mr-auto">
             <Row className="my-0 py-0">
               <Col xs="12">
-                <p>{content}</p>
+                <p>
+                  <DeleteButton
+                    className="far fa-times-circle"
+                    onClick={handleClick}
+                  ></DeleteButton>
+                  {" " + content}
+                </p>
               </Col>
             </Row>
             <Row>
@@ -78,4 +99,4 @@ const Task = ({ task, overdue }) => {
 };
 
 export default Task;
-export { TaskContext };
+export { TaskContext, DeleteButton };

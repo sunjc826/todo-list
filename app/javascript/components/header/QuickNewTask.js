@@ -10,17 +10,26 @@ import {
   Button,
   Input,
 } from "reactstrap";
-import { useDispatch } from "react-redux";
-import { postTask } from "../../redux/actions";
+import { useSelector, useDispatch } from "react-redux";
+import { postTask, editTask } from "../../redux/actions";
 import { useHistory } from "react-router-dom";
 
-const QuickNewTask = ({ modalOpen, toggleModal }) => {
+const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }) => {
   const defaultFormState = {
     content: "",
     priority: 3,
     deadline: "",
     completed: false,
   };
+
+  const taskData = useSelector((state) => state.task.data);
+  if (isEdit) {
+    const taskToEdit = taskData[taskId];
+    defaultFormState.content = taskToEdit.attributes.content;
+    defaultFormState.priority = taskToEdit.attributes.priority;
+    // defaultFormState.deadline = taskToEdit.attributes.deadline;
+  }
+
   const [formState, setFormState] = useState(defaultFormState);
   const dispatch = useDispatch();
 
@@ -47,15 +56,20 @@ const QuickNewTask = ({ modalOpen, toggleModal }) => {
   const history = useHistory();
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postTask(formState, { tagId: null, labelId: null }));
-    toggleModal();
-    history.push("/tasks");
+    if (isEdit) {
+      dispatch(editTask(taskId, formState));
+      toggleModal();
+    } else {
+      dispatch(postTask(formState, { tagId: null, labelId: null }));
+      toggleModal();
+      history.push("/tasks");
+    }
   };
 
   return (
     <Modal isOpen={modalOpen} toggle={toggleModal}>
       <ModalHeader toggle={toggleModal}>
-        <p>Quick Add Task</p>
+        <p>{isEdit ? "Edit Task" : "Quick Add Task"}</p>
       </ModalHeader>
       <ModalBody>
         <Form id="task-form" onSubmit={handleSubmit}>
@@ -90,7 +104,7 @@ const QuickNewTask = ({ modalOpen, toggleModal }) => {
           color="primary"
           onClick={handleSubmit}
         >
-          Add Task
+          {isEdit ? "Edit" : "Add"} Task
         </Button>
         <Button type="button" color="danger" onClick={toggleModal}>
           Cancel

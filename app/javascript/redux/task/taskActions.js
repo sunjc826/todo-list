@@ -26,6 +26,7 @@ import { setTagData } from "../tag/tagActions";
 import {
   generateDeleteRequest,
   generatePostRequest,
+  generateEditRequest,
 } from "../../helperFunctions";
 
 const tasksUrl = "/api/v1/tasks";
@@ -153,6 +154,28 @@ const deleteTask = (taskId) => (dispatch) => {
     });
 };
 
+const editTask = (taskId, task) => (dispatch) => {
+  const url = `${tasksUrl}/${taskId}`;
+  fetch(url, generateEditRequest(JSON.stringify({ task })))
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(res.statusText);
+      }
+    })
+    .then((res) => {
+      return normalize(res);
+    })
+    .then((res) => {
+      const { task } = res;
+      dispatch(updateTaskData(task));
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
 export {
   fetchTasksRequest,
   fetchTasksSuccess,
@@ -162,4 +185,5 @@ export {
   updateTaskData,
   postTask,
   deleteTask,
+  editTask,
 };

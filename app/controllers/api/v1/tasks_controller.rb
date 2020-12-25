@@ -72,6 +72,16 @@ module Api
         end
       end
 
+      def update
+        task_id = params[:id]
+        task = @current_user.tasks.find(task_id)
+        if task.update(task_params)
+          render json: TaskSerializer.new(task).serializable_hash.to_json
+        else
+          render status: :unprocessable_entity
+        end
+      end
+
       
 
       # helper functions

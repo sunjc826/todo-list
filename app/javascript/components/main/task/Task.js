@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Row, Col, ListGroupItem } from "reactstrap";
+import { Row, Col, ListGroupItem, Button } from "reactstrap";
 import { dateToString } from "../../../helperFunctions";
 import styled from "styled-components";
 import TaskModal from "./taskModal/TaskModal";
 import { deleteTask } from "../../../redux/actions";
+import QuickNewTask from "../../header/QuickNewTask";
 
 const Tiny = styled.div`
   font-size: 0.7rem;
@@ -55,6 +56,9 @@ const Task = ({ task, overdue }) => {
     e.stopPropagation();
   };
 
+  const [editOpen, setEditOpen] = useState(false);
+  const toggleEdit = () => setEditOpen(!editOpen);
+
   return (
     <TaskContext.Provider value={{ taskId: task.id }}>
       <ListGroupItem action>
@@ -63,6 +67,12 @@ const Task = ({ task, overdue }) => {
           toggleModal={toggleModal}
           projectTitle={project ? project.attributes.title : null}
           {...task.attributes}
+        />
+        <QuickNewTask
+          modalOpen={editOpen}
+          toggleModal={toggleEdit}
+          isEdit
+          taskId={task.id}
         />
         <Row onClick={toggleModal}>
           <Col xs="4" className="mr-auto">
@@ -87,10 +97,19 @@ const Task = ({ task, overdue }) => {
               </Col>
             </Row>
           </Col>
-          <Col xs="4">
-            {project && (
-              <p className="text-right">{project.attributes.title}</p>
-            )}
+          <Col xs="4" className="text-right">
+            {project && <p>{project.attributes.title}</p>}
+            <Button
+              type="button"
+              color="warning"
+              className="d-inline"
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleEdit();
+              }}
+            >
+              Edit
+            </Button>
           </Col>
         </Row>
       </ListGroupItem>

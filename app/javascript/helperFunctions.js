@@ -96,6 +96,24 @@ const generateDeleteRequest = () => {
   };
 };
 
+const generateEditRequest = (body) => {
+  const csrfToken = document
+    .querySelector("[name=csrf-token]")
+    .getAttribute("content");
+  console.log("csrfToken", csrfToken);
+  return {
+    method: "PATCH",
+    headers: {
+      "X-Requested-With": "XMLHttpRequest",
+      "X-CSRF-Token": csrfToken,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: body,
+    credentials: "same-origin",
+  };
+};
+
 // returns true if smaller list is contained in larger list
 const listContains = ({ smaller, larger }) => {
   const largerSet = new Set(larger);
@@ -114,5 +132,6 @@ export {
   dateLiesBetween,
   generatePostRequest,
   generateDeleteRequest,
+  generateEditRequest,
   listContains,
 };

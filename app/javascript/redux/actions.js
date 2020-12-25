@@ -9,7 +9,12 @@ export {
   setUserData,
   fetchUserData,
 } from "./user/userActions";
-export { fetchTaskData, postTask, deleteTask } from "./task/taskActions";
+export {
+  fetchTaskData,
+  postTask,
+  deleteTask,
+  editTask,
+} from "./task/taskActions";
 export { postComment, deleteComment } from "./comment/commentActions";
 export { postSubtask, deleteSubtask } from "./subtask/subtaskActions";
 export { postProject, deleteProject } from "./project/projectActions";

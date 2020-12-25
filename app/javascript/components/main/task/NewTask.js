@@ -1,9 +1,19 @@
 // This component is loaded when "Add new task" button is clicked
 import React, { useState } from "react";
-import { ButtonGroup, Form, FormGroup, Input, Button } from "reactstrap";
+import {
+  ButtonGroup,
+  Form,
+  FormGroup,
+  Input,
+  Button,
+  Label,
+  FormFeedback,
+  FormText,
+} from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { postTask } from "../../../redux/actions";
 import { useLocation, useParams } from "react-router-dom";
+import { required, minLength, maxLength } from "../../../validators";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -49,12 +59,44 @@ const NewTask = ({ setNewTask, day, project }) => {
     completed: false,
     project_id: projectId,
   };
+  const defaultFormValid = {
+    content: false,
+    deadline: false,
+  };
+  const defaultFormTouched = {
+    content: false,
+    deadline: false,
+  };
+  const formValidators = {
+    content: [required, maxLength(20)],
+    deadline: [required],
+  };
   const [formState, setFormState] = useState(defaultFormState);
+  const [formValid, setFormValid] = useState(defaultFormValid);
+  const [formTouched, setFormTouched] = useState(defaultFormTouched);
 
   const handleChange = (e) => {
+    let fieldValid = formValidators[e.target.name].reduce(
+      (isValid, validator) => {
+        return isValid && validator(e.target.value);
+      },
+      true
+    );
+    fieldValid = Boolean(fieldValid);
+    setFormValid({
+      ...formValid,
+      [e.target.name]: fieldValid,
+    });
     setFormState({
       ...formState,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleBlur = (e) => {
+    setFormTouched({
+      ...formTouched,
+      [e.target.name]: true,
     });
   };
 
@@ -83,11 +125,18 @@ const NewTask = ({ setNewTask, day, project }) => {
       })
     );
     setNewTask(false);
+    reset();
   };
 
   const handleCancel = (e) => {
-    e.preventDefault();
     setNewTask(false);
+    reset();
+  };
+
+  const reset = () => {
+    setFormState(defaultFormState);
+    setFormTouched(defaultFormTouched);
+    setFormValid(defaultFormValid);
   };
 
   return (
@@ -100,7 +149,10 @@ const NewTask = ({ setNewTask, day, project }) => {
           placeholder="Task Name"
           value={formState.content}
           onChange={handleChange}
+          onBlur={handleBlur}
+          invalid={formTouched.content && !formValid.content}
         />
+        <FormFeedback>You've got to have a name for your task!</FormFeedback>
       </FormGroup>
       {project && (
         <FormGroup>
@@ -110,17 +162,21 @@ const NewTask = ({ setNewTask, day, project }) => {
             name="deadline"
             value={formState.deadline}
             onChange={handleChange}
+            onBlur={handleBlur}
+            invalid={formTouched.deadline && !formValid.deadline}
           />
+          <FormFeedback>You must add a deadline for your task!</FormFeedback>
         </FormGroup>
       )}
       <FormGroup>
         <ButtonGroup>{priorityButtons}</ButtonGroup>
+        <FormText>How important is this task?</FormText>
       </FormGroup>
 
       <Button type="submit" color="primary" onClick={handleSubmit}>
         Add task
       </Button>
-      <Button type="submit" color="danger" onClick={handleCancel}>
+      <Button type="button" color="danger" onClick={handleCancel}>
         Cancel
       </Button>
     </Form>

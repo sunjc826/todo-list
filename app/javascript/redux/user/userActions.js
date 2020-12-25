@@ -69,7 +69,6 @@ const register = (registrationData) => (dispatch) => {
       }
     })
     .then((res) => {
-      console.log(res);
       dispatch(registerSuccess(res.user_id));
     })
     .catch((err) => {
@@ -87,7 +86,6 @@ const login = (loginData) => (dispatch) => {
       }
     })
     .then((res) => {
-      console.log(res);
       dispatch(loginSuccess(res.user_id));
     })
     .catch((err) => {
@@ -105,7 +103,6 @@ const fetchIsLoggedIn = () => (dispatch) => {
       }
     })
     .then((res) => {
-      console.log(res);
       if (res.logged_in) {
         dispatch(loginSuccess(res.user_id));
       }
@@ -129,7 +126,6 @@ const logout = () => (dispatch) => {
       }
     })
     .then((res) => {
-      console.log(res);
       dispatch(logoutSuccess());
     })
     .catch((err) => {
@@ -172,19 +168,12 @@ const fetchUserData = (userId) => (dispatch) => {
       }
     })
     .then((res) => {
-      // console.log(res);
-      // console.log(normalize(res));
       return normalize(res);
     })
     .then((res) => {
       // break up compound document into parts
       // and store into different parts of the redux store
       const { user, project, task, label, tag, filter } = res;
-      // console.log(user);
-      // console.log(project);
-      // console.log(task);
-      // console.log(label);
-      // console.log(tag)
       dispatch(setUserData(user));
       dispatch(setProjectData(project));
       dispatch(setTaskData(task));

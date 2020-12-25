@@ -1,4 +1,12 @@
 class Task < ApplicationRecord
+  validates :content, presence: true
+  validates :deadline, presence: true
+  validates :priority, numericality: { 
+    only_integer: true,
+    greater_than_or_equal_to: 1,
+    less_than_or_equal_to: 5 
+  }
+
   belongs_to :user
   # Note to self: although db allows this foreign key to be null,
   # as of Rails 5, by default, the presence of the associated entity

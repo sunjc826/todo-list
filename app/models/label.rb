@@ -1,4 +1,6 @@
 class Label < ApplicationRecord
+  validates :description, presence: true
+
   belongs_to :user
 
   has_many :label_tasks

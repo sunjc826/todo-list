@@ -17,3 +17,13 @@
   transition-duration: 1.5s 1.5s;
   transition-timing-function: cubic-bezier(0.32, -100, 0.7, 100) ease; */
 }
+
+#sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  min-height: 100vh;
+}
+
+#sidebar.active {
+  margin-left: -250px;
+}

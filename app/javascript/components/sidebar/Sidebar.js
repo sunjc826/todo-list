@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Container, Row, Col, ListGroup, ListGroupItem } from "reactstrap";
-import "./sidebar.css";
 import ProjectList from "./project/ProjectList";
 import TagList from "./tag/TagList";
 import LabelList from "./label/LabelList";

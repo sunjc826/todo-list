@@ -9,10 +9,12 @@ import {
   ModalFooter,
   Button,
   Input,
+  FormFeedback,
 } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { postTask, editTask } from "../../redux/actions";
 import { useHistory } from "react-router-dom";
+import { required, minLength, maxLength } from "../../validators";
 
 const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }) => {
   const defaultFormState = {
@@ -20,6 +22,15 @@ const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }) => {
     priority: 3,
     deadline: "",
     completed: false,
+  };
+
+  const defaultFormValid = {
+    content: false,
+    deadline: false,
+  };
+  const defaultFormTouched = {
+    content: false,
+    deadline: false,
   };
 
   const taskData = useSelector((state) => state.task.data);
@@ -30,13 +41,37 @@ const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }) => {
     // defaultFormState.deadline = taskToEdit.attributes.deadline;
   }
 
+  const formValidators = {
+    content: [required, maxLength(20)],
+    deadline: [required],
+  };
   const [formState, setFormState] = useState(defaultFormState);
+  const [formValid, setFormValid] = useState(defaultFormValid);
+  const [formTouched, setFormTouched] = useState(defaultFormTouched);
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
+    let fieldValid = formValidators[e.target.name].reduce(
+      (isValid, validator) => {
+        return isValid && validator(e.target.value);
+      },
+      true
+    );
+    fieldValid = Boolean(fieldValid);
+    setFormValid({
+      ...formValid,
+      [e.target.name]: fieldValid,
+    });
     setFormState({
       ...formState,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleBlur = (e) => {
+    setFormTouched({
+      ...formTouched,
+      [e.target.name]: true,
     });
   };
 
@@ -59,11 +94,19 @@ const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }) => {
     if (isEdit) {
       dispatch(editTask(taskId, formState));
       toggleModal();
+      reset();
     } else {
       dispatch(postTask(formState, { tagId: null, labelId: null }));
       toggleModal();
+      reset();
       history.push("/tasks");
     }
+  };
+
+  const reset = () => {
+    setFormState(defaultFormState);
+    setFormTouched(defaultFormTouched);
+    setFormValid(defaultFormValid);
   };
 
   return (
@@ -81,7 +124,12 @@ const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }) => {
               placeholder="Task Name"
               value={formState.content}
               onChange={handleChange}
+              onBlur={handleBlur}
+              invalid={formTouched.content && !formValid.content}
             />
+            <FormFeedback>
+              You've got to have a name for your task!
+            </FormFeedback>
           </FormGroup>
           <FormGroup>
             <Input
@@ -90,7 +138,10 @@ const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }) => {
               name="deadline"
               value={formState.deadline}
               onChange={handleChange}
+              onBlur={handleBlur}
+              invalid={formTouched.deadline && !formValid.deadline}
             />
+            <FormFeedback>You must add a deadline for your task!</FormFeedback>
           </FormGroup>
           <FormGroup>
             <ButtonGroup>{priorityButtons}</ButtonGroup>

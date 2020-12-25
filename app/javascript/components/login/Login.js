@@ -28,12 +28,14 @@ const RegisterForm = () => {
     password: "",
     password_confirmation: "",
   };
+
   const defaultFormValid = {
     name: false,
     email: false,
     password: false,
     password_confirmation: false,
   };
+
   const defaultFormTouched = {
     name: false,
     email: false,

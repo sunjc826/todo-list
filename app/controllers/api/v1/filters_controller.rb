@@ -40,7 +40,7 @@ module Api
 
       private
       def filter_params
-        params.require(:filter).permit(:description)
+        params.require(:filter).permit(:description, :startdate, :enddate)
       end
 
       def tag_params

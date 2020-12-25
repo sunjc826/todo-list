@@ -17,6 +17,8 @@ const NewFilter = ({ modalOpen, toggleModal }) => {
   const defaultFormState = {
     filter: {
       description: "",
+      startdate: "",
+      enddate: "",
     },
     tag: {},
     label: {},
@@ -44,8 +46,6 @@ const NewFilter = ({ modalOpen, toggleModal }) => {
       },
     };
     setFormState(newState);
-    // TODO: For some reason, clicking on a checkbox toggles the open and closing of the
-    // Collapse component
   };
 
   // Prevents the parent element ListGroup from capturing the event
@@ -145,6 +145,25 @@ const NewFilter = ({ modalOpen, toggleModal }) => {
               type="text"
               name="description"
               value={formState.filter.description}
+              placeholder="Filter Name"
+              onChange={handleChange("filter")}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Input
+              type="date"
+              name="startdate"
+              value={formState.filter.startdate}
+              placeholder="Start Date"
+              onChange={handleChange("filter")}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Input
+              type="date"
+              name="enddate"
+              value={formState.filter.enddate}
+              placeholder="End Date"
               onChange={handleChange("filter")}
             />
           </FormGroup>

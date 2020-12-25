@@ -5,7 +5,7 @@ import { dateToString } from "../../../helperFunctions";
 import NewTask from "./NewTask";
 
 // lists out all tasks on the given day
-const TaskList = ({ day, tasklist, isFilter }) => {
+const TaskList = ({ day, tasklist }) => {
   const taskComponentList = tasklist.map((task) => {
     return <Task key={task.id} task={task} />;
   });
@@ -22,7 +22,7 @@ const TaskList = ({ day, tasklist, isFilter }) => {
             </ListGroupItem>
             {taskComponentList}
 
-            {isFilter ? null : newTask ? (
+            {newTask ? (
               <ListGroupItem>
                 <NewTask setNewTask={setNewTask} day={day} />
               </ListGroupItem>

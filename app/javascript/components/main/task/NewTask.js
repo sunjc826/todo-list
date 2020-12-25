@@ -1,7 +1,7 @@
 // This component is loaded when "Add new task" button is clicked
 import React, { useState } from "react";
 import { ButtonGroup, Form, FormGroup, Input, Button } from "reactstrap";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { postTask } from "../../../redux/actions";
 import { useLocation, useParams } from "react-router-dom";
 
@@ -14,10 +14,25 @@ const NewTask = ({ setNewTask, day, project }) => {
   const query = useQuery();
   let tagId = null;
   let labelId = null;
+  let filter_tags_and_labels = { tagIds: [], labelIds: [] };
+  const filterState = useSelector((state) => state.filter);
+  // const filterLoading = filterState.loading;
+  // const filterErrMsg = filterState.errMsg;
+  const filterData = filterState.data;
+
   if (query.has("tagId")) {
     tagId = query.get("tagId");
   } else if (query.has("labelId")) {
     labelId = query.get("labelId");
+  } else if (query.has("filterId")) {
+    const filterId = query.get("filterId");
+    const filterRelations = filterData[filterId].relationships;
+    filter_tags_and_labels.tagIds = filterRelations.tags.data.map(
+      (tag) => tag.id
+    );
+    filter_tags_and_labels.labelIds = filterRelations.labels.data.map(
+      (label) => label.id
+    );
   }
 
   // check whether task is part of a project
@@ -59,7 +74,14 @@ const NewTask = ({ setNewTask, day, project }) => {
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postTask(formState, { tagId, labelId, projectId }));
+    dispatch(
+      postTask(formState, {
+        tagId,
+        labelId,
+        projectId,
+        ...filter_tags_and_labels,
+      })
+    );
     setNewTask(false);
   };
 

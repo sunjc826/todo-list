@@ -40,7 +40,17 @@ module Api
           task.labels << label
         end
 
-        
+        tag_ids = filter_params[:tag_ids]
+        label_ids = filter_params[:label_ids]
+        tag_ids.each do |tag_id|
+          tag = @current_user.tags.find(tag_id)
+          task.tags << tag
+        end
+
+        label_ids.each do |label_id|
+          label = @current_user.labels.find(label_id)
+          task.labels << label
+        end
 
         if task.save
           render json: UserSerializer.new(@current_user, UsersController.options).serializable_hash.to_json
@@ -85,9 +95,9 @@ module Api
         params.require(:label).permit(:label_id)
       end
 
-      # def project_params
-      #   params.require(:project).permit(:project_id)
-      # end
+      def filter_params
+        params.require(:filter).permit(tag_ids: [], label_ids: [])
+      end
 
     end
   end

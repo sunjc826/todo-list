@@ -9,6 +9,7 @@ import {
   sameDay,
   generateDateList,
   compareDateByDay,
+  dateLiesBetween,
   listContains,
 } from "../../../helperFunctions";
 
@@ -25,7 +26,7 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
   let taskData = taskState.data;
 
   const DAYS_DISPLAYED = 30;
-  const dateList = generateDateList(date, DAYS_DISPLAYED);
+  let dateList = generateDateList({ curDate: date, days: DAYS_DISPLAYED });
   let tasksComponent = null;
 
   const query = useQuery();
@@ -62,13 +63,27 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
       // set taskData to only include Tasks with the given filter.
       const filterData = filterState.data;
       const filter = filterData[filterId];
+      const filterStartDate = new Date(filter.attributes.startdate);
+      const filterEndDate = new Date(filter.attributes.enddate);
       const filterTags = filter.relationships.tags.data.map((tag) => tag.id);
       const filterLabels = filter.relationships.labels.data.map(
         (label) => label.id
       );
       const filteredTaskData = {};
+      // filter by date
+      dateList = dateList.filter((date) =>
+        dateLiesBetween({
+          startDate: filterStartDate,
+          endDate: filterEndDate,
+          date,
+        })
+      );
+
       for (const key in taskData) {
         const ele = taskData[key];
+        const taskDate = ele.attributes.dateString;
+
+        // check if tasks has all tags and labels associated with that filter
         const taskTags = ele.relationships.tags.data.map((tag) => tag.id);
         const taskLabels = ele.relationships.labels.data.map(
           (label) => label.id
@@ -80,6 +95,7 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
           filteredTaskData[key] = ele;
         }
       }
+
       taskData = filteredTaskData;
     }
 
@@ -91,7 +107,7 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
       const ele = taskData[id];
       const taskDate = ele.attributes.dateString;
 
-      if (compareDateByDay(taskDate, date, true)) {
+      if (compareDateByDay({ date1: taskDate, date2: date, strict: true })) {
         overdueTasklist.push(ele);
       }
     }
@@ -105,20 +121,11 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
       for (const id in taskData) {
         const ele = taskData[id];
         const taskDate = new Date(ele.attributes.dateString);
-        // console.log(dateToString(taskDate));
         if (sameDay(taskDate, day)) {
           tasklist.push(ele);
         }
       }
-      // console.log(tasklist);
-      return (
-        <TaskList
-          key={day}
-          day={day}
-          tasklist={tasklist}
-          isFilter={query.has("filterId")}
-        />
-      );
+      return <TaskList key={day} day={day} tasklist={tasklist} />;
     });
 
     currentTasksComponent.unshift(overdueTasksComponent);

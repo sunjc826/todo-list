@@ -206,4 +206,13 @@ const fetchUserData = (userId) => (dispatch) => {
     });
 };
 
-export { register, login, fetchIsLoggedIn, logout, setUserData, fetchUserData };
+export {
+  register,
+  login,
+  fetchIsLoggedIn,
+  logout,
+  setUserData,
+  fetchUserData,
+  fetchUserRequest,
+  fetchUserFailure,
+};

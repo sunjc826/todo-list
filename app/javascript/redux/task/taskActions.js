@@ -18,16 +18,37 @@ import {
   fetchCommentsFailure,
   updateCommentData,
 } from "../comment/commentActions";
-import { setUserData } from "../user/userActions";
-import { setProjectData } from "../project/projectActions";
-import { setLabelData } from "../label/labelActions";
-import { setTagData } from "../tag/tagActions";
-
+import {
+  fetchUserRequest,
+  fetchUserSuccess,
+  fetchUserFailure,
+  setUserData,
+} from "../user/userActions";
+import {
+  fetchProjectsRequest,
+  fetchProjectsSuccess,
+  fetchProjectsFailure,
+  setProjectData,
+} from "../project/projectActions";
+import {
+  fetchLabelsRequest,
+  fetchLabelsSuccess,
+  fetchLabelsFailure,
+  setLabelData,
+} from "../label/labelActions";
+import {
+  fetchTagsRequest,
+  fetchTagsSuccess,
+  fetchTagsFailure,
+  setTagData,
+} from "../tag/tagActions";
+import { setFilterData } from "../filter/filterActions";
 import {
   generateDeleteRequest,
   generatePostRequest,
   generateEditRequest,
 } from "../../helperFunctions";
+import { FETCH_USER_REQUEST } from "../user/userTypes";
 
 const tasksUrl = "/api/v1/tasks";
 
@@ -110,12 +131,13 @@ const postTask = (task, { tagId, labelId, projectId, tagIds, labelIds }) => (
       return normalize(res);
     })
     .then((res) => {
-      const { user, project, task, label, tag } = res;
+      const { user, project, task, label, tag, filter } = res;
       dispatch(setUserData(user));
       dispatch(setProjectData(project));
       dispatch(setTaskData(task));
       dispatch(setLabelData(label));
       dispatch(setTagData(tag));
+      dispatch(setFilterData(filter));
       return res;
     });
 };
@@ -134,19 +156,24 @@ const deleteTask = (taskId) => (dispatch) => {
       return normalize(res);
     })
     .then((res) => {
-      const { user, project, task, label, tag } = res;
+      const { user, project, task, label, tag, filter } = res;
       dispatch(setUserData(user));
       dispatch(setProjectData(project));
       dispatch(setTaskData(task));
       dispatch(setLabelData(label));
       dispatch(setTagData(tag));
+      dispatch(setFilterData(filter));
       return res;
     });
 };
 
-const editTask = (taskId, task) => (dispatch) => {
+const editTask = (taskId, task, { tagIds, labelIds }) => (dispatch) => {
   const url = `${tasksUrl}/${taskId}`;
-  return fetch(url, generateEditRequest(JSON.stringify({ task })))
+  const post = {
+    task,
+    filter: { tag_ids: tagIds, label_ids: labelIds },
+  };
+  return fetch(url, generateEditRequest(JSON.stringify(post)))
     .then((res) => {
       if (res.ok) {
         return res.json();
@@ -158,8 +185,13 @@ const editTask = (taskId, task) => (dispatch) => {
       return normalize(res);
     })
     .then((res) => {
-      const { task } = res;
-      dispatch(updateTaskData(task));
+      const { user, project, task, label, tag, filter } = res;
+      dispatch(setUserData(user));
+      dispatch(setProjectData(project));
+      dispatch(setTaskData(task));
+      dispatch(setLabelData(label));
+      dispatch(setTagData(tag));
+      dispatch(setFilterData(filter));
       return res;
     });
 };

@@ -16,13 +16,16 @@ import { postTask, editTask } from "../../redux/actions";
 import { useHistory } from "react-router-dom";
 import { required, minLength, maxLength } from "../../validators";
 import { AlertContext } from "../Main";
+import TagsLabels from "../sidebar/filter/TagsLabels";
 
 const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }) => {
   const defaultFormState = {
     content: "",
     priority: 3,
-    deadline: "",
+    deadline: new Date().toLocaleDateString("en-CA"),
     completed: false,
+    tag: {},
+    label: {},
   };
 
   const defaultFormValid = {
@@ -89,12 +92,35 @@ const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }) => {
     );
   });
 
+  // submission
   const history = useHistory();
   const { toggleAlert } = useContext(AlertContext);
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formState);
+    const tagIds = [];
+    const labelIds = [];
+    for (const key in formState.tag) {
+      if (formState.tag[key]) {
+        tagIds.push(key);
+      }
+    }
+
+    for (const key in formState.label) {
+      if (formState.label[key]) {
+        labelIds.push(key);
+      }
+    }
+
     if (isEdit) {
-      dispatch(editTask(taskId, formState))
+      dispatch(
+        editTask(taskId, formState, {
+          tagId: null,
+          labelId: null,
+          tagIds,
+          labelIds,
+        })
+      )
         .then((res) => {
           toggleAlert({
             message: "Successfully edited task",
@@ -114,8 +140,8 @@ const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }) => {
         postTask(formState, {
           tagId: null,
           labelId: null,
-          tagIds: [],
-          labelIds: [],
+          tagIds,
+          labelIds,
         })
       )
         .then((res) => {
@@ -137,7 +163,7 @@ const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }) => {
   };
 
   const reset = () => {
-    setFormState(defaultFormState);
+    // setFormState(defaultFormState);
     setFormTouched(defaultFormTouched);
     setFormValid(defaultFormValid);
   };
@@ -179,6 +205,11 @@ const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }) => {
           <FormGroup>
             <ButtonGroup>{priorityButtons}</ButtonGroup>
           </FormGroup>
+          <TagsLabels
+            formState={formState}
+            setFormState={setFormState}
+            defaultFormState={defaultFormState}
+          />
         </Form>
       </ModalBody>
       <ModalFooter>

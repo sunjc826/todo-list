@@ -75,8 +75,23 @@ module Api
       def update
         task_id = params[:id]
         task = @current_user.tasks.find(task_id)
+
+        tag_ids = filter_params[:tag_ids]
+        label_ids = filter_params[:label_ids]
+        task.tags.delete_all
+        task.labels.delete_all
+        tag_ids.each do |tag_id|
+          tag = @current_user.tags.find(tag_id)
+          task.tags << tag
+        end
+
+        label_ids.each do |label_id|
+          label = @current_user.labels.find(label_id)
+          task.labels << label
+        end
+        
         if task.update(task_params)
-          render json: TaskSerializer.new(task).serializable_hash.to_json
+          render json: UserSerializer.new(@current_user, UsersController.options).serializable_hash.to_json
         else
           render status: :unprocessable_entity
         end

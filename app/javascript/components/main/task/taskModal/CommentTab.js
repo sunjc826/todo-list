@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Row,
@@ -12,6 +12,7 @@ import {
 } from "reactstrap";
 import Comment from "./Comment";
 import { postComment } from "../../../../redux/actions";
+import { AlertContext } from "../../../Main";
 
 const CommentTab = ({ taskId, taskRelations }) => {
   const commentState = useSelector((state) => state.comment);
@@ -46,12 +47,25 @@ const CommentTab = ({ taskId, taskRelations }) => {
   }
 
   const [formComment, setFormComment] = useState("");
+  const { toggleAlert } = useContext(AlertContext);
   const handleSubmit = (e) => {
     e.preventDefault();
     // fetch post, then update store
     const formOutput = { content: formComment };
     setFormComment("");
-    dispatch(postComment(taskId, formOutput));
+    dispatch(postComment(taskId, formOutput))
+      .then((res) => {
+        toggleAlert({
+          message: "Successfully created new comment",
+          color: "success",
+        });
+      })
+      .catch((err) => {
+        toggleAlert({
+          message: "Error: " + err.message,
+          color: "danger",
+        });
+      });
   };
 
   const form = (

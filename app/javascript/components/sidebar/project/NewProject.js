@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Modal,
   ModalHeader,
@@ -12,6 +12,7 @@ import {
 import { useDispatch } from "react-redux";
 import { postProject } from "../../../redux/actions";
 import { useHistory } from "react-router-dom";
+import { AlertContext } from "../../Main";
 
 const NewProject = ({ modalOpen, toggleModal }) => {
   const defaultFormState = {
@@ -31,6 +32,7 @@ const NewProject = ({ modalOpen, toggleModal }) => {
 
   const dispatch = useDispatch();
   const history = useHistory();
+  const { toggleAlert } = useContext(AlertContext);
   const handleSubmit = (e) => {
     e.preventDefault();
     // TODO: Here, instead of relying on a return value (lastCreatedProjectId), is it possible
@@ -38,10 +40,21 @@ const NewProject = ({ modalOpen, toggleModal }) => {
     // When I used useSelector hook, the value of the store is the value prior to dispatching postProject,
     // so lastCreatedProjectId is still null.
 
-    dispatch(postProject(formState)).then((lastCreatedProjectId) => {
-      toggleModal();
-      history.push(`/project/${lastCreatedProjectId}`);
-    });
+    dispatch(postProject(formState))
+      .then((lastCreatedProjectId) => {
+        toggleModal();
+        history.push(`/project/${lastCreatedProjectId}`);
+        toggleAlert({
+          message: "Successfully created project",
+          color: "success",
+        });
+      })
+      .catch((err) => {
+        toggleAlert({
+          message: "Error:" + err.message,
+          color: "danger",
+        });
+      });
   };
 
   return (

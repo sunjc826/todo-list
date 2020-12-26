@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Modal,
   ModalHeader,
@@ -12,6 +12,7 @@ import {
 } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { postFilter } from "../../../redux/actions";
+import { AlertContext } from "../../Main";
 
 const NewFilter = ({ modalOpen, toggleModal }) => {
   const defaultFormState = {
@@ -126,9 +127,22 @@ const NewFilter = ({ modalOpen, toggleModal }) => {
   }
 
   const dispatch = useDispatch();
+  const { toggleAlert } = useContext(AlertContext);
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postFilter(formState));
+    dispatch(postFilter(formState))
+      .then((res) => {
+        toggleAlert({
+          message: "Successfully created new filter",
+          color: "success",
+        });
+      })
+      .catch((err) => {
+        toggleAlert({
+          message: "Error:" + err.message,
+          color: "danger",
+        });
+      });
     toggleModal();
   };
   const handleCancel = () => {

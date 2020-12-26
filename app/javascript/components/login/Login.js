@@ -11,6 +11,7 @@ import {
   ModalBody,
   Container,
   FormFeedback,
+  Alert,
 } from "reactstrap";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
@@ -21,6 +22,10 @@ const Viewport = styled.div`
 `;
 
 const RegisterForm = () => {
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const onDismiss = () => setAlertVisible(false);
+
   const dispatch = useDispatch();
   const defaultFormState = {
     name: "",
@@ -80,7 +85,11 @@ const RegisterForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(register(formState));
+    dispatch(register(formState)).then((res) => {
+      if (!res) {
+        setAlertVisible(true);
+      }
+    });
     reset();
   };
 
@@ -92,6 +101,11 @@ const RegisterForm = () => {
 
   return (
     <Form onSubmit={handleSubmit}>
+      <FormGroup>
+        <Alert color="danger" isOpen={alertVisible} toggle={onDismiss}>
+          Invalid registration
+        </Alert>
+      </FormGroup>
       <FormGroup>
         <Input
           type="text"
@@ -167,6 +181,10 @@ const RegisterForm = () => {
 };
 
 const LoginForm = () => {
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const onDismiss = () => setAlertVisible(false);
+
   const dispatch = useDispatch();
   const defaultFormState = {
     email: "",
@@ -215,7 +233,11 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(login(formState));
+    dispatch(login(formState)).then((res) => {
+      if (!res) {
+        setAlertVisible(true);
+      }
+    });
     reset();
   };
 
@@ -227,6 +249,11 @@ const LoginForm = () => {
 
   return (
     <Form onSubmit={handleSubmit}>
+      <FormGroup>
+        <Alert color="danger" isOpen={alertVisible} toggle={onDismiss}>
+          Login failed
+        </Alert>
+      </FormGroup>
       <FormGroup>
         <Input
           type="email"
@@ -275,7 +302,9 @@ const Login = () => {
   return (
     <Fragment>
       <Modal isOpen={modalOpen} toggle={toggle}>
-        <ModalHeader>{isLogin ? "Login" : "Register"}</ModalHeader>
+        <ModalHeader toggle={toggle}>
+          {isLogin ? "Login" : "Register"}
+        </ModalHeader>
         <ModalBody>{isLogin ? <LoginForm /> : <RegisterForm />}</ModalBody>
       </Modal>
       <Viewport>

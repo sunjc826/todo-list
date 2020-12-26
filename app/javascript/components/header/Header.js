@@ -15,12 +15,17 @@ import SearchBar from "./SearchBar";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/actions";
 import QuickNewTask from "./QuickNewTask";
-import { AppContext } from "../Index";
+import { SidebarContext } from "../Index";
+// import { ModalContext } from "../../customComponents";
 const Header = () => {
   const dispatch = useDispatch();
   const { sidebarActive, setSidebarActive, resetSidebar } = useContext(
-    AppContext
+    SidebarContext
   );
+  // const { toggleModal, setModalHeader, setModalContent } = useContext(
+  //   ModalContext
+  // );
+
   const [isOpen, setIsOpen] = useState(false);
   const [barsTooltipOpen, setBarsTooltipOpen] = useState(false);
   const [homeTooltipOpen, setHomeTooltipOpen] = useState(false);

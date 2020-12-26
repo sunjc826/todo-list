@@ -1,5 +1,5 @@
 // This component is loaded when "Add new task" button is clicked
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   ButtonGroup,
   Form,
@@ -12,12 +12,10 @@ import {
 } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { postTask } from "../../../redux/actions";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { required, minLength, maxLength } from "../../../validators";
-
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
+import { useQuery } from "../../../customHooks";
+import { AlertContext } from "../../Main";
 
 const NewTask = ({ setNewTask, day, project }) => {
   // check whether task has tags or labels
@@ -114,6 +112,7 @@ const NewTask = ({ setNewTask, day, project }) => {
   });
 
   const dispatch = useDispatch();
+  const { toggleAlert } = useContext(AlertContext);
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
@@ -123,7 +122,19 @@ const NewTask = ({ setNewTask, day, project }) => {
         projectId,
         ...filter_tags_and_labels,
       })
-    );
+    )
+      .then((res) => {
+        toggleAlert({
+          message: "Successfully created new task",
+          color: "success",
+        });
+      })
+      .catch((err) => {
+        toggleAlert({
+          message: "Error: " + err.message,
+          color: "danger",
+        });
+      });
     setNewTask(false);
     reset();
   };

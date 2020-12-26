@@ -30,7 +30,7 @@ const setFilterData = (filterData) => ({
 });
 
 const postFilter = ({ filter, tag, label }) => (dispatch) => {
-  fetch(
+  return fetch(
     filtersUrl,
     generatePostRequest(
       JSON.stringify({
@@ -63,9 +63,7 @@ const postFilter = ({ filter, tag, label }) => (dispatch) => {
       dispatch(setTagData(tag));
       dispatch(setLabelData(label));
       dispatch(setFilterData(filter));
-    })
-    .catch((err) => {
-      console.log(err.message);
+      return res;
     });
 };
 

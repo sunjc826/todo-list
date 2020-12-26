@@ -10,10 +10,11 @@ import {
 } from "reactstrap";
 import Task from "../task/Task";
 import { compareDateByDay } from "../../../helperFunctions";
-import { AppContext } from "../../Index";
+import { TimeContext } from "../../Index";
 import NewTask from "../task/NewTask";
 import { useDispatch } from "react-redux";
 import { deleteProject } from "../../../redux/actions";
+import { AlertContext } from "../../Main";
 
 const Project = ({ projectState, taskState }) => {
   const { projectId } = useParams();
@@ -22,13 +23,16 @@ const Project = ({ projectState, taskState }) => {
   const projectData = projectState.data;
   const taskData = taskState.data;
 
-  const { date } = useContext(AppContext);
-
+  const { date } = useContext(TimeContext);
+  const { toggleAlert } = useContext(AlertContext);
   const [newTask, setNewTask] = useState(false);
 
   let projectComponent;
+
   if (projectLoading) {
+    toggleAlert("Project loading...");
   } else if (projectErrMsg) {
+    toggleAlert("Error loading projects");
   } else {
     const project = projectData[projectId];
     const { title, completed, content } = project.attributes;

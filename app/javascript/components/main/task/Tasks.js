@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Row, Col, Container } from "reactstrap";
 import { useLocation } from "react-router-dom";
-import { AppContext } from "../../Index";
+import { TimeContext } from "../../Index";
 import TaskList from "./TaskList";
 import OverdueTaskList from "./OverdueTaskList";
 import {
@@ -12,13 +12,11 @@ import {
   dateLiesBetween,
   listContains,
 } from "../../../helperFunctions";
-
-const useQuery = () => {
-  return new URLSearchParams(useLocation().search);
-};
+import { useQuery } from "../../../customHooks";
+import { AlertContext } from "../../Main";
 
 const Tasks = ({ taskState, tagState, labelState, filterState }) => {
-  const { date } = useContext(AppContext);
+  const { date } = useContext(TimeContext);
   const dateString = dateToString(date);
 
   const taskLoading = taskState.loading;
@@ -30,9 +28,12 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
   let tasksComponent = null;
 
   const query = useQuery();
+  const { toggleAlert } = useContext(AlertContext);
 
   if (taskLoading) {
+    toggleAlert("Tasks loading...");
   } else if (taskErrMsg) {
+    toggleAlert("Error loading tasks");
   } else {
     if (query.has("tagId")) {
       const tagId = query.get("tagId");
@@ -89,8 +90,8 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
           (label) => label.id
         );
         if (
-          listContains({ smaller: taskTags, larger: filterTags }) &&
-          listContains({ smaller: taskLabels, larger: filterLabels })
+          listContains({ larger: taskTags, smaller: filterTags }) &&
+          listContains({ larger: taskLabels, smaller: filterLabels })
         ) {
           filteredTaskData[key] = ele;
         }

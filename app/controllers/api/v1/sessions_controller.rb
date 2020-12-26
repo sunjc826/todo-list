@@ -16,11 +16,12 @@ module Api
           render json: {
             status: :created, #201
             logged_in: true,
-            user_id: user.id,
+            user_id: user.id
           }
         else
           render json: {
-            status: :unauthorized #401
+            status: :unauthorized, #401
+            logged_in: false
           }
         end
       end

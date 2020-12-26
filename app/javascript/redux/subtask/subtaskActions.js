@@ -38,7 +38,7 @@ const updateSubtaskData = (subtaskData) => ({
 
 const postSubtask = (taskId, subtask) => (dispatch) => {
   const url = `/api/v1/tasks/${taskId}/subtasks`;
-  fetch(url, generatePostRequest(JSON.stringify({ subtask })))
+  return fetch(url, generatePostRequest(JSON.stringify({ subtask })))
     .then((res) => {
       if (res.ok) {
         return res.json();
@@ -53,15 +53,13 @@ const postSubtask = (taskId, subtask) => (dispatch) => {
       const { task, subtask } = res;
       dispatch(updateSubtaskData(subtask));
       dispatch(updateTaskData(task));
-    })
-    .catch((err) => {
-      console.log(err.message);
+      return res;
     });
 };
 
 const deleteSubtask = (taskId, subtaskId) => (dispatch) => {
   const url = `/api/v1/tasks/${taskId}/subtasks/${subtaskId}`;
-  fetch(url, generateDeleteRequest())
+  return fetch(url, generateDeleteRequest())
     .then((res) => {
       if (res.ok) {
         return res.json();
@@ -76,9 +74,7 @@ const deleteSubtask = (taskId, subtaskId) => (dispatch) => {
       const { task, subtask } = res;
       dispatch(updateSubtaskData(subtask));
       dispatch(updateTaskData(task));
-    })
-    .catch((err) => {
-      console.log(err.message);
+      return res;
     });
 };
 

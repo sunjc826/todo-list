@@ -40,6 +40,19 @@
   margin-left: calc(0% - var(--sidebar-width));
 }
 
+#main-content {
+  position: fixed;
+  top: var(--header-height);
+  left: var(--sidebar-width);
+  width: calc(100vw - var(--sidebar-width));
+  transition: all 0.75s ease;
+}
+
+#main-content.active {
+  left: 0;
+  width: 100vw;
+}
+
 @media (max-width: 768px) {
   #sidebar {
     margin-left: calc(0% - var(--sidebar-width));

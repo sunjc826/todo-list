@@ -26,10 +26,12 @@ module Api
           render json: {
             status: :created,
             user_id: user.id,
+            created: true
           }
         else
           render json: {
-            status: :unprocessable_entity
+            status: :unprocessable_entity,
+            created: false
           }
         end
 

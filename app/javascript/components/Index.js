@@ -5,10 +5,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Provider } from "react-redux";
 import store from "../redux/store";
 import "./app.css";
-
+import { ModalProvider } from "../customComponents";
 import App from "./App";
 
-const AppContext = createContext();
+const TimeContext = createContext();
+const SidebarContext = createContext();
 
 // inspired by
 // https://stackoverflow.com/questions/34430704/update-react-native-view-on-day-change
@@ -23,12 +24,22 @@ function getMillisecondsToNextHour(time) {
 
 function Index() {
   // global date
-
   const [date, setDate] = useState(new Date());
+
+  // date updates hourly
+  useEffect(() => {
+    const millisecondsToNextHour = getMillisecondsToNextHour(date);
+    const timeout = setTimeout(() => {
+      setDate(new Date());
+    }, millisecondsToNextHour);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [date]);
 
   // sidebar states
   const [sidebarActive, setSidebarActive] = useState(false);
-  console.log("sidebar active", sidebarActive);
   const defaultCollapseState = {
     projects: false,
     tags: false,
@@ -43,37 +54,26 @@ function Index() {
     });
   const resetSidebar = () => setCollapseOpen(defaultCollapseState);
 
-  // date updates hourly
-  useEffect(() => {
-    const millisecondsToNextHour = getMillisecondsToNextHour(date);
-    const timeout = setTimeout(() => {
-      setDate(new Date());
-    }, millisecondsToNextHour);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [date]);
-
   return (
     <Provider store={store}>
-      <AppContext.Provider
-        value={{
-          date,
-          sidebarActive,
-          setSidebarActive,
-          collapseOpen,
-          toggleCollapse,
-          resetSidebar,
-        }}
-      >
-        <Router>
-          <App />
-        </Router>
-      </AppContext.Provider>
+      <TimeContext.Provider value={{ date }}>
+        <SidebarContext.Provider
+          value={{
+            sidebarActive,
+            setSidebarActive,
+            collapseOpen,
+            toggleCollapse,
+            resetSidebar,
+          }}
+        >
+          <Router>
+            <App />
+          </Router>
+        </SidebarContext.Provider>
+      </TimeContext.Provider>
     </Provider>
   );
 }
 
 export default Index;
-export { AppContext };
+export { TimeContext, SidebarContext };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Modal,
   ModalHeader,
@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { postTask, editTask } from "../../redux/actions";
 import { useHistory } from "react-router-dom";
 import { required, minLength, maxLength } from "../../validators";
+import { AlertContext } from "../Main";
 
 const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }) => {
   const defaultFormState = {
@@ -89,14 +90,46 @@ const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }) => {
   });
 
   const history = useHistory();
+  const { toggleAlert } = useContext(AlertContext);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isEdit) {
-      dispatch(editTask(taskId, formState));
+      dispatch(editTask(taskId, formState))
+        .then((res) => {
+          toggleAlert({
+            message: "Successfully edited task",
+            color: "success",
+          });
+        })
+        .catch((err) => {
+          toggleAlert({
+            message: "Error: " + err.message,
+            color: "danger",
+          });
+        });
       toggleModal();
       reset();
     } else {
-      dispatch(postTask(formState, { tagId: null, labelId: null }));
+      dispatch(
+        postTask(formState, {
+          tagId: null,
+          labelId: null,
+          tagIds: [],
+          labelIds: [],
+        })
+      )
+        .then((res) => {
+          toggleAlert({
+            message: "Successfully created task",
+            color: "success",
+          });
+        })
+        .catch((err) => {
+          toggleAlert({
+            message: "Error: " + err.message,
+            color: "danger",
+          });
+        });
       toggleModal();
       reset();
       history.push("/tasks");

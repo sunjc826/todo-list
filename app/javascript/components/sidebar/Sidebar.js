@@ -5,11 +5,11 @@ import ProjectList from "./project/ProjectList";
 import TagList from "./tag/TagList";
 import LabelList from "./label/LabelList";
 import FilterList from "./filter/FilterList";
-import { AppContext } from "../Index";
+import { SidebarContext } from "../Index";
 const Sidebar = () => {
   const history = useHistory();
   const { sidebarActive, collapseOpen, toggleCollapse } = useContext(
-    AppContext
+    SidebarContext
   );
 
   return (

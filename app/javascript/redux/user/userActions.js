@@ -69,7 +69,10 @@ const register = (registrationData) => (dispatch) => {
       }
     })
     .then((res) => {
-      dispatch(registerSuccess(res.user_id));
+      if (res.created) {
+        dispatch(registerSuccess(res.user_id));
+      }
+      return res.created;
     })
     .catch((err) => {
       console.log(err.message);
@@ -77,7 +80,10 @@ const register = (registrationData) => (dispatch) => {
 };
 
 const login = (loginData) => (dispatch) => {
-  fetch(sessionsUrl, generatePostRequest(JSON.stringify({ user: loginData })))
+  return fetch(
+    sessionsUrl,
+    generatePostRequest(JSON.stringify({ user: loginData }))
+  )
     .then((res) => {
       if (res.ok) {
         return res.json();
@@ -86,7 +92,10 @@ const login = (loginData) => (dispatch) => {
       }
     })
     .then((res) => {
-      dispatch(loginSuccess(res.user_id));
+      if (res.logged_in) {
+        dispatch(loginSuccess(res.user_id));
+      }
+      return res.logged_in;
     })
     .catch((err) => {
       console.log(err.message);

@@ -1,6 +1,7 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useContext, useEffect } from "react";
 import { Row, Col, Container, Jumbotron } from "reactstrap";
+import { AlertContext } from "../Main";
+import { useHistory } from "react-router-dom";
 
 const user_id = 1;
 
@@ -9,6 +10,20 @@ const Home = ({ userState }) => {
   const userLoading = userState.loading;
   const userData = userState.data;
   const userErrMsg = userState.errMsg;
+
+  const { setAlertVisible, setAlertMessage } = useContext(AlertContext);
+  const history = useHistory();
+  useEffect(() => {
+    if (userErrMsg) {
+      toggleAlert({
+        message: "Error loading user data. Please login again.",
+        color: "danger",
+      });
+      setTimeout(() => {
+        history.push("/login");
+      }, 2000);
+    }
+  }, []);
 
   return (
     <div>

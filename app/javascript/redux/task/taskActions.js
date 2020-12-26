@@ -49,12 +49,6 @@ const setTaskData = (taskData) => ({
   payload: taskData,
 });
 
-// index
-const fetchTasksData = () => (dispatch) => {
-  // probably unnecessary
-};
-
-// show
 const fetchTaskData = (taskId) => (dispatch) => {
   // note, unlike in fetchUserData, taskData is assumed to be loaded,
   // hence, no need for fetchTaskRequest
@@ -104,7 +98,7 @@ const postTask = (task, { tagId, labelId, projectId, tagIds, labelIds }) => (
     filter: { tag_ids: tagIds, label_ids: labelIds },
   };
 
-  fetch(tasksUrl, generatePostRequest(JSON.stringify(post)))
+  return fetch(tasksUrl, generatePostRequest(JSON.stringify(post)))
     .then((res) => {
       if (res.ok) {
         return res.json();
@@ -122,9 +116,7 @@ const postTask = (task, { tagId, labelId, projectId, tagIds, labelIds }) => (
       dispatch(setTaskData(task));
       dispatch(setLabelData(label));
       dispatch(setTagData(tag));
-    })
-    .catch((err) => {
-      console.log(err.message);
+      return res;
     });
 };
 
@@ -148,15 +140,13 @@ const deleteTask = (taskId) => (dispatch) => {
       dispatch(setTaskData(task));
       dispatch(setLabelData(label));
       dispatch(setTagData(tag));
-    })
-    .catch((err) => {
-      console.log(err.message);
+      return res;
     });
 };
 
 const editTask = (taskId, task) => (dispatch) => {
   const url = `${tasksUrl}/${taskId}`;
-  fetch(url, generateEditRequest(JSON.stringify({ task })))
+  return fetch(url, generateEditRequest(JSON.stringify({ task })))
     .then((res) => {
       if (res.ok) {
         return res.json();
@@ -170,9 +160,7 @@ const editTask = (taskId, task) => (dispatch) => {
     .then((res) => {
       const { task } = res;
       dispatch(updateTaskData(task));
-    })
-    .catch((err) => {
-      console.log(err.message);
+      return res;
     });
 };
 

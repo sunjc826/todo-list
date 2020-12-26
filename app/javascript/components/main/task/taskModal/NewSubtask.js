@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, Form, FormGroup, Input } from "reactstrap";
 import { useDispatch } from "react-redux";
 import { postSubtask } from "../../../../redux/actions";
-
+import { AlertContext } from "../../../Main";
 const NewSubtask = ({ taskId, setNewSubtask }) => {
   const dispatch = useDispatch();
   const defaultFormState = {
@@ -18,9 +18,22 @@ const NewSubtask = ({ taskId, setNewSubtask }) => {
     });
   };
 
+  const { toggleAlert } = useContext(AlertContext);
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postSubtask(taskId, formState));
+    dispatch(postSubtask(taskId, formState))
+      .then((res) => {
+        toggleAlert({
+          message: "Successfully created new subtask",
+          color: "success",
+        });
+      })
+      .catch((err) => {
+        toggleAlert({
+          message: "Error: " + err.message,
+          color: "danger",
+        });
+      });
     setNewSubtask(false);
   };
 

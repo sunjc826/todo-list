@@ -40,7 +40,7 @@ const updateCommentData = (commentData) => ({
 
 const postComment = (taskId, comment) => (dispatch) => {
   const url = `/api/v1/tasks/${taskId}/comments`;
-  fetch(url, generatePostRequest(JSON.stringify({ comment })))
+  return fetch(url, generatePostRequest(JSON.stringify({ comment })))
     .then((res) => {
       if (res.ok) {
         return res.json();
@@ -56,16 +56,14 @@ const postComment = (taskId, comment) => (dispatch) => {
       const { comment, task } = res;
       dispatch(updateCommentData(comment));
       dispatch(updateTaskData(task));
-    })
-    .catch((err) => {
-      console.log(err.message);
+      return res;
     });
 };
 
 // /api/v1/tasks/:task_id/comments/:id(.:format)
 const deleteComment = (taskId, commentId) => (dispatch) => {
   const url = `/api/v1/tasks/${taskId}/comments/${commentId}`;
-  fetch(url, generateDeleteRequest())
+  return fetch(url, generateDeleteRequest())
     .then((res) => {
       if (res.ok) {
         return res.json();
@@ -81,9 +79,7 @@ const deleteComment = (taskId, commentId) => (dispatch) => {
       const { comment, task } = res;
       dispatch(updateCommentData(comment));
       dispatch(updateTaskData(task));
-    })
-    .catch((err) => {
-      console.log(err.message);
+      return res;
     });
 };
 

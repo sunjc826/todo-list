@@ -30,7 +30,9 @@ const FilterList = ({ collapseOpen }) => {
 
       filterListComponent.push(
         <ListGroupItem key={key} action className="px-0" onClick={handleClick}>
-          <Link to="/">{filterAttributes.description}</Link>
+          <Link to={`/tasks?filterId=${key}`}>
+            {filterAttributes.description}
+          </Link>
         </ListGroupItem>
       );
     }

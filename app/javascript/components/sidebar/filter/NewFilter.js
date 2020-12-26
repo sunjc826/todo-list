@@ -15,11 +15,13 @@ import { postFilter } from "../../../redux/actions";
 import { AlertContext } from "../../Main";
 
 const NewFilter = ({ modalOpen, toggleModal }) => {
+  // https://stackoverflow.com/questions/6982692/how-to-set-input-type-dates-default-value-to-today
+  // "en-CA" outputs date in "YYYY-MM_DD" format
   const defaultFormState = {
     filter: {
       description: "",
-      startdate: "",
-      enddate: "",
+      startdate: new Date().toLocaleDateString("en-CA"),
+      enddate: new Date().toLocaleDateString("en-CA"),
     },
     tag: {},
     label: {},

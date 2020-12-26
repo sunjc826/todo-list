@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Row, Col, Container } from "reactstrap";
-import { useLocation } from "react-router-dom";
+import { Row, Col, Container, Badge } from "reactstrap";
 import { TimeContext } from "../../Index";
 import TaskList from "./TaskList";
 import OverdueTaskList from "./OverdueTaskList";
@@ -26,7 +25,7 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
   const DAYS_DISPLAYED = 30;
   let dateList = generateDateList({ curDate: date, days: DAYS_DISPLAYED });
   let tasksComponent = null;
-
+  let badgesComponent = null; // shows the current tag/label/filter that is in effect
   const query = useQuery();
   const { toggleAlert } = useContext(AlertContext);
 
@@ -47,6 +46,12 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
         filteredTaskData[taskId] = taskData[taskId];
       });
       taskData = filteredTaskData;
+
+      badgesComponent = (
+        <Badge color="dark" pill>
+          {tag.attributes.description}
+        </Badge>
+      );
     } else if (query.has("labelId")) {
       const labelId = query.get("labelId");
       // set taskData to only include Tasks with the given label.
@@ -59,6 +64,12 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
         filteredTaskData[taskId] = taskData[taskId];
       });
       taskData = filteredTaskData;
+
+      badgesComponent = (
+        <Badge color="light" pill>
+          {label.attributes.description}
+        </Badge>
+      );
     } else if (query.has("filterId")) {
       const filterId = query.get("filterId");
       // set taskData to only include Tasks with the given filter.
@@ -96,8 +107,24 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
           filteredTaskData[key] = ele;
         }
       }
-
       taskData = filteredTaskData;
+      const tagData = tagState.data;
+      const labelData = labelState.data;
+      const tagBadges = filterTags.map((tagId) => {
+        return (
+          <Badge color="dark" pill key={"tag " + tagId}>
+            {tagData[tagId].attributes.description}
+          </Badge>
+        );
+      });
+      const labelBadges = filterLabels.map((labelId) => {
+        return (
+          <Badge color="light" pill key={"label" + labelId}>
+            {labelData[labelId].attributes.description}
+          </Badge>
+        );
+      });
+      badgesComponent = tagBadges.concat(labelBadges);
     }
 
     let overdueTasksComponent = null;
@@ -138,6 +165,7 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
       <Row>
         <Col xs="12">
           <p>{dateString}</p>
+          {badgesComponent}
         </Col>
       </Row>
       {tasksComponent}

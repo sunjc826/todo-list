@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Container,
   Navbar,
@@ -15,10 +15,12 @@ import SearchBar from "./SearchBar";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/actions";
 import QuickNewTask from "./QuickNewTask";
-
+import { AppContext } from "../Index";
 const Header = () => {
   const dispatch = useDispatch();
-
+  const { sidebarActive, setSidebarActive, resetSidebar } = useContext(
+    AppContext
+  );
   const [isOpen, setIsOpen] = useState(false);
   const [barsTooltipOpen, setBarsTooltipOpen] = useState(false);
   const [homeTooltipOpen, setHomeTooltipOpen] = useState(false);
@@ -29,8 +31,13 @@ const Header = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const toggleModal = () => setModalOpen(!modalOpen);
 
+  const toggleSidebar = () => {
+    setSidebarActive(!sidebarActive);
+    resetSidebar();
+  };
+
   return (
-    <Navbar color="dark" dark expand="md">
+    <Navbar color="dark" dark expand="md" className="header">
       <QuickNewTask modalOpen={modalOpen} toggleModal={toggleModal} />
       <Container fluid>
         <NavbarBrand href="/">
@@ -39,10 +46,8 @@ const Header = () => {
         <NavbarToggler onClick={() => setIsOpen(!isOpen)} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
-            <NavItem>
-              <NavLink to="/" className="nav-link">
-                <i className="fas fa-bars fa-lg" id="bars"></i>
-              </NavLink>
+            <NavItem className="nav-link" onClick={toggleSidebar}>
+              <i className="fas fa-bars fa-lg" id="bars"></i>
               <Tooltip
                 placement="right"
                 target="bars"

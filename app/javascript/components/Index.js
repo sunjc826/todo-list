@@ -26,6 +26,23 @@ function Index() {
 
   const [date, setDate] = useState(new Date());
 
+  // sidebar states
+  const [sidebarActive, setSidebarActive] = useState(false);
+  console.log("sidebar active", sidebarActive);
+  const defaultCollapseState = {
+    projects: false,
+    tags: false,
+    labels: false,
+    filters: false,
+  };
+  const [collapseOpen, setCollapseOpen] = useState(defaultCollapseState);
+  const toggleCollapse = (item) => () =>
+    setCollapseOpen({
+      ...collapseOpen,
+      [item]: !collapseOpen[item],
+    });
+  const resetSidebar = () => setCollapseOpen(defaultCollapseState);
+
   // date updates hourly
   useEffect(() => {
     const millisecondsToNextHour = getMillisecondsToNextHour(date);
@@ -40,7 +57,16 @@ function Index() {
 
   return (
     <Provider store={store}>
-      <AppContext.Provider value={{ date }}>
+      <AppContext.Provider
+        value={{
+          date,
+          sidebarActive,
+          setSidebarActive,
+          collapseOpen,
+          toggleCollapse,
+          resetSidebar,
+        }}
+      >
         <Router>
           <App />
         </Router>

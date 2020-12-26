@@ -93,7 +93,7 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
 
       for (const key in taskData) {
         const ele = taskData[key];
-        const taskDate = ele.attributes.dateString;
+        // const taskDate = ele.attributes.dateString;
 
         // check if tasks has all tags and labels associated with that filter
         const taskTags = ele.relationships.tags.data.map((tag) => tag.id);
@@ -125,6 +125,19 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
         );
       });
       badgesComponent = tagBadges.concat(labelBadges);
+    }
+
+    if (query.has("searchTerm")) {
+      const searchTerm = query.get("searchTerm");
+      const filteredTaskData = {};
+      for (const key in taskData) {
+        const ele = taskData[key];
+        const taskName = ele.attributes.content;
+        if (taskName.indexOf(searchTerm) != -1) {
+          filteredTaskData[key] = ele;
+        }
+      }
+      taskData = filteredTaskData;
     }
 
     let overdueTasksComponent = null;

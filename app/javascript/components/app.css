@@ -1,6 +1,6 @@
 :root {
   --sidebar-width: 12rem;
-  --header-height: 4rem;
+  --header-height: 56px;
 }
 
 .border-rect {
@@ -20,20 +20,14 @@
   transition: transform 1.5s cubic-bezier(0.32, -100, 0.7, 100), color 1.5s ease;
 }
 
-.header {
-  height: var(--header-height);
-}
-
 #sidebar {
   position: fixed;
   overflow: auto;
   top: var(--header-height);
   left: 0;
-  background-color: aliceblue;
   min-width: var(--sidebar-width);
   max-width: var(--sidebar-width);
   height: calc(100vh - var(--header-height));
-  z-index: 500;
   transition: margin-left 0.75s ease;
 }
 

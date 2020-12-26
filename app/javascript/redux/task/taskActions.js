@@ -42,7 +42,12 @@ import {
   fetchTagsFailure,
   setTagData,
 } from "../tag/tagActions";
-import { setFilterData } from "../filter/filterActions";
+import {
+  fetchFiltersRequest,
+  fetchFiltersSuccess,
+  fetchFiltersFailure,
+  setFilterData,
+} from "../filter/filterActions";
 import {
   generateDeleteRequest,
   generatePostRequest,
@@ -153,16 +158,37 @@ const deleteTask = (taskId) => (dispatch) => {
       }
     })
     .then((res) => {
+      // dispatch(fetchTasksRequest());
       return normalize(res);
     })
     .then((res) => {
       const { user, project, task, label, tag, filter } = res;
+      // console.log("setting user");
       dispatch(setUserData(user));
+
+      // console.log("setting project");
       dispatch(setProjectData(project));
-      dispatch(setTaskData(task));
+
+      // TODO: Here, dispatching setTaskData before dispatching
+      // tags, labels, filters
+      // causes null reference errors
+      // I tried to dispatch fetchXXXRequests, but I get the warning
+      // Cannot update a component ("Main") while rendering a different component ("Tasks")
+      // https://reactjs.org/blog/2020/02/26/react-v16.13.0.html
+      // This relates to setStates, however I am dispatching actions to redux store.
+
+      // console.log("setting label");
       dispatch(setLabelData(label));
+
+      // console.log("setting tag");
       dispatch(setTagData(tag));
+      // console.log("setting filter");
       dispatch(setFilterData(filter));
+
+      // console.log("setting task");
+      dispatch(setTaskData(task));
+
+      // dispatch(fetchTasksSuccess());
       return res;
     });
 };

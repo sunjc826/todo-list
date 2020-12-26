@@ -42,7 +42,7 @@ const Header = () => {
   };
 
   return (
-    <Navbar color="dark" dark expand="md" className="header">
+    <Navbar color="dark" dark expand="md" fixed="top">
       <QuickNewTask modalOpen={modalOpen} toggleModal={toggleModal} />
       <Container fluid>
         <NavbarBrand href="/">

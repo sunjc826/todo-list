@@ -57,7 +57,7 @@ const registerSuccess = (userId) => ({
 });
 
 const register = (registrationData) => (dispatch) => {
-  fetch(
+  return fetch(
     registrationsUrl,
     generatePostRequest(JSON.stringify({ user: registrationData }))
   )

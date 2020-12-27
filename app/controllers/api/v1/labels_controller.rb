@@ -22,6 +22,10 @@ module Api
       def destroy
         label_id = params[:id]
         to_destroy = @current_user.labels.find(label_id)
+        to_destroy.tasks.delete_all
+        # @current_user.tasks.each do |task|
+        #   task.labels.find(label_id).delete
+        # end
         to_destroy.destroy
         if to_destroy.destroyed?
           render json: UserSerializer.new(@current_user, UsersController.options).serializable_hash.to_json

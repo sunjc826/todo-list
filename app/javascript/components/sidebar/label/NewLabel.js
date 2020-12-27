@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Button,
+  ButtonGroup,
   Form,
   FormGroup,
   Modal,
@@ -8,13 +9,24 @@ import {
   ModalFooter,
   ModalHeader,
   Input,
+  Label,
 } from "reactstrap";
 import { useDispatch } from "react-redux";
 import { postLabel } from "../../../redux/actions";
 
+const bootstrapColors = [
+  "primary",
+  "secondary",
+  "success",
+  "danger",
+  "warning",
+  "info",
+];
+
 const NewLabel = ({ modalOpen, toggleModal }) => {
   const defaultFormState = {
     description: "",
+    color: "primary",
   };
 
   const [formState, setFormState] = useState(defaultFormState);
@@ -26,9 +38,29 @@ const NewLabel = ({ modalOpen, toggleModal }) => {
     });
   };
 
+  const colorComponent = bootstrapColors.map((color) => {
+    return (
+      <Button
+        key={color}
+        color={color}
+        type="button"
+        active={formState.color === color}
+        onClick={() =>
+          setFormState({
+            ...formState,
+            color: color,
+          })
+        }
+      >
+        {color}
+      </Button>
+    );
+  });
+
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formState);
     dispatch(postLabel(formState));
     toggleModal();
   };
@@ -52,6 +84,10 @@ const NewLabel = ({ modalOpen, toggleModal }) => {
               placeholder="Label Name"
             />
           </FormGroup>
+          <FormGroup>
+            <Label>Choose a color for your label</Label>
+            <ButtonGroup>{colorComponent}</ButtonGroup>
+          </FormGroup>
         </Form>
       </ModalBody>
       <ModalFooter>
@@ -63,6 +99,7 @@ const NewLabel = ({ modalOpen, toggleModal }) => {
         >
           Add Label
         </Button>
+
         <Button type="button" color="danger" onClick={handleCancel}>
           Cancel
         </Button>

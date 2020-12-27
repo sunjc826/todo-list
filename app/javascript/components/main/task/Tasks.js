@@ -66,7 +66,7 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
       taskData = filteredTaskData;
 
       badgesComponent = (
-        <Badge color="light" pill>
+        <Badge color={label.attributes.color} pill>
           {label.attributes.description}
         </Badge>
       );
@@ -119,7 +119,11 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
       });
       const labelBadges = filterLabels.map((labelId) => {
         return (
-          <Badge color="light" pill key={"label" + labelId}>
+          <Badge
+            color={labelData[labelId].attributes.color}
+            pill
+            key={"label" + labelId}
+          >
             {labelData[labelId].attributes.description}
           </Badge>
         );

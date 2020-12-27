@@ -1,5 +1,8 @@
 class Label < ApplicationRecord
+  include ActiveModel::Validations
+
   validates :description, presence: true
+  validates_with ColorValidator
 
   belongs_to :user
 

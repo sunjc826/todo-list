@@ -69,6 +69,7 @@ const Project = ({ projectState, taskState }) => {
         <Row className="my-3">
           <Col xs="8">
             <h2>{title}</h2>
+            <p>{content}</p>
           </Col>
           <Col xs="4" className="text-right">
             <Button type="button" color="danger" onClick={handleClick}>

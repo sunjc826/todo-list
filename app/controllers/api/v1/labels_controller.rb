@@ -24,7 +24,7 @@ module Api
 
       private
       def label_params
-        params.require(:label).permit(:description)
+        params.require(:label).permit(:description, :color)
       end
     end
   end

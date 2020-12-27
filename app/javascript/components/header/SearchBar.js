@@ -13,9 +13,11 @@ const SearchBar = () => {
   };
 
   useEffect(() => {
-    const parsed = queryString.parse(location.search);
-    const newQuery = queryString.stringify({ ...parsed, searchTerm: query });
-    history.push(`/tasks?${newQuery}`);
+    if (query) {
+      const parsed = queryString.parse(location.search);
+      const newQuery = queryString.stringify({ ...parsed, searchTerm: query });
+      history.push(`/tasks?${newQuery}`);
+    }
   }, [query]);
 
   return (

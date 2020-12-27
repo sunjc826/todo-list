@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Row, Col, ListGroupItem, Button } from "reactstrap";
-import { dateToString } from "../../../helperFunctions";
+import { dateToString, getColorForPercentage } from "../../../helperFunctions";
 import styled from "styled-components";
 import TaskModal from "./taskModal/TaskModal";
 import { deleteTask } from "../../../redux/actions";
@@ -83,12 +83,14 @@ const Task = ({ task, overdue }) => {
                     className="far fa-times-circle"
                     onClick={handleClick}
                   ></DeleteButton>
-                  {" " + content}
+                  {" " + content}{" "}
+                  <i
+                    className="fas fa-circle"
+                    style={{
+                      color: getColorForPercentage((priority * 20) / 100),
+                    }}
+                  ></i>
                 </p>
-              </Col>
-            </Row>
-            <Row>
-              <Col xs="12">
                 <Tiny>
                   {overdue && (
                     <p className="text-danger">{dateToString(dateString)}</p>

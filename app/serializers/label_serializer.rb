@@ -1,6 +1,6 @@
 class LabelSerializer
   include JSONAPI::Serializer
-  attributes :description, :user_id
+  attributes :description, :user_id, :color
 
   belongs_to :user
 

@@ -3,15 +3,13 @@ import { Row, Col, Container, Jumbotron } from "reactstrap";
 import { AlertContext } from "../Main";
 import { useHistory } from "react-router-dom";
 
-const user_id = 1;
-
 const Home = ({ userState }) => {
   const userId = userState.userId;
   const userLoading = userState.loading;
   const userData = userState.data;
   const userErrMsg = userState.errMsg;
 
-  const { setAlertVisible, setAlertMessage } = useContext(AlertContext);
+  const { toggleAlert } = useContext(AlertContext);
   const history = useHistory();
   useEffect(() => {
     if (userErrMsg) {

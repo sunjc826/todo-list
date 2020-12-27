@@ -1,0 +1,28 @@
+Database Entities (see my database diagram (To do list.pdf) for an overview):
+1. User
+Encapsulates the basic user info (name, email, password)
+
+2. Tag
+Represents the default tags available in every user’s rendition of the app. Inspired by Gmail’s main categories: Work, Social, Primary, etc.
+These cannot be deleted.
+
+3. Label
+Represents user-created categories. Can be deleted.
+
+4. Project
+Encapsulates a user-created group of related tasks
+
+5. Task
+Encapsulates a user-created event.
+
+6. Subtask
+Encapsulates a user-created subtask of a particular task.
+
+7. Comment
+A user-created comment of a particular task.
+
+8. Filter
+A user-created filter object.
+Currently, I have not implemented the ability to filter by priority.
+
+9. FilterCriterium (plural form: FilterCriteria)

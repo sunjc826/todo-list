@@ -1,0 +1,82 @@
+// Used at https://dbdiagram.io/
+
+// Notes
+// 1. Tag and Label will use Single Table Inheritance 
+// 
+// 2. FilterCriteria will use polymorphic association with respect to 
+// polymorphic classes Label and Tag.
+//
+// I'm using option 2 for now.
+
+Table User {
+  user_id integer [pk, increment]
+  name string
+  email string [unique]
+  
+}
+
+Table Tag {
+  tag_id integer [pk, increment]
+  user_id integer [ref: > User.user_id]
+  description string
+}
+
+Table Label {
+  label_id integer [pk, increment]
+  user_id integer [ref: > User.user_id]
+  description string
+  color string 
+}
+
+Table Task {
+  task_id integer [pk, increment]
+  user_id integer [ref: > User.user_id]
+  project_id integer [ref: > Project.project_id]
+  deadline datetime 
+  content string 
+  priority integer
+  completed boolean
+}
+
+Table Subtask {
+  subtask_id integer [pk, increment]
+  task_id integer [ref: > Task.task_id]
+  content string
+  completed boolean
+}
+
+Table Comment {
+  comment_id integer [pk, increment]
+  task_id integer [ref: > Task.task_id]
+  content string 
+}
+
+Table LabelTask {
+  label_id integer [ref: > Label.label_id]
+  task_id integer [ref: > Task.task_id]
+}
+
+Table TagTask {
+  tag_id integer [ref: > Tag.tag_id]
+  task_id integer [ref: > Task.task_id]
+}
+
+Table Project {
+  project_id int [pk, increment]
+  user_id int [ref: > User.user_id]
+  title string
+  content string
+  completed boolean
+}
+
+Table Filter {
+  filter_id integer [pk, increment]
+  user_id integer [ref: > User.user_id]
+  time_filter datetime
+  priority_filter integer
+}
+
+Table FilterCriterium {
+  filter_id integer [ref: > Filter.filter_id]
+  criteria_id integer [ref: > Label.label_id, ref: > Tag.tag_id]
+}

@@ -1,5 +1,8 @@
 import normalize from "json-api-normalizer";
-import { generatePostRequest } from "../../helperFunctions";
+import {
+  generatePostRequest,
+  generateDeleteRequest,
+} from "../../helperFunctions";
 import {
   FETCH_LABELS_REQUEST,
   FETCH_LABELS_SUCCESS,
@@ -8,6 +11,8 @@ import {
 } from "./labelTypes";
 const labelsUrl = `/api/v1/labels`;
 import { setUserData } from "../user/userActions";
+import { setTaskData } from "../task/taskActions";
+import { setFilterData } from "../filter/filterActions";
 
 const fetchLabelsRequest = () => ({
   type: FETCH_LABELS_REQUEST,
@@ -28,7 +33,7 @@ const setLabelData = (labelData) => ({
 });
 
 const postLabel = (label) => (dispatch) => {
-  fetch(labelsUrl, generatePostRequest(JSON.stringify({ label })))
+  return fetch(labelsUrl, generatePostRequest(JSON.stringify({ label })))
     .then((res) => {
       if (res.ok) {
         return res.json();
@@ -43,9 +48,28 @@ const postLabel = (label) => (dispatch) => {
       const { user, label } = res;
       dispatch(setUserData(user));
       dispatch(setLabelData(label));
+    });
+};
+
+const deleteLabel = (labelId) => (dispatch) => {
+  const url = `${labelsUrl}/${labelId}`;
+  return fetch(url, generateDeleteRequest())
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(res.statusText);
+      }
     })
-    .catch((err) => {
-      console.log(err);
+    .then((res) => {
+      return normalize(res);
+    })
+    .then((res) => {
+      const { user, label, task, filter } = res;
+      dispatch(setUserData(user));
+      dispatch(setLabelData(label));
+      dispatch(setFilterData(filter));
+      dispatch(setTaskData(task));
     });
 };
 
@@ -55,4 +79,5 @@ export {
   fetchLabelsFailure,
   setLabelData,
   postLabel,
+  deleteLabel,
 };

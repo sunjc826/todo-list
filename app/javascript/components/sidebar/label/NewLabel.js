@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Button,
   ButtonGroup,
@@ -13,6 +13,7 @@ import {
 } from "reactstrap";
 import { useDispatch } from "react-redux";
 import { postLabel } from "../../../redux/actions";
+import { AlertContext } from "../../Main";
 
 const bootstrapColors = [
   "primary",
@@ -58,10 +59,16 @@ const NewLabel = ({ modalOpen, toggleModal }) => {
   });
 
   const dispatch = useDispatch();
+  const { toggleAlert } = useContext(AlertContext);
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formState);
-    dispatch(postLabel(formState));
+    dispatch(postLabel(formState))
+      .then((res) => {
+        toggleAlert({ message: "Successful created label", color: "success" });
+      })
+      .catch((err) => {
+        toggleAlert({ message: "Error: " + err.message, color: "danger" });
+      });
     toggleModal();
   };
 

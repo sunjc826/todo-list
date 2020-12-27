@@ -27,7 +27,7 @@ module Api
         if to_destroy.destroyed?
           render json: UserSerializer.new(@current_user, UsersController.options).serializable_hash.to_json
         else
-          render json: :unprocessable_entity
+          render json: :bad_request
         end
       end
 

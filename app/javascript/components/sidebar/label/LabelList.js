@@ -1,8 +1,10 @@
 import React, { Fragment, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { Collapse, ListGroup, ListGroupItem } from "reactstrap";
+import { Collapse, ListGroup, ListGroupItem, Row, Col } from "reactstrap";
 import NewLabel from "./NewLabel";
+import { DeleteButton } from "../../main/task/Task";
+import { deleteLabel } from "../../../redux/actions";
 
 const LabelList = ({ collapseOpen }) => {
   const labelState = useSelector((state) => state.label);
@@ -13,6 +15,7 @@ const LabelList = ({ collapseOpen }) => {
   const history = useHistory();
 
   let labelListComponent;
+  const dispatch = useDispatch();
 
   if (labelLoading) {
   } else if (labelErrMsg) {
@@ -28,6 +31,12 @@ const LabelList = ({ collapseOpen }) => {
         e.stopPropagation();
       };
 
+      const handleDelete = (e) => {
+        e.stopPropagation();
+        history.push("/tasks");
+        dispatch(deleteLabel(key));
+      };
+
       labelListComponent.push(
         <ListGroupItem
           action
@@ -35,9 +44,20 @@ const LabelList = ({ collapseOpen }) => {
           className="px-0"
           onClick={handleClick}
         >
-          <Link to={`/tasks?tagId=${labelId}`}>
-            {labelAttributes.description}
-          </Link>
+          <Row>
+            <Col xs="10" className="mr-auto">
+              <Link to={`/tasks?tagId=${labelId}`}>
+                {labelAttributes.description}
+              </Link>
+            </Col>
+
+            <Col xs="1">
+              <DeleteButton
+                className="fas fa-times ml-auto"
+                onClick={handleDelete}
+              ></DeleteButton>
+            </Col>
+          </Row>
         </ListGroupItem>
       );
     }

@@ -13,7 +13,6 @@ const FilterList = ({ collapseOpen }) => {
   const filterLoading = filterState.loading;
   const filterErrMsg = filterState.errMsg;
   const filterData = filterState.data;
-  console.log(filterData);
   const history = useHistory();
 
   if (filterLoading) {

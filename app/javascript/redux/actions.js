@@ -18,5 +18,5 @@ export {
 export { postComment, deleteComment } from "./comment/commentActions";
 export { postSubtask, deleteSubtask } from "./subtask/subtaskActions";
 export { postProject, deleteProject } from "./project/projectActions";
-export { postLabel } from "./label/labelActions";
+export { postLabel, deleteLabel } from "./label/labelActions";
 export { postFilter } from "./filter/filterActions";

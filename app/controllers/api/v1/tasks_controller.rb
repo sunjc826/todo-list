@@ -53,6 +53,7 @@ module Api
         end
 
         if task.save
+          response.headers["last_created_task_id"] = task.id
           render json: UserSerializer.new(@current_user, UsersController.options).serializable_hash.to_json
         else
           render status: :unprocessable_entity

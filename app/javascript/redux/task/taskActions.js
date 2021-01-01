@@ -138,16 +138,19 @@ const postTask = (task, { tagId, labelId, projectId, tagIds, labelIds }) => (
   return fetch(tasksUrl, generatePostRequest(JSON.stringify(post)))
     .then((res) => {
       if (res.ok) {
-        return res.json();
+        return res.json().then((json) => ({
+          headers: res.headers,
+          json,
+        }));
       } else {
         throw new Error(res.statusText);
       }
     })
-    .then((res) => {
-      return normalize(res);
+    .then(({ headers, json }) => {
+      return { headers, json: normalize(json) };
     })
     .then((res) => {
-      const { user, project, task, label, tag, filter, activity } = res;
+      const { user, project, task, label, tag, filter, activity } = res.json;
       dispatch(setUserData(user));
       dispatch(setProjectData(project));
       dispatch(setTaskData(task));
@@ -157,7 +160,12 @@ const postTask = (task, { tagId, labelId, projectId, tagIds, labelIds }) => (
       return res;
     })
     .then((res) => {
-      dispatch(postActivity(taskId, { crud_type: "c", item: "task" }));
+      dispatch(
+        postActivity(res.headers.get("last_created_task_id"), {
+          crud_type: "c",
+          item: "task",
+        })
+      );
       return res;
     });
 };

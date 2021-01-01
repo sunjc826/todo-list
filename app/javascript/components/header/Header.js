@@ -106,7 +106,7 @@ const Header = () => {
             </NavItem>
 
             <NavItem className="mx-3">
-              <NavLink to="/" className="nav-link">
+              <NavLink to="/support" className="nav-link">
                 <i className="far fa-question-circle fa-lg" id="question"></i>
               </NavLink>
               <Tooltip

@@ -16,6 +16,7 @@ import Sidebar from "./sidebar/Sidebar";
 import Home from "./main/Home";
 import Tasks from "./main/task/Tasks";
 import Project from "./main/project/Project";
+import Support from "./main/Support";
 import { Alert } from "reactstrap";
 import { SidebarContext } from "./Index";
 
@@ -96,6 +97,9 @@ const Main = () => {
                 </Route>
                 <Route exact path={url + "project/:projectId"}>
                   <Project projectState={projectState} taskState={taskState} />
+                </Route>
+                <Route exact path={url + "support"}>
+                  <Support />
                 </Route>
                 <Route path={url + "home"}>
                   <Home userState={userState} />

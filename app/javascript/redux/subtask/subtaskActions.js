@@ -12,6 +12,7 @@ import {
   UPDATE_SUBTASK_DATA,
 } from "./subtaskTypes";
 import { updateTaskData } from "../task/taskActions";
+import { postActivity } from "../activity/activityActions";
 
 const fetchSubtasksRequest = () => ({
   type: FETCH_SUBTASKS_REQUEST,
@@ -54,6 +55,10 @@ const postSubtask = (taskId, subtask) => (dispatch) => {
       dispatch(updateSubtaskData(subtask));
       dispatch(updateTaskData(task));
       return res;
+    })
+    .then((res) => {
+      dispatch(postActivity(taskId, { crud_type: "c", item: "subtask" }));
+      return res;
     });
 };
 
@@ -74,6 +79,10 @@ const deleteSubtask = (taskId, subtaskId) => (dispatch) => {
       const { task, subtask } = res;
       dispatch(updateSubtaskData(subtask));
       dispatch(updateTaskData(task));
+      return res;
+    })
+    .then((res) => {
+      dispatch(postActivity(taskId, { crud_type: "d", item: "subtask" }));
       return res;
     });
 };

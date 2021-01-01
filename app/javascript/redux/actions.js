@@ -20,3 +20,4 @@ export { postSubtask, deleteSubtask } from "./subtask/subtaskActions";
 export { postProject, deleteProject } from "./project/projectActions";
 export { postLabel, deleteLabel } from "./label/labelActions";
 export { postFilter } from "./filter/filterActions";
+export { postActivity } from "./activity/activityActions";

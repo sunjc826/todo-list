@@ -103,7 +103,7 @@ module Api
 
       def self.options
         options = {}
-        options[:include] = [:subtasks, :comments]
+        options[:include] = [:subtasks, :comments, :activities]
         return options
       end
 

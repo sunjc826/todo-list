@@ -7,10 +7,10 @@ import {
 } from "./commentTypes";
 import { updateTaskData } from "../task/taskActions";
 import {
-  csrfToken,
   generateDeleteRequest,
   generatePostRequest,
 } from "../../helperFunctions";
+import { postActivity } from "../activity/activityActions";
 import normalize from "json-api-normalizer";
 
 const commentUrl = "/api/v1/tasks/:task_id/comments";
@@ -45,7 +45,6 @@ const postComment = (taskId, comment) => (dispatch) => {
       if (res.ok) {
         return res.json();
       } else {
-        // console.log(res.json().error); // see CommentsController for details
         throw new Error(res.statusText);
       }
     })
@@ -56,6 +55,10 @@ const postComment = (taskId, comment) => (dispatch) => {
       const { comment, task } = res;
       dispatch(updateCommentData(comment));
       dispatch(updateTaskData(task));
+      return res;
+    })
+    .then((res) => {
+      dispatch(postActivity(taskId, { crud_type: "c", item: "comment" }));
       return res;
     });
 };
@@ -79,6 +82,10 @@ const deleteComment = (taskId, commentId) => (dispatch) => {
       const { comment, task } = res;
       dispatch(updateCommentData(comment));
       dispatch(updateTaskData(task));
+      return res;
+    })
+    .then((res) => {
+      dispatch(postActivity(taskId, { crud_type: "d", item: "comment" }));
       return res;
     });
 };

@@ -7,6 +7,7 @@ import taskReducer from "./task/taskReducer";
 import commentReducer from "./comment/commentReducer";
 import subtaskReducer from "./subtask/subtaskReducer";
 import filterReducer from "./filter/filterReducer";
+import activityReducer from "./activity/activityReducer";
 
 const rootReducer = combineReducers({
   comment: commentReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   task: taskReducer,
   user: userReducer,
   filter: filterReducer,
+  activity: activityReducer,
 });
 
 export default rootReducer;

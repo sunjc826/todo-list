@@ -11,4 +11,5 @@ class TaskSerializer
   has_many :label_tasks
   has_many :tags, through: :tag_tasks
   has_many :labels, through: :label_tasks
+  has_many :activities
 end

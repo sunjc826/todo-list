@@ -16,6 +16,8 @@ import { useDispatch } from "react-redux";
 import { logout } from "../../redux/actions";
 import QuickNewTask from "./QuickNewTask";
 import { SidebarContext } from "../Index";
+import ActivityModal from "./ActivityModal";
+
 // import { ModalContext } from "../../customComponents";
 const Header = () => {
   const dispatch = useDispatch();
@@ -31,10 +33,14 @@ const Header = () => {
   const [homeTooltipOpen, setHomeTooltipOpen] = useState(false);
   const [plusTooltipOpen, setPlusTooltipOpen] = useState(false);
   const [questionTooltipOpen, setQuestionTooltipOpen] = useState(false);
-  const [bellTooltipOpen, setBellTooltipOpen] = useState(false);
+  const [activityTooltipOpen, setActivityTooltipOpen] = useState(false);
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const toggleModal = () => setModalOpen(!modalOpen);
+  const [modalOpen, setModalOpen] = useState({ task: false, activity: false });
+  const toggleModal = (type) => () =>
+    setModalOpen({
+      ...modalOpen,
+      [type]: !modalOpen[type],
+    });
 
   const toggleSidebar = () => {
     setSidebarActive(!sidebarActive);
@@ -43,7 +49,14 @@ const Header = () => {
 
   return (
     <Navbar color="dark" dark expand="md" fixed="top">
-      <QuickNewTask modalOpen={modalOpen} toggleModal={toggleModal} />
+      <QuickNewTask
+        modalOpen={modalOpen["task"]}
+        toggleModal={toggleModal("task")}
+      />
+      <ActivityModal
+        modalOpen={modalOpen["activity"]}
+        toggleModal={toggleModal("activity")}
+      />
       <Container fluid>
         <NavbarBrand href="/">
           <span>Todo App</span>
@@ -80,7 +93,7 @@ const Header = () => {
             </NavItem>
           </Nav>
           <Nav className="ml-auto" navbar>
-            <NavItem className="mx-3 nav-link" onClick={toggleModal}>
+            <NavItem className="mx-3 nav-link" onClick={toggleModal("task")}>
               <i className="far fa-plus-square fa-lg" id="plus"></i>
               <Tooltip
                 placement="right"
@@ -105,17 +118,18 @@ const Header = () => {
                 Support
               </Tooltip>
             </NavItem>
-            <NavItem className="mx-3">
-              <NavLink to="/" className="nav-link">
-                <i className="far fa-bell fa-lg" id="bell"></i>
-              </NavLink>
+            <NavItem
+              className="mx-3 nav-link"
+              onClick={toggleModal("activity")}
+            >
+              <i className="fas fa-chart-line fa-lg" id="activity"></i>
               <Tooltip
                 placement="right"
-                target="bell"
-                isOpen={bellTooltipOpen}
-                toggle={() => setBellTooltipOpen(!bellTooltipOpen)}
+                target="activity"
+                isOpen={activityTooltipOpen}
+                toggle={() => setActivityTooltipOpen(!activityTooltipOpen)}
               >
-                Notifications
+                All Activities
               </Tooltip>
             </NavItem>
             <NavItem>

@@ -2,7 +2,7 @@ import React from "react";
 import { ListGroupItem } from "reactstrap";
 import { DeleteButton } from "../Task";
 import { useDispatch } from "react-redux";
-import { deleteSubtask } from "../../../../redux/actions";
+import { deleteSubtask, postActivity } from "../../../../redux/actions";
 
 const Subtask = ({ content, taskId, subtaskId }) => {
   const dispatch = useDispatch();
@@ -12,7 +12,7 @@ const Subtask = ({ content, taskId, subtaskId }) => {
   };
 
   return (
-    <ListGroupItem action>
+    <ListGroupItem>
       <p>
         <DeleteButton
           className="far fa-times-circle"

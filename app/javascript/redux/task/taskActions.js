@@ -54,6 +54,13 @@ import {
   generateEditRequest,
 } from "../../helperFunctions";
 import { FETCH_USER_REQUEST } from "../user/userTypes";
+import {
+  fetchActivitiesFailure,
+  fetchActivitiesRequest,
+  fetchActivitiesSuccess,
+  updateActivityData,
+  postActivity,
+} from "../activity/activityActions";
 
 const tasksUrl = "/api/v1/tasks";
 
@@ -80,6 +87,7 @@ const fetchTaskData = (taskId) => (dispatch) => {
   // hence, no need for fetchTaskRequest
   dispatch(fetchSubtasksRequest());
   dispatch(fetchCommentsRequest());
+  dispatch(fetchActivitiesRequest());
   const url = `${tasksUrl}/${taskId}`;
   fetch(url)
     .then((res) => {
@@ -93,15 +101,18 @@ const fetchTaskData = (taskId) => (dispatch) => {
       return normalize(res);
     })
     .then((res) => {
-      const { task, subtask, comment } = res;
+      const { task, subtask, comment, activity } = res;
       dispatch(updateSubtaskData(subtask));
       dispatch(updateCommentData(comment));
+      dispatch(updateActivityData(activity));
       dispatch(fetchSubtasksSuccess());
       dispatch(fetchCommentsSuccess());
+      dispatch(fetchActivitiesSuccess());
     })
     .catch((err) => {
       dispatch(fetchSubtasksFailure(err.message));
       dispatch(fetchCommentsFailure(err.message));
+      dispatch(fetchActivitiesFailure(err.message));
     });
 };
 
@@ -136,13 +147,17 @@ const postTask = (task, { tagId, labelId, projectId, tagIds, labelIds }) => (
       return normalize(res);
     })
     .then((res) => {
-      const { user, project, task, label, tag, filter } = res;
+      const { user, project, task, label, tag, filter, activity } = res;
       dispatch(setUserData(user));
       dispatch(setProjectData(project));
       dispatch(setTaskData(task));
       dispatch(setLabelData(label));
       dispatch(setTagData(tag));
       dispatch(setFilterData(filter));
+      return res;
+    })
+    .then((res) => {
+      dispatch(postActivity(taskId, { crud_type: "c", item: "task" }));
       return res;
     });
 };
@@ -162,7 +177,7 @@ const deleteTask = (taskId) => (dispatch) => {
       return normalize(res);
     })
     .then((res) => {
-      const { user, project, task, label, tag, filter } = res;
+      const { user, project, task, label, tag, filter, activity } = res;
       // console.log("setting user");
       dispatch(setUserData(user));
 
@@ -218,6 +233,10 @@ const editTask = (taskId, task, { tagIds, labelIds }) => (dispatch) => {
       dispatch(setLabelData(label));
       dispatch(setTagData(tag));
       dispatch(setFilterData(filter));
+      return res;
+    })
+    .then((res) => {
+      dispatch(postActivity(taskId, { crud_type: "u", item: "task" }));
       return res;
     });
 };

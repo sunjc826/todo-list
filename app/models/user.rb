@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :projects
   has_many :tasks
   has_many :tags
+  has_many :activities, through: :tasks
 
   # These are needed for authentication purposes
   # When adding a new tag_task, we want to associate it with the user

@@ -19,7 +19,7 @@ module Api
         if comment && comment.save
           render json: TaskSerializer.new(task, TasksController.options).serializable_hash.to_json
         else
-          render json: {error: comment.errors.full_messages}, status: :unprocessable_entity
+          render status: :unprocessable_entity
         end
       end
 

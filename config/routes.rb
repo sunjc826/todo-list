@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       resources :tasks do
         resources :subtasks, only: [:create, :update, :destroy]
         resources :comments, only: [:create, :update, :destroy]
+        resources :activities, only: [:create]
       end
       resources :users, only: [:show, :create, :update, :destroy]
     end

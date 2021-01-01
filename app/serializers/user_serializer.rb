@@ -8,4 +8,5 @@ class UserSerializer
   has_many :projects
   has_many :tasks
   has_many :tags
+  has_many :activities, through: :tasks
 end

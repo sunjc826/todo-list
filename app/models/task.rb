@@ -21,7 +21,7 @@ class Task < ApplicationRecord
   has_many :label_tasks, dependent: :destroy
   has_many :tags, through: :tag_tasks
   has_many :labels, through: :label_tasks
-
+  has_many :activities, dependent: :destroy
   def date_string
     return self.deadline.to_s
   end

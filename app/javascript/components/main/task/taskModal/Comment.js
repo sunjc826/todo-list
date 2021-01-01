@@ -12,7 +12,7 @@ const Comment = ({ content, taskId, commentId }) => {
   };
 
   return (
-    <ListGroupItem action>
+    <ListGroupItem>
       <p>
         <DeleteButton
           className="far fa-times-circle"

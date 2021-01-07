@@ -99,6 +99,9 @@ const Project = ({ projectState, taskState }) => {
       </Container>
     );
   }
+  if (!projectComponent) {
+    projectComponent = <div></div>;
+  }
 
   return projectComponent;
 };

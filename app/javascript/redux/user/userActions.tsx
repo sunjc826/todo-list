@@ -7,6 +7,15 @@ import {
   FETCH_USER_SUCCESS,
   FETCH_USER_FAILURE,
   SET_USER_DATA,
+  UserId,
+  RegisterSuccessAction,
+  LoginSuccessAction,
+  LogoutSuccessAction,
+  FetchUserSuccessAction,
+  FetchUserFailureAction,
+  UserState,
+  SetUserDataAction,
+  FetchUserRequestAction,
 } from "./userTypes";
 import {
   fetchProjectsRequest,
@@ -48,21 +57,32 @@ import {
   generatePostRequest,
   generateDeleteRequest,
 } from "../../helperFunctions";
+import { AppThunk } from "../shared";
+
+
 const registrationsUrl = "/api/v1/registrations";
 const sessionsUrl = "/api/v1/sessions";
 const usersUrl = "/api/v1/users";
 
-const loginSuccess = (userId) => ({
+const loginSuccess = (userId: UserId): LoginSuccessAction => ({
   type: LOGIN_SUCCESS,
   payload: userId,
 });
 
-const registerSuccess = (userId) => ({
+const registerSuccess = (userId: UserId): RegisterSuccessAction => ({
   type: REGISTER_SUCCESS,
   payload: userId,
 });
 
-const register = (registrationData) => (dispatch) => {
+interface RegistrationData {
+  name: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+}
+
+// TODO: Read up on ThunkAction generic parameters
+const register = (registrationData: RegistrationData): AppThunk => (dispatch) => {
   return fetch(
     registrationsUrl,
     generatePostRequest(JSON.stringify({ user: registrationData }))
@@ -85,7 +105,12 @@ const register = (registrationData) => (dispatch) => {
     });
 };
 
-const login = (loginData) => (dispatch) => {
+interface LoginData {
+  email: string;
+  password: string;
+}
+
+const login = (loginData: LoginData): AppThunk => (dispatch) => {
   return fetch(
     sessionsUrl,
     generatePostRequest(JSON.stringify({ user: loginData }))
@@ -108,7 +133,7 @@ const login = (loginData) => (dispatch) => {
     });
 };
 
-const fetchIsLoggedIn = () => (dispatch) => {
+const fetchIsLoggedIn = (): AppThunk => (dispatch) => {
   fetch(sessionsUrl)
     .then((res) => {
       if (res.ok) {
@@ -127,11 +152,11 @@ const fetchIsLoggedIn = () => (dispatch) => {
     });
 };
 
-const logoutSuccess = () => ({
+const logoutSuccess = (): LogoutSuccessAction => ({
   type: LOGOUT_SUCCESS,
 });
 
-const logout = () => (dispatch) => {
+const logout = (): AppThunk => (dispatch) => {
   fetch(sessionsUrl + "/logout", generateDeleteRequest())
     .then((res) => {
       if (res.ok) {
@@ -148,25 +173,25 @@ const logout = () => (dispatch) => {
     });
 };
 
-const fetchUserRequest = () => ({
+const fetchUserRequest = (): FetchUserRequestAction => ({
   type: FETCH_USER_REQUEST,
 });
 
-const fetchUserSuccess = () => ({
+const fetchUserSuccess = (): FetchUserSuccessAction => ({
   type: FETCH_USER_SUCCESS,
 });
 
-const fetchUserFailure = (errMsg) => ({
+const fetchUserFailure = (errMsg: string): FetchUserFailureAction => ({
   type: FETCH_USER_FAILURE,
   payload: errMsg,
 });
 
-const setUserData = (userData) => ({
+const setUserData = (userData: UserState): SetUserDataAction => ({
   type: SET_USER_DATA,
   payload: userData,
 });
 
-const fetchUserData = (userId) => (dispatch) => {
+const fetchUserData = (userId: UserId): AppThunk<Promise<any>> => (dispatch) => {
   dispatch(fetchUserRequest());
   dispatch(fetchProjectsRequest());
   dispatch(fetchTasksRequest());

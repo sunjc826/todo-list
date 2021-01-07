@@ -1,28 +1,38 @@
-import React, { useState, useEffect, createContext, Fragment } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, { useState, useEffect, createContext } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Provider } from "react-redux";
 import store from "../redux/store";
 import "./app.css";
-import { ModalProvider } from "../customComponents";
 import App from "./App";
+import {getMillisecondsToNextHour} from "../helperFunctions";
 
-const TimeContext = createContext();
-const SidebarContext = createContext();
+type Collapsible = "projects" | "tags" | "labels" | "filters";
 
-// inspired by
-// https://stackoverflow.com/questions/34430704/update-react-native-view-on-day-change
-// is there a better way?
-function getMillisecondsToNextHour(time) {
-  const secondsInHour = 3600;
-  const minutes = time.getMinutes();
-  const seconds = time.getSeconds();
-  const totalSeconds = minutes * 60 + seconds;
-  return (secondsInHour - totalSeconds) * 1000;
-}
+const defaultCollapseState = {
+    projects: false,
+    tags: false,
+    labels: false,
+    filters: false,
+};
 
-function Index() {
+type TimeContextType = {
+  date: Date;
+} | null;
+
+type SidebarContextType = {
+  sidebarActive: boolean;
+  setSidebarActive: React.Dispatch<React.SetStateAction<boolean>>;
+  collapseOpen: typeof defaultCollapseState;
+  toggleCollapse: (item: Collapsible) => () => void;
+  resetSidebar: () => void;
+} | null;
+
+const TimeContext = createContext<TimeContextType>(null);
+const SidebarContext = createContext<SidebarContextType>(null);
+
+const Index = () => {
   // global date
   const [date, setDate] = useState(new Date());
 
@@ -40,14 +50,9 @@ function Index() {
 
   // sidebar states
   const [sidebarActive, setSidebarActive] = useState(false);
-  const defaultCollapseState = {
-    projects: false,
-    tags: false,
-    labels: false,
-    filters: false,
-  };
+  
   const [collapseOpen, setCollapseOpen] = useState(defaultCollapseState);
-  const toggleCollapse = (item) => () =>
+  const toggleCollapse = (item: Collapsible) => () =>
     setCollapseOpen({
       ...collapseOpen,
       [item]: !collapseOpen[item],
@@ -76,4 +81,4 @@ function Index() {
 }
 
 export default Index;
-export { TimeContext, SidebarContext };
+export { TimeContext, SidebarContext, TimeContextType, SidebarContextType };

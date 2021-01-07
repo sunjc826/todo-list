@@ -1,7 +1,9 @@
 // In this application, for simplicity, I will ignore issues like timezone
 
+type DateString = Date | string;
+
 // Input: Date object or valid dateString are both acceptable
-const dateToString = (date) => {
+const dateToString = (date: DateString) => {
   return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "short",
@@ -9,26 +11,41 @@ const dateToString = (date) => {
   }).format(new Date(date));
 };
 
-const sameDay = (d1, d2) => {
+// inspired by
+// https://stackoverflow.com/questions/34430704/update-react-native-view-on-day-change
+function getMillisecondsToNextHour(time: Date) {
+  const secondsInHour = 3600;
+  const minutes = time.getMinutes();
+  const seconds = time.getSeconds();
+  const totalSeconds = minutes * 60 + seconds;
+  return (secondsInHour - totalSeconds) * 1000;
+}
+
+const sameDay = (d1: Date, d2: Date) => {
   const sameYear = d1.getFullYear() === d2.getFullYear();
   const sameMonth = d1.getMonth() === d2.getMonth();
   const sameDate = d1.getDate() === d2.getDate();
   return sameYear && sameMonth && sameDate;
 };
 
-const getPrevDay = (date) => {
+const getPrevDay = (date: DateString) => {
   const yest = new Date(date);
   yest.setDate(yest.getDate() - 1);
   return yest;
 };
 
-const getNextDay = (date) => {
+const getNextDay = (date: DateString) => {
   const tmr = new Date(date);
   tmr.setDate(tmr.getDate() + 1);
   return tmr;
 };
 
-const generateDateList = ({ curDate, days }) => {
+type generateDateListArgs = {
+  curDate: Date;
+  days: number;
+}
+
+const generateDateList = ({ curDate, days }: generateDateListArgs) => {
   const dateList = [];
   for (let i = 0; i < days; i++) {
     dateList.push(curDate);
@@ -37,7 +54,13 @@ const generateDateList = ({ curDate, days }) => {
   return dateList;
 };
 
-const compareDateByDay = ({ date1, date2, strict }) => {
+type compareDateByDayArgs = {
+  date1: DateString;
+  date2: DateString;
+  strict: boolean;
+}
+
+const compareDateByDay = ({ date1, date2, strict }: compareDateByDayArgs) => {
   let d1 = new Date(date1);
   d1.setHours(0);
   d1.setMinutes(0);
@@ -56,17 +79,23 @@ const compareDateByDay = ({ date1, date2, strict }) => {
   }
 };
 
-const dateLiesBetween = ({ startDate, endDate, date }) => {
+type dateLiesBetweenArgs = {
+  startDate: DateString;
+  endDate: DateString;
+  date: DateString;
+}
+
+const dateLiesBetween = ({ startDate, endDate, date }: dateLiesBetweenArgs) => {
   return (
     compareDateByDay({ date1: startDate, date2: date, strict: false }) &&
     compareDateByDay({ date1: date, date2: endDate, strict: false })
   );
 };
 
-const generatePostRequest = (body) => {
+const generatePostRequest = (body: string): RequestInit => {
   const csrfToken = document
-    .querySelector("[name=csrf-token]")
-    .getAttribute("content");
+    .querySelector("[name=csrf-token]")!
+    .getAttribute("content")!;
   console.log("csrfToken", csrfToken);
   return {
     method: "POST",
@@ -81,10 +110,10 @@ const generatePostRequest = (body) => {
   };
 };
 
-const generateDeleteRequest = () => {
+const generateDeleteRequest = (): RequestInit => {
   const csrfToken = document
-    .querySelector("[name=csrf-token]")
-    .getAttribute("content");
+    .querySelector("[name=csrf-token]")!
+    .getAttribute("content")!;
   return {
     method: "DELETE",
     headers: {
@@ -96,10 +125,10 @@ const generateDeleteRequest = () => {
   };
 };
 
-const generateEditRequest = (body) => {
+const generateEditRequest = (body: string): RequestInit => {
   const csrfToken = document
-    .querySelector("[name=csrf-token]")
-    .getAttribute("content");
+    .querySelector("[name=csrf-token]")!
+    .getAttribute("content")!;
   console.log("csrfToken", csrfToken);
   return {
     method: "PATCH",
@@ -114,8 +143,13 @@ const generateEditRequest = (body) => {
   };
 };
 
+type listContainsArgs = {
+  smaller: unknown[];
+  larger: unknown[];
+}
+
 // returns true if smaller list is contained in larger list
-const listContains = ({ smaller, larger }) => {
+const listContains = ({ smaller, larger }: listContainsArgs) => {
   const largerSet = new Set(larger);
   return smaller.reduce((accumulator, curValue) => {
     return accumulator && largerSet.has(curValue);
@@ -129,7 +163,7 @@ const percentColors = [
   { pct: 1.0, color: { r: 0xff, g: 0x00, b: 0 } },
 ];
 
-const getColorForPercentage = (pct) => {
+const getColorForPercentage = (pct: number) => {
   for (var i = 1; i < percentColors.length - 1; i++) {
     if (pct < percentColors[i].pct) {
       break;
@@ -152,6 +186,7 @@ const getColorForPercentage = (pct) => {
 
 export {
   dateToString,
+  getMillisecondsToNextHour,
   sameDay,
   getPrevDay,
   getNextDay,

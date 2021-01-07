@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchUserData } from "../redux/actions";
 import styled from "styled-components";
 import Header from "./header/Header";
-import Footer from "./footer/Footer";
+// import Footer from "./footer/Footer";
 
 import Sidebar from "./sidebar/Sidebar";
 import Home from "./main/Home";
@@ -19,6 +19,9 @@ import Project from "./main/project/Project";
 import Support from "./main/Support";
 import { Alert } from "reactstrap";
 import { SidebarContext } from "./Index";
+import { RootState } from "../redux/rootReducer";
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "redux";
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,14 +29,19 @@ const Wrapper = styled.div`
   align-items: stretch;
 `;
 
-const AlertContext = createContext();
+type AlertContextType = { 
+  toggleAlert: ({ message, color }: {message: string; color: BootstrapColor; }) => void;
+} | null;
+const AlertContext = createContext<AlertContextType>(null);
+
+type BootstrapColor = "success" | "warning" | "danger" | "info";
 
 const Main = () => {
   // global alert
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertColor, setAlertColor] = useState("info");
-  const toggleAlert = ({ message, color }) => {
+  const toggleAlert = ({ message, color }: {message: string; color: BootstrapColor; }) => {
     color = color || "info";
     setAlertMessage(message);
     setAlertColor(color);
@@ -53,21 +61,22 @@ const Main = () => {
     }
   }, [alertVisible]);
 
-  const userState = useSelector((state) => state.user);
-  const taskState = useSelector((state) => state.task);
-  const projectState = useSelector((state) => state.project);
-  const tagState = useSelector((state) => state.tag);
-  const labelState = useSelector((state) => state.label);
-  const filterState = useSelector((state) => state.filter);
-  const dispatch = useDispatch();
+  const userState = useSelector((state: RootState) => state.user);
+  const taskState = useSelector((state: RootState) => state.task);
+  const projectState = useSelector((state: RootState) => state.project);
+  const tagState = useSelector((state: RootState) => state.tag);
+  const labelState = useSelector((state: RootState) => state.label);
+  const filterState = useSelector((state: RootState) => state.filter);
+  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const userId = userState.userId;
   const [doneEffect, setDoneEffect] = useState(false);
+  
   useEffect(() => {
-    dispatch(fetchUserData(userId)).then((res) => setDoneEffect(true));
+    dispatch(fetchUserData(userId)).then(() => setDoneEffect(true));
   }, []);
 
   const { url } = useRouteMatch();
-  const { sidebarActive } = useContext(SidebarContext);
+  const { sidebarActive } = useContext(SidebarContext)!;
   return (
     <Fragment>
       <AlertContext.Provider value={{ toggleAlert }}>

@@ -21,4 +21,7 @@ const rootReducer = combineReducers({
   activity: activityReducer,
 });
 
+type RootState = ReturnType<typeof rootReducer>;
+
 export default rootReducer;
+export {RootState};

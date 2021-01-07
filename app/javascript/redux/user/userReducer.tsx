@@ -6,10 +6,12 @@ import {
   FETCH_USER_SUCCESS,
   FETCH_USER_FAILURE,
   SET_USER_DATA,
+  UserActionType,
+  UserState,
 } from "./userTypes";
 
 //check authentication
-const initialUserState = {
+const initialUserState: UserState = {
   loading: false,
   data: null,
   errMsg: "",
@@ -17,7 +19,7 @@ const initialUserState = {
   userId: null,
 };
 
-const userReducer = (state = initialUserState, action) => {
+const userReducer = (state = initialUserState, action: UserActionType) => {
   switch (action.type) {
     // the response to register_success and login_success are effectively the same
     // however, I decide to separate them for clarity

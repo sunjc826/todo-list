@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "@babel/preset-react": "^7.12.10",
+    "@babel/preset-typescript": "^7.12.7",
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@popperjs/core": "^2.6.0",
     "@rails/actioncable": "^6.0.0",

@@ -5,6 +5,11 @@ import {
   FETCH_TASKS_FAILURE,
   SET_TASK_DATA,
   UPDATE_TASK_DATA,
+  FetchTasksRequestAction,
+  FetchTasksSuccessAction,
+  FetchTasksFailureAction,
+  SetTaskDataAction,
+  UpdateTaskDataAction,
 } from "./taskTypes";
 import {
   fetchSubtasksRequest,
@@ -61,28 +66,29 @@ import {
   updateActivityData,
   postActivity,
 } from "../activity/activityActions";
+import { Id, AppThunk } from "../shared";
 
 const tasksUrl = "/api/v1/tasks";
 
-const fetchTasksRequest = () => ({
+const fetchTasksRequest = (): FetchTasksRequestAction => ({
   type: FETCH_TASKS_REQUEST,
 });
 
-const fetchTasksSuccess = () => ({
+const fetchTasksSuccess = (): FetchTasksSuccessAction => ({
   type: FETCH_TASKS_SUCCESS,
 });
 
-const fetchTasksFailure = (errMsg) => ({
+const fetchTasksFailure = (errMsg: string): FetchTasksFailureAction => ({
   type: FETCH_TASKS_FAILURE,
   payload: errMsg,
 });
 
-const setTaskData = (taskData) => ({
+const setTaskData = (taskData: object): SetTaskDataAction => ({
   type: SET_TASK_DATA,
   payload: taskData,
 });
 
-const fetchTaskData = (taskId) => (dispatch) => {
+const fetchTaskData = (taskId: Id): AppThunk => (dispatch) => {
   // note, unlike in fetchUserData, taskData is assumed to be loaded,
   // hence, no need for fetchTaskRequest
   dispatch(fetchSubtasksRequest());
@@ -116,17 +122,32 @@ const fetchTaskData = (taskId) => (dispatch) => {
     });
 };
 
-const updateTaskData = (taskData) => ({
+const updateTaskData = (taskData: object): UpdateTaskDataAction => ({
   type: UPDATE_TASK_DATA,
   payload: taskData,
 });
 
+type Task = {
+  content: string;
+  priority: number;
+  deadline: Date;
+  completed: boolean;
+  project_id: Id;
+};
+
 // no need to supply userId since the session cookie containing user_id is sent over
 // and converted to @current_user
 // the last 2 (tagIds, labelIds) are only relevant to filters
-const postTask = (task, { tagId, labelId, projectId, tagIds, labelIds }) => (
-  dispatch
-) => {
+const postTask = (
+  task: Task,
+  {
+    tagId,
+    labelId,
+    projectId,
+    tagIds,
+    labelIds,
+  }: { tagId: Id; labelId: Id; projectId: Id; tagIds: Id[]; labelIds: Id[] }
+): AppThunk => (dispatch) => {
   const post = {
     task,
     tag: { tag_id: tagId },
@@ -170,7 +191,7 @@ const postTask = (task, { tagId, labelId, projectId, tagIds, labelIds }) => (
     });
 };
 
-const deleteTask = (taskId) => (dispatch) => {
+const deleteTask = (taskId: Id): AppThunk => (dispatch) => {
   const url = `${tasksUrl}/${taskId}`;
   fetch(url, generateDeleteRequest())
     .then((res) => {
@@ -216,7 +237,11 @@ const deleteTask = (taskId) => (dispatch) => {
     });
 };
 
-const editTask = (taskId, task, { tagIds, labelIds }) => (dispatch) => {
+const editTask = (
+  taskId: Id,
+  task: Task,
+  { tagIds, labelIds }: { tagIds: Id[]; labelIds: Id[] }
+): AppThunk => (dispatch) => {
   const url = `${tasksUrl}/${taskId}`;
   const post = {
     task,

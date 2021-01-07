@@ -1,37 +1,38 @@
 import {
-  FETCH_TAGS_REQUEST,
-  FETCH_TAGS_SUCCESS,
-  FETCH_TAGS_FAILURE,
-  SET_TAG_DATA,
-} from "./tagTypes";
-
-const defaultTags = {
+  FETCH_LABELS_REQUEST,
+  FETCH_LABELS_SUCCESS,
+  FETCH_LABELS_FAILURE,
+  SET_LABEL_DATA,
+  LabelActionType,
+} from "./labelTypes";
+import { State } from "../shared";
+const initialLabelState: State = {
   loading: false,
   data: null,
   errMsg: "",
 };
 
-const tagReducer = (state = defaultTags, action) => {
+const labelReducer = (state = initialLabelState, action: LabelActionType) => {
   switch (action.type) {
-    case FETCH_TAGS_REQUEST:
+    case FETCH_LABELS_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case FETCH_TAGS_SUCCESS:
+    case FETCH_LABELS_SUCCESS:
       return {
         ...state,
         loading: false,
         errMsg: "",
       };
-    case FETCH_TAGS_FAILURE:
+    case FETCH_LABELS_FAILURE:
       return {
         ...state,
         loading: false,
         data: null,
         errMsg: action.payload,
       };
-    case SET_TAG_DATA:
+    case SET_LABEL_DATA:
       return {
         ...state,
         data: action.payload,
@@ -41,4 +42,4 @@ const tagReducer = (state = defaultTags, action) => {
   }
 };
 
-export default tagReducer;
+export default labelReducer;

@@ -3,41 +3,52 @@ import {
   generateDeleteRequest,
   generatePostRequest,
 } from "../../helperFunctions";
-
 import {
   FETCH_SUBTASKS_REQUEST,
   FETCH_SUBTASKS_SUCCESS,
   FETCH_SUBTASKS_FAILURE,
   SET_SUBTASK_DATA,
   UPDATE_SUBTASK_DATA,
+  FetchSubtasksRequestAction,
+  FetchSubtasksSuccessAction,
+  FetchSubtasksFailureAction,
+  SetSubtaskDataAction,
+  UpdateSubtaskDataAction,
 } from "./subtaskTypes";
 import { updateTaskData } from "../task/taskActions";
 import { postActivity } from "../activity/activityActions";
-
-const fetchSubtasksRequest = () => ({
+import { Id, AppThunk } from "../shared";
+const fetchSubtasksRequest = (): FetchSubtasksRequestAction => ({
   type: FETCH_SUBTASKS_REQUEST,
 });
 
-const fetchSubtasksSuccess = () => ({
+const fetchSubtasksSuccess = (): FetchSubtasksSuccessAction => ({
   type: FETCH_SUBTASKS_SUCCESS,
 });
 
-const fetchSubtasksFailure = (errMsg) => ({
+const fetchSubtasksFailure = (errMsg: string): FetchSubtasksFailureAction => ({
   type: FETCH_SUBTASKS_FAILURE,
   payload: errMsg,
 });
 
-const setSubtaskData = (subtaskData) => ({
+const setSubtaskData = (subtaskData: object): SetSubtaskDataAction => ({
   type: SET_SUBTASK_DATA,
   payload: subtaskData,
 });
 
-const updateSubtaskData = (subtaskData) => ({
+const updateSubtaskData = (subtaskData: object): UpdateSubtaskDataAction => ({
   type: UPDATE_SUBTASK_DATA,
   payload: subtaskData,
 });
 
-const postSubtask = (taskId, subtask) => (dispatch) => {
+interface SubtaskData {
+  content: string;
+  completed: boolean;
+}
+
+const postSubtask = (taskId: Id, subtask: SubtaskData): AppThunk => (
+  dispatch
+) => {
   const url = `/api/v1/tasks/${taskId}/subtasks`;
   return fetch(url, generatePostRequest(JSON.stringify({ subtask })))
     .then((res) => {
@@ -62,7 +73,7 @@ const postSubtask = (taskId, subtask) => (dispatch) => {
     });
 };
 
-const deleteSubtask = (taskId, subtaskId) => (dispatch) => {
+const deleteSubtask = (taskId: Id, subtaskId: Id): AppThunk => (dispatch) => {
   const url = `/api/v1/tasks/${taskId}/subtasks/${subtaskId}`;
   return fetch(url, generateDeleteRequest())
     .then((res) => {

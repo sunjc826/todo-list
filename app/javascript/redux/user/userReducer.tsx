@@ -7,8 +7,13 @@ import {
   FETCH_USER_FAILURE,
   SET_USER_DATA,
   UserActionType,
-  UserState,
 } from "./userTypes";
+import { State, Id } from "../shared";
+
+export interface UserState extends State {
+  loggedIn: boolean;
+  userId: Id;
+}
 
 //check authentication
 const initialUserState: UserState = {

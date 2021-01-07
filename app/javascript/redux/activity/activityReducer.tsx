@@ -4,11 +4,19 @@ import {
   FETCH_ACTIVITIES_FAILURE,
   SET_ACTIVITY_DATA,
   UPDATE_ACTIVITY_DATA,
+  ActivityActionType,
 } from "./activityTypes";
+import { State } from "../shared";
+const defaultActivityState: State = {
+  loading: false,
+  data: null,
+  errMsg: "",
+};
 
-const defaultActivityState = { loading: false, data: null, errMsg: "" };
-
-const activityReducer = (state = defaultActivityState, action) => {
+const activityReducer = (
+  state = defaultActivityState,
+  action: ActivityActionType
+) => {
   switch (action.type) {
     case FETCH_ACTIVITIES_REQUEST:
       return {

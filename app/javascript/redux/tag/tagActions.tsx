@@ -3,28 +3,36 @@ import {
   FETCH_TAGS_SUCCESS,
   FETCH_TAGS_FAILURE,
   SET_TAG_DATA,
+  FetchTagsRequestAction,
+  FetchTagsSuccessAction,
+  FetchTagsFailureAction,
+  SetTagDataAction,
 } from "./tagTypes";
 import normalize from "json-api-normalizer";
 
 const tagsUrl = "/api/v1/tags";
 
-const fetchTagsRequest = () => ({
+const fetchTagsRequest = (): FetchTagsRequestAction => ({
   type: FETCH_TAGS_REQUEST,
 });
 
-const fetchTagsSuccess = () => ({
+const fetchTagsSuccess = (): FetchTagsSuccessAction => ({
   type: FETCH_TAGS_SUCCESS,
 });
 
-const fetchTagsFailure = (errMsg) => ({
+const fetchTagsFailure = (errMsg: string): FetchTagsFailureAction => ({
   type: FETCH_TAGS_FAILURE,
   payload: errMsg,
 });
 
-const setTagData = (tagsData) => ({
+const setTagData = (tagsData: object): SetTagDataAction => ({
   type: SET_TAG_DATA,
   payload: tagsData,
 });
+
+interface TagData {
+  description: string;
+}
 
 // We are no longer fetching all tags. Tags have been refactored to belong_to a user.
 
@@ -52,4 +60,10 @@ const setTagData = (tagsData) => ({
 //     });
 // };
 
-export { fetchTagsRequest, fetchTagsSuccess, fetchTagsFailure, setTagData };
+export {
+  fetchTagsRequest,
+  fetchTagsSuccess,
+  fetchTagsFailure,
+  setTagData,
+  TagData,
+};

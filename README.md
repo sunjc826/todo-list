@@ -1,7 +1,7 @@
 # README
 
-Name: Sun Jia Cheng
-Matriculation Number: A0214263N
+- Name: Sun Jia Cheng
+- Matriculation Number: A0214263N
 
 This README would normally document whatever steps are necessary to get the
 application up and running.

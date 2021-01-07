@@ -1,43 +1,47 @@
 import {
-  FETCH_TASKS_REQUEST,
-  FETCH_TASKS_SUCCESS,
-  FETCH_TASKS_FAILURE,
-  SET_TASK_DATA,
-  UPDATE_TASK_DATA,
-} from "./taskTypes";
-
-const initialTaskState = {
+  FETCH_SUBTASKS_REQUEST,
+  FETCH_SUBTASKS_SUCCESS,
+  FETCH_SUBTASKS_FAILURE,
+  SET_SUBTASK_DATA,
+  UPDATE_SUBTASK_DATA,
+  SubtaskActionType,
+} from "./subtaskTypes";
+import { State } from "../shared";
+const initialSubtaskState: State = {
   loading: false,
   data: null,
   errMsg: "",
 };
 
-const taskReducer = (state = initialTaskState, action) => {
+const subtaskReducer = (
+  state = initialSubtaskState,
+  action: SubtaskActionType
+) => {
   switch (action.type) {
-    case FETCH_TASKS_REQUEST:
+    case FETCH_SUBTASKS_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case FETCH_TASKS_SUCCESS:
+    case FETCH_SUBTASKS_SUCCESS:
       return {
         ...state,
         loading: false,
         errMsg: "",
       };
-    case FETCH_TASKS_FAILURE:
+    case FETCH_SUBTASKS_FAILURE:
       return {
         ...state,
         loading: false,
         data: null,
         errMsg: action.payload,
       };
-    case SET_TASK_DATA:
+    case SET_SUBTASK_DATA:
       return {
         ...state,
         data: action.payload,
       };
-    case UPDATE_TASK_DATA:
+    case UPDATE_SUBTASK_DATA:
       const newData = {
         ...state.data,
         ...action.payload,
@@ -51,4 +55,4 @@ const taskReducer = (state = initialTaskState, action) => {
   }
 };
 
-export default taskReducer;
+export default subtaskReducer;

@@ -4,6 +4,11 @@ import {
   FETCH_ACTIVITIES_FAILURE,
   SET_ACTIVITY_DATA,
   UPDATE_ACTIVITY_DATA,
+  FetchActivitiesRequestAction,
+  FetchActivitiesSuccessAction,
+  FetchActivitiesFailureAction,
+  SetActivityDataAction,
+  UpdateActivityDataAction,
 } from "./activityTypes";
 import {
   generateDeleteRequest,
@@ -11,26 +16,31 @@ import {
 } from "../../helperFunctions";
 import normalize from "json-api-normalizer";
 import { updateTaskData } from "../task/taskActions";
+import { AppThunk, Id } from "../shared";
 
-const fetchActivitiesRequest = () => ({
+const fetchActivitiesRequest = (): FetchActivitiesRequestAction => ({
   type: FETCH_ACTIVITIES_REQUEST,
 });
 
-const fetchActivitiesSuccess = () => ({
+const fetchActivitiesSuccess = (): FetchActivitiesSuccessAction => ({
   type: FETCH_ACTIVITIES_SUCCESS,
 });
 
-const fetchActivitiesFailure = (errMsg) => ({
+const fetchActivitiesFailure = (
+  errMsg: string
+): FetchActivitiesFailureAction => ({
   type: FETCH_ACTIVITIES_FAILURE,
   payload: errMsg,
 });
 
-const setActivityData = (activityData) => ({
+const setActivityData = (activityData: object): SetActivityDataAction => ({
   type: SET_ACTIVITY_DATA,
   payload: activityData,
 });
 
-const updateActivityData = (activityData) => ({
+const updateActivityData = (
+  activityData: object
+): UpdateActivityDataAction => ({
   type: UPDATE_ACTIVITY_DATA,
   payload: activityData,
 });
@@ -38,7 +48,7 @@ const updateActivityData = (activityData) => ({
 // note that posting the activity does not re-fetch the user
 // although the user has_many activities, for efficiency,
 // user relations (w.r.t. activities) are not updated when posting an activity
-const postActivity = (taskId, activity) => (dispatch) => {
+const postActivity = (taskId: Id, activity): AppThunk => (dispatch) => {
   const url = `/api/v1/tasks/${taskId}/activities`;
   return fetch(url, generatePostRequest(JSON.stringify({ activity })))
     .then((res) => {

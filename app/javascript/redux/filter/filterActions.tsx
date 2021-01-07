@@ -4,32 +4,51 @@ import {
   FETCH_FILTERS_SUCCESS,
   FETCH_FILTERS_FAILURE,
   SET_FILTER_DATA,
+  FetchFiltersRequestAction,
+  FetchFiltersSuccessAction,
+  FetchFiltersFailureAction,
+  SetFilterDataAction,
 } from "./filterTypes";
 import { setUserData } from "../user/userActions";
-import { setTagData } from "../tag/tagActions";
-import { setLabelData } from "../label/labelActions";
+import { setTagData, TagData } from "../tag/tagActions";
+import { LabelData, setLabelData } from "../label/labelActions";
 import { generatePostRequest } from "../../helperFunctions";
+import { AppThunk } from "../shared";
 const filtersUrl = "/api/v1/filters";
 
-const fetchFiltersRequest = () => ({
+const fetchFiltersRequest = (): FetchFiltersRequestAction => ({
   type: FETCH_FILTERS_REQUEST,
 });
 
-const fetchFiltersSuccess = () => ({
+const fetchFiltersSuccess = (): FetchFiltersSuccessAction => ({
   type: FETCH_FILTERS_SUCCESS,
 });
 
-const fetchFiltersFailure = (errMsg) => ({
+const fetchFiltersFailure = (errMsg: string): FetchFiltersFailureAction => ({
   type: FETCH_FILTERS_FAILURE,
   payload: errMsg,
 });
 
-const setFilterData = (filterData) => ({
+const setFilterData = (filterData: object): SetFilterDataAction => ({
   type: SET_FILTER_DATA,
   payload: filterData,
 });
 
-const postFilter = ({ filter, tag, label }) => (dispatch) => {
+interface FilterData {
+  description: string;
+  startdate: string;
+  enddate: string;
+}
+
+const postFilter = ({
+  filter,
+  tag,
+  label,
+}: {
+  filter: FilterData;
+  tag: object;
+  label: object;
+}): AppThunk => (dispatch) => {
   return fetch(
     filtersUrl,
     generatePostRequest(

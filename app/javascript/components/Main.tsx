@@ -22,26 +22,36 @@ import { SidebarContext } from "./Index";
 import { RootState } from "../redux/rootReducer";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
-
+import { BootstrapColor } from "../redux/shared";
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
   align-items: stretch;
 `;
 
-type AlertContextType = { 
-  toggleAlert: ({ message, color }: {message: string; color: BootstrapColor; }) => void;
+type AlertContextType = {
+  toggleAlert: ({
+    message,
+    color,
+  }: {
+    message: string;
+    color: BootstrapColor;
+  }) => void;
 } | null;
 const AlertContext = createContext<AlertContextType>(null);
-
-type BootstrapColor = "success" | "warning" | "danger" | "info";
 
 const Main = () => {
   // global alert
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertColor, setAlertColor] = useState("info");
-  const toggleAlert = ({ message, color }: {message: string; color: BootstrapColor; }) => {
+  const toggleAlert = ({
+    message,
+    color,
+  }: {
+    message: string;
+    color: BootstrapColor;
+  }) => {
     color = color || "info";
     setAlertMessage(message);
     setAlertColor(color);
@@ -70,7 +80,7 @@ const Main = () => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const userId = userState.userId;
   const [doneEffect, setDoneEffect] = useState(false);
-  
+
   useEffect(() => {
     dispatch(fetchUserData(userId)).then(() => setDoneEffect(true));
   }, []);

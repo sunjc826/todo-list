@@ -8,31 +8,41 @@ import {
   FETCH_LABELS_SUCCESS,
   FETCH_LABELS_FAILURE,
   SET_LABEL_DATA,
+  FetchLabelsRequestAction,
+  FetchLabelsSuccessAction,
+  FetchLabelsFailureAction,
+  SetLabelDataAction,
 } from "./labelTypes";
 const labelsUrl = `/api/v1/labels`;
 import { setUserData } from "../user/userActions";
 import { setTaskData } from "../task/taskActions";
 import { setFilterData } from "../filter/filterActions";
+import { AppThunk, BootstrapColor, Id } from "../shared";
 
-const fetchLabelsRequest = () => ({
+const fetchLabelsRequest = (): FetchLabelsRequestAction => ({
   type: FETCH_LABELS_REQUEST,
 });
 
-const fetchLabelsSuccess = () => ({
+const fetchLabelsSuccess = (): FetchLabelsSuccessAction => ({
   type: FETCH_LABELS_SUCCESS,
 });
 
-const fetchLabelsFailure = (errMsg) => ({
+const fetchLabelsFailure = (errMsg: string): FetchLabelsFailureAction => ({
   type: FETCH_LABELS_FAILURE,
   payload: errMsg,
 });
 
-const setLabelData = (labelData) => ({
+const setLabelData = (labelData: object): SetLabelDataAction => ({
   type: SET_LABEL_DATA,
   payload: labelData,
 });
 
-const postLabel = (label) => (dispatch) => {
+interface LabelData {
+  description: string;
+  color: BootstrapColor;
+}
+
+const postLabel = (label: LabelData): AppThunk => (dispatch) => {
   return fetch(labelsUrl, generatePostRequest(JSON.stringify({ label })))
     .then((res) => {
       if (res.ok) {
@@ -51,7 +61,7 @@ const postLabel = (label) => (dispatch) => {
     });
 };
 
-const deleteLabel = (labelId) => (dispatch) => {
+const deleteLabel = (labelId: Id): AppThunk => (dispatch) => {
   const url = `${labelsUrl}/${labelId}`;
   return fetch(url, generateDeleteRequest())
     .then((res) => {
@@ -80,4 +90,5 @@ export {
   setLabelData,
   postLabel,
   deleteLabel,
+  LabelData,
 };

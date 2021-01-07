@@ -5,16 +5,24 @@ import {
   SET_PROJECT_DATA,
   UPDATE_PROJECT_DATA,
   SET_LAST_CREATED_PROJECT,
+  ProjectActionType,
 } from "./projectTypes";
+import { State, Id } from "../shared";
+interface ProjectState extends State {
+  lastCreatedProjectId: Id;
+}
 
-const initialProjectState = {
+const initialProjectState: ProjectState = {
   loading: false,
   data: null,
   errMsg: "",
   lastCreatedProjectId: null,
 };
 
-const projectReducer = (state = initialProjectState, action) => {
+const projectReducer = (
+  state = initialProjectState,
+  action: ProjectActionType
+) => {
   switch (action.type) {
     case FETCH_PROJECTS_REQUEST:
       return {

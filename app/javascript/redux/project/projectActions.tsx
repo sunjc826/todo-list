@@ -6,44 +6,56 @@ import {
   SET_PROJECT_DATA,
   UPDATE_PROJECT_DATA,
   SET_LAST_CREATED_PROJECT,
+  FetchProjectsRequestAction,
+  FetchProjectsSuccessAction,
+  FetchProjectsFailureAction,
+  SetProjectDataAction,
+  UpdateProjectDataAction,
 } from "./projectTypes";
 import {
   generateDeleteRequest,
   generatePostRequest,
 } from "../../helperFunctions";
 import { setUserData } from "../user/userActions";
+import { AppThunk, Id } from "../shared";
 
 const projectsUrl = "/api/v1/projects";
 
-const fetchProjectsRequest = () => ({
+const fetchProjectsRequest = (): FetchProjectsRequestAction => ({
   type: FETCH_PROJECTS_REQUEST,
 });
 
-const fetchProjectsSuccess = () => ({
+const fetchProjectsSuccess = (): FetchProjectsSuccessAction => ({
   type: FETCH_PROJECTS_SUCCESS,
 });
 
-const fetchProjectsFailure = (errMsg) => ({
+const fetchProjectsFailure = (errMsg: string): FetchProjectsFailureAction => ({
   type: FETCH_PROJECTS_FAILURE,
   payload: errMsg,
 });
 
-const setProjectData = (projectData) => ({
+const setProjectData = (projectData: object): SetProjectDataAction => ({
   type: SET_PROJECT_DATA,
   payload: projectData,
 });
 
-const updateProjectData = (projectData) => ({
+const updateProjectData = (projectData: object): UpdateProjectDataAction => ({
   type: UPDATE_PROJECT_DATA,
   payload: projectData,
 });
 
-const setLastCreatedProjectId = (projectId) => ({
+const setLastCreatedProjectId = (projectId: Id) => ({
   type: SET_LAST_CREATED_PROJECT,
   payload: projectId,
 });
 
-const postProject = (project) => (dispatch) => {
+interface ProjectData {
+  title: string;
+  content: string;
+  completed: boolean;
+}
+
+const postProject = (project: ProjectData): AppThunk => (dispatch) => {
   // https://stackoverflow.com/questions/41812056/extract-both-json-and-headers-from-fetch
 
   return fetch(projectsUrl, generatePostRequest(JSON.stringify({ project })))
@@ -78,7 +90,7 @@ const postProject = (project) => (dispatch) => {
     });
 };
 
-const deleteProject = (projectId) => (dispatch) => {
+const deleteProject = (projectId: Id): AppThunk => (dispatch) => {
   const url = `${projectsUrl}/${projectId}`;
   return fetch(url, generateDeleteRequest())
     .then((res) => {

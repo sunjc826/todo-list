@@ -1,36 +1,39 @@
 import {
-  FETCH_FILTERS_REQUEST,
-  FETCH_FILTERS_SUCCESS,
-  FETCH_FILTERS_FAILURE,
-  SET_FILTER_DATA,
-} from "./filterTypes";
+  FETCH_TAGS_REQUEST,
+  FETCH_TAGS_SUCCESS,
+  FETCH_TAGS_FAILURE,
+  SET_TAG_DATA,
+  TagActionType,
+} from "./tagTypes";
+import { State } from "../shared";
 
-const initialFilterState = {
+const defaultTags: State = {
   loading: false,
   data: null,
   errMsg: "",
 };
 
-const filterReducer = (state = initialFilterState, action) => {
+const tagReducer = (state = defaultTags, action: TagActionType) => {
   switch (action.type) {
-    case FETCH_FILTERS_REQUEST:
+    case FETCH_TAGS_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case FETCH_FILTERS_SUCCESS:
+    case FETCH_TAGS_SUCCESS:
       return {
         ...state,
         loading: false,
         errMsg: "",
       };
-    case FETCH_FILTERS_FAILURE:
+    case FETCH_TAGS_FAILURE:
       return {
         ...state,
         loading: false,
+        data: null,
         errMsg: action.payload,
       };
-    case SET_FILTER_DATA:
+    case SET_TAG_DATA:
       return {
         ...state,
         data: action.payload,
@@ -40,4 +43,4 @@ const filterReducer = (state = initialFilterState, action) => {
   }
 };
 
-export default filterReducer;
+export default tagReducer;

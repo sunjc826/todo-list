@@ -7,13 +7,11 @@ import {
   FETCH_USER_SUCCESS,
   FETCH_USER_FAILURE,
   SET_USER_DATA,
-  UserId,
   RegisterSuccessAction,
   LoginSuccessAction,
   LogoutSuccessAction,
   FetchUserSuccessAction,
   FetchUserFailureAction,
-  UserState,
   SetUserDataAction,
   FetchUserRequestAction,
 } from "./userTypes";
@@ -57,19 +55,18 @@ import {
   generatePostRequest,
   generateDeleteRequest,
 } from "../../helperFunctions";
-import { AppThunk } from "../shared";
-
+import { Id, AppThunk } from "../shared";
 
 const registrationsUrl = "/api/v1/registrations";
 const sessionsUrl = "/api/v1/sessions";
 const usersUrl = "/api/v1/users";
 
-const loginSuccess = (userId: UserId): LoginSuccessAction => ({
+const loginSuccess = (userId: Id): LoginSuccessAction => ({
   type: LOGIN_SUCCESS,
   payload: userId,
 });
 
-const registerSuccess = (userId: UserId): RegisterSuccessAction => ({
+const registerSuccess = (userId: Id): RegisterSuccessAction => ({
   type: REGISTER_SUCCESS,
   payload: userId,
 });
@@ -82,7 +79,9 @@ interface RegistrationData {
 }
 
 // TODO: Read up on ThunkAction generic parameters
-const register = (registrationData: RegistrationData): AppThunk => (dispatch) => {
+const register = (registrationData: RegistrationData): AppThunk => (
+  dispatch
+) => {
   return fetch(
     registrationsUrl,
     generatePostRequest(JSON.stringify({ user: registrationData }))
@@ -186,12 +185,12 @@ const fetchUserFailure = (errMsg: string): FetchUserFailureAction => ({
   payload: errMsg,
 });
 
-const setUserData = (userData: UserState): SetUserDataAction => ({
+const setUserData = (userData: object): SetUserDataAction => ({
   type: SET_USER_DATA,
   payload: userData,
 });
 
-const fetchUserData = (userId: UserId): AppThunk<Promise<any>> => (dispatch) => {
+const fetchUserData = (userId: Id): AppThunk<Promise<any>> => (dispatch) => {
   dispatch(fetchUserRequest());
   dispatch(fetchProjectsRequest());
   dispatch(fetchTasksRequest());
@@ -249,5 +248,6 @@ export {
   setUserData,
   fetchUserData,
   fetchUserRequest,
+  fetchUserSuccess,
   fetchUserFailure,
 };

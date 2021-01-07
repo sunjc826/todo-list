@@ -1,43 +1,43 @@
 import {
-  FETCH_SUBTASKS_REQUEST,
-  FETCH_SUBTASKS_SUCCESS,
-  FETCH_SUBTASKS_FAILURE,
-  SET_SUBTASK_DATA,
-  UPDATE_SUBTASK_DATA,
-} from "./subtaskTypes";
-
-const initialSubtaskState = {
+  FETCH_COMMENTS_REQUEST,
+  FETCH_COMMENTS_SUCCESS,
+  FETCH_COMMENTS_FAILURE,
+  SET_COMMENT_DATA,
+  UPDATE_COMMENT_DATA,
+} from "./commentTypes";
+import { State } from "../shared";
+const initialCommentState = {
   loading: false,
   data: null,
   errMsg: "",
 };
 
-const subtaskReducer = (state = initialSubtaskState, action) => {
+const commentReducer = (state = initialCommentState, action) => {
   switch (action.type) {
-    case FETCH_SUBTASKS_REQUEST:
+    case FETCH_COMMENTS_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case FETCH_SUBTASKS_SUCCESS:
+    case FETCH_COMMENTS_SUCCESS:
       return {
         ...state,
         loading: false,
         errMsg: "",
       };
-    case FETCH_SUBTASKS_FAILURE:
+    case FETCH_COMMENTS_FAILURE:
       return {
         ...state,
         loading: false,
         data: null,
         errMsg: action.payload,
       };
-    case SET_SUBTASK_DATA:
+    case SET_COMMENT_DATA:
       return {
         ...state,
         data: action.payload,
       };
-    case UPDATE_SUBTASK_DATA:
+    case UPDATE_COMMENT_DATA:
       const newData = {
         ...state.data,
         ...action.payload,
@@ -51,4 +51,4 @@ const subtaskReducer = (state = initialSubtaskState, action) => {
   }
 };
 
-export default subtaskReducer;
+export default commentReducer;

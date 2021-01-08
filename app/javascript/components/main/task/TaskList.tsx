@@ -4,8 +4,13 @@ import Task from "./Task";
 import { dateToString } from "../../../helperFunctions";
 import NewTask from "./NewTask";
 
+interface AppProps {
+  day: Date;
+  tasklist: Array<object>;
+}
+
 // lists out all tasks on the given day
-const TaskList = ({ day, tasklist }) => {
+const TaskList = ({ day, tasklist }: AppProps) => {
   const taskComponentList = tasklist.map((task) => {
     return <Task key={task.id} task={task} />;
   });

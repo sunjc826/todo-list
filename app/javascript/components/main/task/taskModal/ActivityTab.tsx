@@ -1,10 +1,16 @@
 import React, { useState, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Row, Col, ListGroup, ListGroupItem, Input, Button } from "reactstrap";
+import { Id } from "../../../../redux/shared";
 import { AlertContext } from "../../../Main";
 import Activity from "./Activity";
 
-const ActivityTab = ({ taskId, taskRelations }) => {
+interface AppProps {
+  taskId: Id;
+  taskRelations: object;
+}
+
+const ActivityTab = ({ taskId, taskRelations }: AppProps) => {
   const activityState = useSelector((state) => state.activity);
 
   const activityLoading = activityState.loading;

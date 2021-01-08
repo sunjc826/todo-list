@@ -3,10 +3,17 @@ import { ListGroupItem } from "reactstrap";
 import { DeleteButton } from "../Task";
 import { useDispatch } from "react-redux";
 import { deleteComment } from "../../../../redux/actions";
+import { Id } from "../../../../redux/shared";
 
-const Comment = ({ content, taskId, commentId }) => {
+interface AppProps {
+  content: string;
+  taskId: Id;
+  commentId: Id;
+}
+
+const Comment = ({ content, taskId, commentId }: AppProps) => {
   const dispatch = useDispatch();
-  const handleClick = (e) => {
+  const handleClick = (e: React.MouseEvent) => {
     dispatch(deleteComment(taskId, commentId));
     e.stopPropagation();
   };

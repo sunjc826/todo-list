@@ -14,7 +14,12 @@ import { postProject } from "../../../redux/actions";
 import { useHistory } from "react-router-dom";
 import { AlertContext } from "../../Main";
 
-const NewProject = ({ modalOpen, toggleModal }) => {
+interface AppProps {
+  modalOpen: boolean;
+  toggleModal: () => void;
+}
+
+const NewProject = ({ modalOpen, toggleModal }: AppProps) => {
   const defaultFormState = {
     title: "",
     content: "",
@@ -23,7 +28,7 @@ const NewProject = ({ modalOpen, toggleModal }) => {
 
   const [formState, setFormState] = useState(defaultFormState);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormState({
       ...formState,
       [e.target.name]: e.target.value,
@@ -32,7 +37,7 @@ const NewProject = ({ modalOpen, toggleModal }) => {
 
   const dispatch = useDispatch();
   const history = useHistory();
-  const { toggleAlert } = useContext(AlertContext);
+  const { toggleAlert } = useContext(AlertContext)!;
   const handleSubmit = (e) => {
     e.preventDefault();
     // TODO: Here, instead of relying on a return value (lastCreatedProjectId), is it possible

@@ -16,8 +16,15 @@ import { useParams, useLocation } from "react-router-dom";
 import { required, minLength, maxLength } from "../../../validators";
 import { useQuery } from "../../../customHooks";
 import { AlertContext } from "../../Main";
+import { RefactorActionInfo } from "typescript";
 
-const NewTask = ({ setNewTask, day, project }) => {
+interface AppProps {
+  setNewTask: (b: boolean) => void;
+  day: Date;
+  project?: boolean;
+}
+
+const NewTask = ({ setNewTask, day, project }: AppProps) => {
   // check whether task has tags or labels
   const query = useQuery();
   let tagId = null;
@@ -73,7 +80,7 @@ const NewTask = ({ setNewTask, day, project }) => {
   const [formValid, setFormValid] = useState(defaultFormValid);
   const [formTouched, setFormTouched] = useState(defaultFormTouched);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let fieldValid = formValidators[e.target.name].reduce(
       (isValid, validator) => {
         return isValid && validator(e.target.value);
@@ -91,7 +98,7 @@ const NewTask = ({ setNewTask, day, project }) => {
     });
   };
 
-  const handleBlur = (e) => {
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     setFormTouched({
       ...formTouched,
       [e.target.name]: true,
@@ -112,8 +119,8 @@ const NewTask = ({ setNewTask, day, project }) => {
   });
 
   const dispatch = useDispatch();
-  const { toggleAlert } = useContext(AlertContext);
-  const handleSubmit = (e) => {
+  const { toggleAlert } = useContext(AlertContext)!;
+  const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
     dispatch(
       postTask(formState, {
@@ -139,7 +146,7 @@ const NewTask = ({ setNewTask, day, project }) => {
     reset();
   };
 
-  const handleCancel = (e) => {
+  const handleCancel = (e: React.MouseEvent) => {
     setNewTask(false);
     reset();
   };

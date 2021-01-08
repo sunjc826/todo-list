@@ -3,14 +3,19 @@ import { Collapse, ListGroup, ListGroupItem } from "reactstrap";
 import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import NewProject from "./NewProject";
+import { RootState } from "../../../redux/rootReducer";
 
-const ProjectList = ({ collapseOpen }) => {
+interface AppProps {
+  collapseOpen: boolean;
+}
+
+const ProjectList = ({ collapseOpen }: AppProps) => {
   const [modalOpen, setModalOpen] = useState(false);
   const toggleModal = () => setModalOpen(!modalOpen);
 
-  const userState = useSelector((state) => state.user);
+  const userState = useSelector((state: RootState) => state.user);
   const userId = userState.userId;
-  const projectState = useSelector((state) => state.project);
+  const projectState = useSelector((state: RootState) => state.project);
   const projectLoading = projectState.loading;
   const projectErrMsg = projectState.errMsg;
   const projectData = projectState.data;
@@ -34,7 +39,7 @@ const ProjectList = ({ collapseOpen }) => {
 
     projectListComponent = projectList.map((project) => {
       const projectId = project.id;
-      const handleClick = (e) => {
+      const handleClick = (e: React.MouseEvent) => {
         history.push(`/project/${projectId}`);
         e.stopPropagation();
       };
@@ -51,7 +56,7 @@ const ProjectList = ({ collapseOpen }) => {
     });
   }
 
-  const handleClick = (e) => {
+  const handleClick = (e: React.MouseEvent) => {
     toggleModal();
     e.stopPropagation();
   };

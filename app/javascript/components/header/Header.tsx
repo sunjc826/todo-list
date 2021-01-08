@@ -23,7 +23,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const { sidebarActive, setSidebarActive, resetSidebar } = useContext(
     SidebarContext
-  );
+  )!;
   // const { toggleModal, setModalHeader, setModalContent } = useContext(
   //   ModalContext
   // );
@@ -36,7 +36,7 @@ const Header = () => {
   const [activityTooltipOpen, setActivityTooltipOpen] = useState(false);
 
   const [modalOpen, setModalOpen] = useState({ task: false, activity: false });
-  const toggleModal = (type) => () =>
+  const toggleModal = (type: "task" | "activity") => () =>
     setModalOpen({
       ...modalOpen,
       [type]: !modalOpen[type],

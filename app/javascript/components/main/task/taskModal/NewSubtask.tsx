@@ -3,7 +3,14 @@ import { Button, Form, FormGroup, Input } from "reactstrap";
 import { useDispatch } from "react-redux";
 import { postSubtask } from "../../../../redux/actions";
 import { AlertContext } from "../../../Main";
-const NewSubtask = ({ taskId, setNewSubtask }) => {
+import { Id } from "../../../../redux/shared";
+
+interface AppProps {
+  taskId: Id;
+  setNewSubtask: (b: boolean) => void;
+}
+
+const NewSubtask = ({ taskId, setNewSubtask }: AppProps) => {
   const dispatch = useDispatch();
   const defaultFormState = {
     content: "",
@@ -18,8 +25,8 @@ const NewSubtask = ({ taskId, setNewSubtask }) => {
     });
   };
 
-  const { toggleAlert } = useContext(AlertContext);
-  const handleSubmit = (e) => {
+  const { toggleAlert } = useContext(AlertContext)!;
+  const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
     dispatch(postSubtask(taskId, formState))
       .then((res) => {
@@ -37,7 +44,7 @@ const NewSubtask = ({ taskId, setNewSubtask }) => {
     setNewSubtask(false);
   };
 
-  const handleCancel = (e) => {
+  const handleCancel = (e: React.MouseEvent) => {
     e.preventDefault();
     setNewSubtask(false);
   };

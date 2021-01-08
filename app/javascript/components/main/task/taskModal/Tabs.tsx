@@ -15,8 +15,10 @@ import ActivityTab from "./ActivityTab";
 import { TaskContext } from "../Task";
 import { fetchTaskData } from "../../../../redux/actions";
 
+type Toggleable = "1" | "2" | "3";
+
 const Tabs = () => {
-  const { taskId } = useContext(TaskContext);
+  const { taskId } = useContext(TaskContext)!;
 
   const [doneEffect, setDoneEffect] = useState(false);
   const dispatch = useDispatch();
@@ -31,7 +33,7 @@ const Tabs = () => {
 
   const [activeTab, setActiveTab] = useState("1");
 
-  const toggleTab = (tab) => () => {
+  const toggleTab = (tab: Toggleable) => () => {
     if (activeTab !== tab) {
       setActiveTab(tab);
     }

@@ -13,9 +13,16 @@ import {
 import Comment from "./Comment";
 import { postComment } from "../../../../redux/actions";
 import { AlertContext } from "../../../Main";
+import { Id } from "../../../../redux/shared";
+import { RootState } from "../../../../redux/rootReducer";
 
-const CommentTab = ({ taskId, taskRelations }) => {
-  const commentState = useSelector((state) => state.comment);
+interface AppProps {
+  taskId: Id;
+  taskRelations: object;
+}
+
+const CommentTab = ({ taskId, taskRelations }: AppProps) => {
+  const commentState = useSelector((state: RootState) => state.comment);
   const dispatch = useDispatch();
 
   const commentLoading = commentState.loading;
@@ -47,8 +54,8 @@ const CommentTab = ({ taskId, taskRelations }) => {
   }
 
   const [formComment, setFormComment] = useState("");
-  const { toggleAlert } = useContext(AlertContext);
-  const handleSubmit = (e) => {
+  const { toggleAlert } = useContext(AlertContext)!;
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // fetch post, then update store
     const formOutput = { content: formComment };

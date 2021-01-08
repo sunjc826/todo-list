@@ -11,6 +11,7 @@ import {
   FetchProjectsFailureAction,
   SetProjectDataAction,
   UpdateProjectDataAction,
+  SetLastCreatedProjectAction,
 } from "./projectTypes";
 import {
   generateDeleteRequest,
@@ -44,7 +45,9 @@ const updateProjectData = (projectData: object): UpdateProjectDataAction => ({
   payload: projectData,
 });
 
-const setLastCreatedProjectId = (projectId: Id) => ({
+const setLastCreatedProjectId = (
+  projectId: Id
+): SetLastCreatedProjectAction => ({
   type: SET_LAST_CREATED_PROJECT,
   payload: projectId,
 });

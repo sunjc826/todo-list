@@ -15,26 +15,37 @@ import NewTask from "../task/NewTask";
 import { useDispatch } from "react-redux";
 import { deleteProject } from "../../../redux/actions";
 import { AlertContext } from "../../Main";
+import { Id, State } from "../../../redux/shared";
+import { ProjectState } from "../../../redux/project/projectReducer";
 
-const Project = ({ projectState, taskState }) => {
-  const { projectId } = useParams();
+interface AppProps {
+  projectState: ProjectState;
+  taskState: State;
+}
+
+interface ParamTypes {
+  projectId: string;
+}
+
+const Project = ({ projectState, taskState }: AppProps) => {
+  const { projectId } = useParams<ParamTypes>();
   const projectLoading = projectState.loading;
   const projectErrMsg = projectState.errMsg;
   const projectData = projectState.data;
   const taskData = taskState.data;
 
-  const { date } = useContext(TimeContext);
-  const { toggleAlert } = useContext(AlertContext);
+  const { date } = useContext(TimeContext)!;
+  const { toggleAlert } = useContext(AlertContext)!;
   const [newTask, setNewTask] = useState(false);
 
   let projectComponent;
 
   if (projectLoading) {
-    toggleAlert("Project loading...");
+    toggleAlert({ message: "Project loading...", color: "info" });
   } else if (projectErrMsg) {
-    toggleAlert("Error loading projects");
+    toggleAlert({ message: "Error loading projects", color: "danger" });
   } else {
-    const project = projectData[projectId];
+    const project = projectData![projectId];
     const { title, completed, content } = project.attributes;
     const taskList = [];
     // filter out tasks belonging to this project
@@ -47,18 +58,18 @@ const Project = ({ projectState, taskState }) => {
     }
 
     const taskListComponent = taskList.map((task) => {
-      const isBeforeToday = compareDateByDay(
-        task.attributes.dateString,
-        date,
-        true
-      );
+      const isBeforeToday = compareDateByDay({
+        date1: task.attributes.dateString,
+        date2: date,
+        strict: true,
+      });
 
       return <Task task={task} overdue={isBeforeToday} key={task.id} />;
     });
 
     const dispatch = useDispatch();
     const history = useHistory();
-    const handleClick = (e) => {
+    const handleClick = (e: React.MouseEvent) => {
       history.push("/home");
       dispatch(deleteProject(projectId));
       e.stopPropagation();

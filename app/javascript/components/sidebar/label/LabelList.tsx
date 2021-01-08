@@ -5,9 +5,14 @@ import { Collapse, ListGroup, ListGroupItem, Row, Col } from "reactstrap";
 import NewLabel from "./NewLabel";
 import { DeleteButton } from "../../main/task/Task";
 import { deleteLabel } from "../../../redux/actions";
+import { RootState } from "../../../redux/rootReducer";
 
-const LabelList = ({ collapseOpen }) => {
-  const labelState = useSelector((state) => state.label);
+interface AppProps {
+  collapseOpen: boolean;
+}
+
+const LabelList = ({ collapseOpen }: AppProps) => {
+  const labelState = useSelector((state: RootState) => state.label);
   const labelLoading = labelState.loading;
   const labelErrMsg = labelState.errMsg;
   const labelData = labelState.data;
@@ -26,12 +31,12 @@ const LabelList = ({ collapseOpen }) => {
       const ele = labelData[key];
       const labelId = ele.id;
       const labelAttributes = ele.attributes;
-      const handleClick = (e) => {
+      const handleClick = (e: React.MouseEvent) => {
         history.push(`/tasks?labelId=${labelId}`);
         e.stopPropagation();
       };
 
-      const handleDelete = (e) => {
+      const handleDelete = (e: React.MouseEvent) => {
         e.stopPropagation();
         history.push("/tasks");
         dispatch(deleteLabel(key));
@@ -65,7 +70,7 @@ const LabelList = ({ collapseOpen }) => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const toggleModal = () => setModalOpen(!modalOpen);
-  const handleClick = (e) => {
+  const handleClick = (e: React.MouseEvent) => {
     toggleModal();
     e.stopPropagation();
   };

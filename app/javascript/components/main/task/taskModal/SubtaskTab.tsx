@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Row, Col, ListGroup, ListGroupItem } from "reactstrap";
+import { RootState } from "../../../../redux/rootReducer";
+import { Id } from "../../../../redux/shared";
 import NewSubtask from "./NewSubtask";
 import Subtask from "./Subtask";
 
-const SubtaskTab = ({ taskId, taskRelations }) => {
-  const subtaskState = useSelector((state) => state.subtask);
+interface AppProps {
+  taskId: Id;
+  taskRelations: object;
+}
+
+const SubtaskTab = ({ taskId, taskRelations }: AppProps) => {
+  const subtaskState = useSelector((state: RootState) => state.subtask);
 
   const subtaskLoading = subtaskState.loading;
   const subtaskErrMsg = subtaskState.errMsg;

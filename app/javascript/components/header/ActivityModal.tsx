@@ -9,10 +9,16 @@ import {
   ListGroup,
   Container,
 } from "reactstrap";
+import { RootState } from "../../redux/rootReducer";
 import Activity from "../main/task/taskModal/Activity";
 
-const ActivityModal = ({ modalOpen, toggleModal }) => {
-  const activityState = useSelector((state) => state.activity);
+interface AppProps {
+  modalOpen: boolean;
+  toggleModal: () => void;
+}
+
+const ActivityModal = ({ modalOpen, toggleModal }: AppProps) => {
+  const activityState = useSelector((state: RootState) => state.activity);
   const activityLoading = activityState.loading;
   const activityErrMsg = activityState.errMsg;
   const activityData = activityState.data;

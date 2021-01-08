@@ -6,6 +6,8 @@ import styled from "styled-components";
 import TaskModal from "./taskModal/TaskModal";
 import { deleteTask } from "../../../redux/actions";
 import QuickNewTask from "../../header/QuickNewTask";
+import { Id } from "../../../redux/shared";
+import { RootState } from "../../../redux/rootReducer";
 
 const Tiny = styled.div`
   font-size: 0.7rem;
@@ -19,10 +21,19 @@ const DeleteButton = styled.i`
   }
 `;
 
-const TaskContext = createContext();
+type TaskContextType = {
+  taskId: Id;
+};
 
-const Task = ({ task, overdue }) => {
-  const projectState = useSelector((state) => state.project);
+const TaskContext = createContext(null);
+
+interface AppProps {
+  task: object;
+  overdue?: boolean;
+}
+
+const Task = ({ task, overdue }: AppProps) => {
+  const projectState = useSelector((state: RootState) => state.project);
   const projectLoading = projectState.loading;
   const projectErrMsg = projectState.errMsg;
   const projectData = projectState.data;
@@ -51,7 +62,7 @@ const Task = ({ task, overdue }) => {
   };
 
   const dispatch = useDispatch();
-  const handleClick = (e) => {
+  const handleClick = (e: React.MouseEvent) => {
     dispatch(deleteTask(task.id));
     e.stopPropagation();
   };

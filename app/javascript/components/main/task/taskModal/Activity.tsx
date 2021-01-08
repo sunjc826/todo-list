@@ -1,7 +1,14 @@
 import React from "react";
 import { ListGroupItem } from "reactstrap";
+import { BootstrapColor } from "../../../../redux/shared";
 
-const crudToColor = {
+type CrudType = "c" | "u" | "d";
+
+const crudToColor: {
+  c: BootstrapColor;
+  u: BootstrapColor;
+  d: BootstrapColor;
+} = {
   c: "success",
   u: "warning",
   d: "danger",
@@ -13,7 +20,13 @@ const crudToString = {
   d: "Deleted",
 };
 
-const Activity = ({ crudType, item, createdAt }) => {
+interface AppProps {
+  crudType: CrudType;
+  item: string;
+  createdAt: string;
+}
+
+const Activity = ({ crudType, item, createdAt }: AppProps) => {
   return (
     <ListGroupItem>
       <p>

@@ -1,3 +1,5 @@
+import { Id } from "../shared";
+
 export const FETCH_PROJECTS_REQUEST = "FETCH_PROJECTS_REQUEST";
 export const FETCH_PROJECTS_SUCCESS = "FETCH_PROJECTS_SUCCESS";
 export const FETCH_PROJECTS_FAILURE = "FETCH_PROJECTS_FAILURE";
@@ -28,9 +30,15 @@ export interface UpdateProjectDataAction {
   payload: object;
 }
 
-export type ProjectActionType = 
+export interface SetLastCreatedProjectAction {
+  type: typeof SET_LAST_CREATED_PROJECT;
+  payload: Id;
+}
+
+export type ProjectActionType =
   | FetchProjectsRequestAction
   | FetchProjectsSuccessAction
   | FetchProjectsFailureAction
   | SetProjectDataAction
-  | UpdateProjectDataAction;
+  | UpdateProjectDataAction
+  | SetLastCreatedProjectAction;

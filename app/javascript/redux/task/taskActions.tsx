@@ -237,6 +237,15 @@ const deleteTask = (taskId: Id): AppThunk => (dispatch) => {
     });
 };
 
+interface NormalizedData {
+  user: object;
+  project: object;
+  task: object;
+  label: object;
+  tag: object;
+  filter: object;
+}
+
 const editTask = (
   taskId: Id,
   task: Task,
@@ -255,9 +264,11 @@ const editTask = (
         throw new Error(res.statusText);
       }
     })
-    .then((res) => {
-      return normalize(res);
-    })
+    .then(
+      (res): NormalizedData => {
+        return normalize(res);
+      }
+    )
     .then((res) => {
       const { user, project, task, label, tag, filter } = res;
       dispatch(setUserData(user));

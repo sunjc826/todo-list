@@ -2,9 +2,14 @@ import React, { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { Collapse, ListGroup, ListGroupItem } from "reactstrap";
+import { RootState } from "../../../redux/rootReducer";
 
-const TagList = ({ collapseOpen }) => {
-  const tagState = useSelector((state) => state.tag);
+interface AppProps {
+  collapseOpen: boolean;
+}
+
+const TagList = ({ collapseOpen }: AppProps) => {
+  const tagState = useSelector((state: RootState) => state.tag);
   const tagLoading = tagState.loading;
   const tagErrMsg = tagState.errMsg;
   const tagData = tagState.data;

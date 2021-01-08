@@ -14,8 +14,9 @@ import {
 import { useDispatch } from "react-redux";
 import { postLabel } from "../../../redux/actions";
 import { AlertContext } from "../../Main";
+import { BootstrapColor } from "../../../redux/shared";
 
-const bootstrapColors = [
+const bootstrapColors: Array<BootstrapColor> = [
   "primary",
   "secondary",
   "success",
@@ -24,15 +25,23 @@ const bootstrapColors = [
   "info",
 ];
 
-const NewLabel = ({ modalOpen, toggleModal }) => {
-  const defaultFormState = {
+interface AppProps {
+  modalOpen: boolean;
+  toggleModal: () => void;
+}
+
+const NewLabel = ({ modalOpen, toggleModal }: AppProps) => {
+  const defaultFormState: {
+    description: string;
+    color: BootstrapColor;
+  } = {
     description: "",
     color: "primary",
   };
 
   const [formState, setFormState] = useState(defaultFormState);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormState({
       ...formState,
       [e.target.name]: e.target.value,
@@ -59,8 +68,8 @@ const NewLabel = ({ modalOpen, toggleModal }) => {
   });
 
   const dispatch = useDispatch();
-  const { toggleAlert } = useContext(AlertContext);
-  const handleSubmit = (e) => {
+  const { toggleAlert } = useContext(AlertContext)!;
+  const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
     dispatch(postLabel(formState))
       .then((res) => {
@@ -72,7 +81,7 @@ const NewLabel = ({ modalOpen, toggleModal }) => {
     toggleModal();
   };
 
-  const handleCancel = (e) => {
+  const handleCancel = (e: React.MouseEvent) => {
     toggleModal();
   };
 

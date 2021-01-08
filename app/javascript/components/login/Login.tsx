@@ -16,7 +16,7 @@ import {
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { register, login } from "../../redux/actions";
-import { required, validEmail } from "../../validators";
+import { Field, required, validEmail } from "../../validators";
 const Viewport = styled.div`
   height: 100vh;
 `;
@@ -55,17 +55,17 @@ const RegisterForm = () => {
     name: [required],
     email: [required, validEmail],
     password: [required],
-    password_confirmation: [(field) => field === formState.password],
+    password_confirmation: [(field: Field) => field === formState.password],
   };
 
-  const handleBlur = (e) => {
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     setFormTouched({
       ...formTouched,
       [e.target.name]: true,
     });
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let fieldValid = formValidators[e.target.name].reduce(
       (isValid, validator) => {
         return isValid && validator(e.target.value);
@@ -83,7 +83,7 @@ const RegisterForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(register(formState)).then((res) => {
       if (!res) {
@@ -206,14 +206,14 @@ const LoginForm = () => {
   const [formValid, setFormValid] = useState(defaultFormValid);
   const [formTouched, setFormTouched] = useState(defaultFormTouched);
 
-  const handleBlur = (e) => {
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     setFormTouched({
       ...formTouched,
       [e.target.name]: true,
     });
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let fieldValid = formValidators[e.target.name].reduce(
       (isValid, validator) => {
         return isValid && validator(e.target.value);
@@ -231,7 +231,7 @@ const LoginForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(login(formState)).then((res) => {
       if (!res) {
@@ -294,7 +294,7 @@ const Login = () => {
   const [isLogin, setIsLogin] = useState(false);
 
   const toggle = () => setModalOpen(!modalOpen);
-  const handleClick = (type) => () => {
+  const handleClick = (type: boolean) => () => {
     setIsLogin(type);
     toggle();
   };

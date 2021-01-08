@@ -8,7 +8,7 @@ import {
   ProjectActionType,
 } from "./projectTypes";
 import { State, Id } from "../shared";
-interface ProjectState extends State {
+export interface ProjectState extends State {
   lastCreatedProjectId: Id;
 }
 

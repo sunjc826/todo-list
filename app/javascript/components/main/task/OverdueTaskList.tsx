@@ -2,7 +2,11 @@ import React from "react";
 import { Row, Col, ListGroup, ListGroupItem } from "reactstrap";
 import Task from "./Task";
 
-const OverdueTaskList = ({ tasklist }) => {
+interface AppProps {
+  tasklist: Array<object>;
+}
+
+const OverdueTaskList = ({ tasklist }: AppProps) => {
   const taskComponentList = tasklist.map((task) => {
     return <Task key={task.id} task={task} overdue />;
   });

@@ -3,13 +3,18 @@ import { Collapse, ListGroup, ListGroupItem } from "reactstrap";
 import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import NewFilter from "./NewFilter";
+import { RootState } from "../../../redux/rootReducer";
 
-const FilterList = ({ collapseOpen }) => {
+interface AppProps {
+  collapseOpen: boolean;
+}
+
+const FilterList = ({ collapseOpen }: AppProps) => {
   const [modalOpen, setModalOpen] = useState(false);
   const toggleModal = () => setModalOpen(!modalOpen);
 
   let filterListComponent = [];
-  const filterState = useSelector((state) => state.filter);
+  const filterState = useSelector((state: RootState) => state.filter);
   const filterLoading = filterState.loading;
   const filterErrMsg = filterState.errMsg;
   const filterData = filterState.data;
@@ -37,7 +42,7 @@ const FilterList = ({ collapseOpen }) => {
     }
   }
 
-  const handleClick = (e) => {
+  const handleClick = (e: React.MouseEvent) => {
     toggleModal();
     e.stopPropagation();
   };

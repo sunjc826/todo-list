@@ -17,8 +17,19 @@ import { useHistory } from "react-router-dom";
 import { required, minLength, maxLength } from "../../validators";
 import { AlertContext } from "../Main";
 import TagsLabels from "../sidebar/filter/TagsLabels";
+import { ThunkDispatch } from "redux-thunk";
+import { RootState } from "../../redux/rootReducer";
+import { AnyAction } from "redux";
+import { Id } from "../../redux/shared";
 
-const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }) => {
+interface AppProps {
+  modalOpen: boolean;
+  toggleModal: () => void;
+  isEdit: boolean;
+  taskId: Id;
+}
+
+const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }: AppProps) => {
   const defaultFormState = {
     content: "",
     priority: 3,
@@ -37,24 +48,26 @@ const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }) => {
     deadline: false,
   };
 
-  const taskData = useSelector((state) => state.task.data);
+  const taskData = useSelector((state: RootState) => state.task.data);
   if (isEdit) {
-    const taskToEdit = taskData[taskId];
+    const taskToEdit = taskData![taskId!];
     defaultFormState.content = taskToEdit.attributes.content;
     defaultFormState.priority = taskToEdit.attributes.priority;
     // defaultFormState.deadline = taskToEdit.attributes.deadline;
   }
 
-  const formValidators = {
+  const formValidators: {
+    content: Array<Function>;
+    deadline: Array<Function>;
+  } = {
     content: [required, maxLength(20)],
     deadline: [required],
   };
   const [formState, setFormState] = useState(defaultFormState);
   const [formValid, setFormValid] = useState(defaultFormValid);
   const [formTouched, setFormTouched] = useState(defaultFormTouched);
-  const dispatch = useDispatch();
-
-  const handleChange = (e) => {
+  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let fieldValid = formValidators[e.target.name].reduce(
       (isValid, validator) => {
         return isValid && validator(e.target.value);
@@ -72,7 +85,7 @@ const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }) => {
     });
   };
 
-  const handleBlur = (e) => {
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     setFormTouched({
       ...formTouched,
       [e.target.name]: true,
@@ -94,8 +107,8 @@ const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }) => {
 
   // submission
   const history = useHistory();
-  const { toggleAlert } = useContext(AlertContext);
-  const handleSubmit = (e) => {
+  const { toggleAlert } = useContext(AlertContext)!;
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formState);
     const tagIds = [];

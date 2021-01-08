@@ -8,7 +8,7 @@ const SearchBar = () => {
   const [query, setQuery] = useState("");
   const location = useLocation();
   const history = useHistory();
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
 

@@ -3,10 +3,17 @@ import { ListGroupItem } from "reactstrap";
 import { DeleteButton } from "../Task";
 import { useDispatch } from "react-redux";
 import { deleteSubtask, postActivity } from "../../../../redux/actions";
+import { Id } from "../../../../redux/shared";
 
-const Subtask = ({ content, taskId, subtaskId }) => {
+interface AppProps {
+  content: string;
+  taskId: Id;
+  subtaskId: Id;
+}
+
+const Subtask = ({ content, taskId, subtaskId }: AppProps) => {
   const dispatch = useDispatch();
-  const handleClick = (e) => {
+  const handleClick = (e: React.MouseEvent) => {
     dispatch(deleteSubtask(taskId, subtaskId));
     e.stopPropagation();
   };

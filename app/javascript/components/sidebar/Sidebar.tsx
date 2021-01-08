@@ -10,7 +10,7 @@ const Sidebar = () => {
   const history = useHistory();
   const { sidebarActive, collapseOpen, toggleCollapse } = useContext(
     SidebarContext
-  );
+  )!;
 
   return (
     <div id="sidebar" className={`${sidebarActive ? "active" : ""}`}>

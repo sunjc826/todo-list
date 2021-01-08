@@ -1,0 +1,1154 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.5 (Ubuntu 12.5-0ubuntu0.20.04.1)
+-- Dumped by pg_dump version 12.5 (Ubuntu 12.5-0ubuntu0.20.04.1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: activities; Type: TABLE; Schema: public; Owner: sunjc826
+--
+
+CREATE TABLE public.activities (
+    id bigint NOT NULL,
+    crud_type character varying,
+    item character varying,
+    task_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+ALTER TABLE public.activities OWNER TO sunjc826;
+
+--
+-- Name: activities_id_seq; Type: SEQUENCE; Schema: public; Owner: sunjc826
+--
+
+CREATE SEQUENCE public.activities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.activities_id_seq OWNER TO sunjc826;
+
+--
+-- Name: activities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: sunjc826
+--
+
+ALTER SEQUENCE public.activities_id_seq OWNED BY public.activities.id;
+
+
+--
+-- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: sunjc826
+--
+
+CREATE TABLE public.ar_internal_metadata (
+    key character varying NOT NULL,
+    value character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+ALTER TABLE public.ar_internal_metadata OWNER TO sunjc826;
+
+--
+-- Name: comments; Type: TABLE; Schema: public; Owner: sunjc826
+--
+
+CREATE TABLE public.comments (
+    id bigint NOT NULL,
+    content character varying,
+    task_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+ALTER TABLE public.comments OWNER TO sunjc826;
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE; Schema: public; Owner: sunjc826
+--
+
+CREATE SEQUENCE public.comments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.comments_id_seq OWNER TO sunjc826;
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: sunjc826
+--
+
+ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
+
+
+--
+-- Name: filter_criteria; Type: TABLE; Schema: public; Owner: sunjc826
+--
+
+CREATE TABLE public.filter_criteria (
+    id bigint NOT NULL,
+    filter_id bigint NOT NULL,
+    filterable_id bigint,
+    filterable_type character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+ALTER TABLE public.filter_criteria OWNER TO sunjc826;
+
+--
+-- Name: filter_criteria_id_seq; Type: SEQUENCE; Schema: public; Owner: sunjc826
+--
+
+CREATE SEQUENCE public.filter_criteria_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.filter_criteria_id_seq OWNER TO sunjc826;
+
+--
+-- Name: filter_criteria_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: sunjc826
+--
+
+ALTER SEQUENCE public.filter_criteria_id_seq OWNED BY public.filter_criteria.id;
+
+
+--
+-- Name: filters; Type: TABLE; Schema: public; Owner: sunjc826
+--
+
+CREATE TABLE public.filters (
+    id bigint NOT NULL,
+    time_filter timestamp without time zone,
+    priority_filter integer,
+    user_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    description character varying,
+    startdate timestamp without time zone,
+    enddate timestamp without time zone
+);
+
+
+ALTER TABLE public.filters OWNER TO sunjc826;
+
+--
+-- Name: filters_id_seq; Type: SEQUENCE; Schema: public; Owner: sunjc826
+--
+
+CREATE SEQUENCE public.filters_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.filters_id_seq OWNER TO sunjc826;
+
+--
+-- Name: filters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: sunjc826
+--
+
+ALTER SEQUENCE public.filters_id_seq OWNED BY public.filters.id;
+
+
+--
+-- Name: label_tasks; Type: TABLE; Schema: public; Owner: sunjc826
+--
+
+CREATE TABLE public.label_tasks (
+    id bigint NOT NULL,
+    label_id bigint NOT NULL,
+    task_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+ALTER TABLE public.label_tasks OWNER TO sunjc826;
+
+--
+-- Name: label_tasks_id_seq; Type: SEQUENCE; Schema: public; Owner: sunjc826
+--
+
+CREATE SEQUENCE public.label_tasks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.label_tasks_id_seq OWNER TO sunjc826;
+
+--
+-- Name: label_tasks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: sunjc826
+--
+
+ALTER SEQUENCE public.label_tasks_id_seq OWNED BY public.label_tasks.id;
+
+
+--
+-- Name: labels; Type: TABLE; Schema: public; Owner: sunjc826
+--
+
+CREATE TABLE public.labels (
+    id bigint NOT NULL,
+    description character varying,
+    user_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    color character varying
+);
+
+
+ALTER TABLE public.labels OWNER TO sunjc826;
+
+--
+-- Name: labels_id_seq; Type: SEQUENCE; Schema: public; Owner: sunjc826
+--
+
+CREATE SEQUENCE public.labels_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.labels_id_seq OWNER TO sunjc826;
+
+--
+-- Name: labels_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: sunjc826
+--
+
+ALTER SEQUENCE public.labels_id_seq OWNED BY public.labels.id;
+
+
+--
+-- Name: projects; Type: TABLE; Schema: public; Owner: sunjc826
+--
+
+CREATE TABLE public.projects (
+    id bigint NOT NULL,
+    completed boolean,
+    user_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    title character varying,
+    content character varying
+);
+
+
+ALTER TABLE public.projects OWNER TO sunjc826;
+
+--
+-- Name: projects_id_seq; Type: SEQUENCE; Schema: public; Owner: sunjc826
+--
+
+CREATE SEQUENCE public.projects_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.projects_id_seq OWNER TO sunjc826;
+
+--
+-- Name: projects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: sunjc826
+--
+
+ALTER SEQUENCE public.projects_id_seq OWNED BY public.projects.id;
+
+
+--
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: sunjc826
+--
+
+CREATE TABLE public.schema_migrations (
+    version character varying NOT NULL
+);
+
+
+ALTER TABLE public.schema_migrations OWNER TO sunjc826;
+
+--
+-- Name: subtasks; Type: TABLE; Schema: public; Owner: sunjc826
+--
+
+CREATE TABLE public.subtasks (
+    id bigint NOT NULL,
+    content character varying,
+    completed boolean,
+    task_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+ALTER TABLE public.subtasks OWNER TO sunjc826;
+
+--
+-- Name: subtasks_id_seq; Type: SEQUENCE; Schema: public; Owner: sunjc826
+--
+
+CREATE SEQUENCE public.subtasks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.subtasks_id_seq OWNER TO sunjc826;
+
+--
+-- Name: subtasks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: sunjc826
+--
+
+ALTER SEQUENCE public.subtasks_id_seq OWNED BY public.subtasks.id;
+
+
+--
+-- Name: tag_tasks; Type: TABLE; Schema: public; Owner: sunjc826
+--
+
+CREATE TABLE public.tag_tasks (
+    id bigint NOT NULL,
+    tag_id bigint NOT NULL,
+    task_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+ALTER TABLE public.tag_tasks OWNER TO sunjc826;
+
+--
+-- Name: tag_tasks_id_seq; Type: SEQUENCE; Schema: public; Owner: sunjc826
+--
+
+CREATE SEQUENCE public.tag_tasks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tag_tasks_id_seq OWNER TO sunjc826;
+
+--
+-- Name: tag_tasks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: sunjc826
+--
+
+ALTER SEQUENCE public.tag_tasks_id_seq OWNED BY public.tag_tasks.id;
+
+
+--
+-- Name: tags; Type: TABLE; Schema: public; Owner: sunjc826
+--
+
+CREATE TABLE public.tags (
+    id bigint NOT NULL,
+    description character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    user_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.tags OWNER TO sunjc826;
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE; Schema: public; Owner: sunjc826
+--
+
+CREATE SEQUENCE public.tags_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tags_id_seq OWNER TO sunjc826;
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: sunjc826
+--
+
+ALTER SEQUENCE public.tags_id_seq OWNED BY public.tags.id;
+
+
+--
+-- Name: tasks; Type: TABLE; Schema: public; Owner: sunjc826
+--
+
+CREATE TABLE public.tasks (
+    id bigint NOT NULL,
+    deadline timestamp without time zone,
+    content character varying,
+    priority integer,
+    completed boolean,
+    user_id bigint NOT NULL,
+    project_id bigint,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+ALTER TABLE public.tasks OWNER TO sunjc826;
+
+--
+-- Name: tasks_id_seq; Type: SEQUENCE; Schema: public; Owner: sunjc826
+--
+
+CREATE SEQUENCE public.tasks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tasks_id_seq OWNER TO sunjc826;
+
+--
+-- Name: tasks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: sunjc826
+--
+
+ALTER SEQUENCE public.tasks_id_seq OWNED BY public.tasks.id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: sunjc826
+--
+
+CREATE TABLE public.users (
+    id bigint NOT NULL,
+    name character varying,
+    email character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    password_digest character varying
+);
+
+
+ALTER TABLE public.users OWNER TO sunjc826;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: sunjc826
+--
+
+CREATE SEQUENCE public.users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO sunjc826;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: sunjc826
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- Name: activities id; Type: DEFAULT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.activities ALTER COLUMN id SET DEFAULT nextval('public.activities_id_seq'::regclass);
+
+
+--
+-- Name: comments id; Type: DEFAULT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.comments_id_seq'::regclass);
+
+
+--
+-- Name: filter_criteria id; Type: DEFAULT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.filter_criteria ALTER COLUMN id SET DEFAULT nextval('public.filter_criteria_id_seq'::regclass);
+
+
+--
+-- Name: filters id; Type: DEFAULT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.filters ALTER COLUMN id SET DEFAULT nextval('public.filters_id_seq'::regclass);
+
+
+--
+-- Name: label_tasks id; Type: DEFAULT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.label_tasks ALTER COLUMN id SET DEFAULT nextval('public.label_tasks_id_seq'::regclass);
+
+
+--
+-- Name: labels id; Type: DEFAULT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.labels ALTER COLUMN id SET DEFAULT nextval('public.labels_id_seq'::regclass);
+
+
+--
+-- Name: projects id; Type: DEFAULT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.projects ALTER COLUMN id SET DEFAULT nextval('public.projects_id_seq'::regclass);
+
+
+--
+-- Name: subtasks id; Type: DEFAULT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.subtasks ALTER COLUMN id SET DEFAULT nextval('public.subtasks_id_seq'::regclass);
+
+
+--
+-- Name: tag_tasks id; Type: DEFAULT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.tag_tasks ALTER COLUMN id SET DEFAULT nextval('public.tag_tasks_id_seq'::regclass);
+
+
+--
+-- Name: tags id; Type: DEFAULT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.tags ALTER COLUMN id SET DEFAULT nextval('public.tags_id_seq'::regclass);
+
+
+--
+-- Name: tasks id; Type: DEFAULT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.tasks ALTER COLUMN id SET DEFAULT nextval('public.tasks_id_seq'::regclass);
+
+
+--
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Data for Name: activities; Type: TABLE DATA; Schema: public; Owner: sunjc826
+--
+
+COPY public.activities (id, crud_type, item, task_id, created_at, updated_at) FROM stdin;
+1	c	task	2	2021-01-01 03:34:21.603031	2021-01-01 03:34:21.603031
+2	c	comment	2	2021-01-01 03:34:44.763989	2021-01-01 03:34:44.763989
+3	c	comment	2	2021-01-01 03:34:49.99907	2021-01-01 03:34:49.99907
+4	c	subtask	2	2021-01-01 03:34:57.045045	2021-01-01 03:34:57.045045
+5	c	subtask	2	2021-01-01 03:35:01.321886	2021-01-01 03:35:01.321886
+7	c	task	4	2021-01-08 03:10:52.618299	2021-01-08 03:10:52.618299
+8	c	subtask	4	2021-01-08 03:10:57.67456	2021-01-08 03:10:57.67456
+9	c	subtask	4	2021-01-08 03:11:01.751862	2021-01-08 03:11:01.751862
+10	d	subtask	4	2021-01-08 03:11:04.190432	2021-01-08 03:11:04.190432
+11	c	comment	4	2021-01-08 03:11:10.092046	2021-01-08 03:11:10.092046
+12	c	comment	4	2021-01-08 03:11:13.055674	2021-01-08 03:11:13.055674
+13	c	comment	4	2021-01-08 03:11:18.690379	2021-01-08 03:11:18.690379
+14	d	comment	4	2021-01-08 03:11:20.867584	2021-01-08 03:11:20.867584
+\.
+
+
+--
+-- Data for Name: ar_internal_metadata; Type: TABLE DATA; Schema: public; Owner: sunjc826
+--
+
+COPY public.ar_internal_metadata (key, value, created_at, updated_at) FROM stdin;
+environment	development	2020-12-17 04:34:14.176868	2020-12-17 04:34:14.176868
+schema_sha1	65977d5c073ae281e4d33a3830f7de5aa7f7a63f	2020-12-17 15:38:19.54969	2021-01-01 03:18:51.878016
+\.
+
+
+--
+-- Data for Name: comments; Type: TABLE DATA; Schema: public; Owner: sunjc826
+--
+
+COPY public.comments (id, content, task_id, created_at, updated_at) FROM stdin;
+1	comment 1	2	2021-01-01 03:34:44.670811	2021-01-01 03:34:44.670811
+2	comment 2	2	2021-01-01 03:34:49.835123	2021-01-01 03:34:49.835123
+3	comment 1	4	2021-01-08 03:11:10.009357	2021-01-08 03:11:10.009357
+5	comment 3	4	2021-01-08 03:11:18.625192	2021-01-08 03:11:18.625192
+\.
+
+
+--
+-- Data for Name: filter_criteria; Type: TABLE DATA; Schema: public; Owner: sunjc826
+--
+
+COPY public.filter_criteria (id, filter_id, filterable_id, filterable_type, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: filters; Type: TABLE DATA; Schema: public; Owner: sunjc826
+--
+
+COPY public.filters (id, time_filter, priority_filter, user_id, created_at, updated_at, description, startdate, enddate) FROM stdin;
+\.
+
+
+--
+-- Data for Name: label_tasks; Type: TABLE DATA; Schema: public; Owner: sunjc826
+--
+
+COPY public.label_tasks (id, label_id, task_id, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: labels; Type: TABLE DATA; Schema: public; Owner: sunjc826
+--
+
+COPY public.labels (id, description, user_id, created_at, updated_at, color) FROM stdin;
+\.
+
+
+--
+-- Data for Name: projects; Type: TABLE DATA; Schema: public; Owner: sunjc826
+--
+
+COPY public.projects (id, completed, user_id, created_at, updated_at, title, content) FROM stdin;
+\.
+
+
+--
+-- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: sunjc826
+--
+
+COPY public.schema_migrations (version) FROM stdin;
+20201217033037
+20201217033710
+20201217033938
+20201217034042
+20201217034358
+20201217034430
+20201217034511
+20201217034602
+20201217034624
+20201217034802
+20201217034840
+20201217153210
+20201220151929
+20201223062241
+20201223114743
+20201225021849
+20201227015224
+20201231171327
+\.
+
+
+--
+-- Data for Name: subtasks; Type: TABLE DATA; Schema: public; Owner: sunjc826
+--
+
+COPY public.subtasks (id, content, completed, task_id, created_at, updated_at) FROM stdin;
+1	subtask 1	f	2	2021-01-01 03:34:56.965395	2021-01-01 03:34:56.965395
+2	subtask 2	f	2	2021-01-01 03:35:01.252727	2021-01-01 03:35:01.252727
+3	subtask 1	f	4	2021-01-08 03:10:57.587245	2021-01-08 03:10:57.587245
+\.
+
+
+--
+-- Data for Name: tag_tasks; Type: TABLE DATA; Schema: public; Owner: sunjc826
+--
+
+COPY public.tag_tasks (id, tag_id, task_id, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: sunjc826
+--
+
+COPY public.tags (id, description, created_at, updated_at, user_id) FROM stdin;
+1	Work	2021-01-01 03:33:26.988223	2021-01-01 03:33:26.988223	1
+2	Social	2021-01-01 03:33:26.991147	2021-01-01 03:33:26.991147	1
+3	Personal	2021-01-01 03:33:26.993327	2021-01-01 03:33:26.993327	1
+\.
+
+
+--
+-- Data for Name: tasks; Type: TABLE DATA; Schema: public; Owner: sunjc826
+--
+
+COPY public.tasks (id, deadline, content, priority, completed, user_id, project_id, created_at, updated_at) FROM stdin;
+1	2021-01-01 03:33:06.732	task 1	3	f	1	\N	2021-01-01 03:33:32.261521	2021-01-01 03:33:32.261521
+2	2021-01-01 03:34:13.022	task 2	3	f	1	\N	2021-01-01 03:34:21.312189	2021-01-01 03:34:21.312189
+4	2021-01-08 03:10:07.116	Task 3	3	f	1	\N	2021-01-08 03:10:52.416991	2021-01-08 03:10:52.416991
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: sunjc826
+--
+
+COPY public.users (id, name, email, created_at, updated_at, password_digest) FROM stdin;
+1	Default User	default@user.com	2021-01-01 03:33:26.985671	2021-01-01 03:33:26.985671	$2a$12$tMgKsMqPI9Y5RyG6oXcF8OTPVqPIojbYUIwviNrDtIpVCopv4yphe
+\.
+
+
+--
+-- Name: activities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: sunjc826
+--
+
+SELECT pg_catalog.setval('public.activities_id_seq', 14, true);
+
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: sunjc826
+--
+
+SELECT pg_catalog.setval('public.comments_id_seq', 5, true);
+
+
+--
+-- Name: filter_criteria_id_seq; Type: SEQUENCE SET; Schema: public; Owner: sunjc826
+--
+
+SELECT pg_catalog.setval('public.filter_criteria_id_seq', 1, false);
+
+
+--
+-- Name: filters_id_seq; Type: SEQUENCE SET; Schema: public; Owner: sunjc826
+--
+
+SELECT pg_catalog.setval('public.filters_id_seq', 1, false);
+
+
+--
+-- Name: label_tasks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: sunjc826
+--
+
+SELECT pg_catalog.setval('public.label_tasks_id_seq', 1, false);
+
+
+--
+-- Name: labels_id_seq; Type: SEQUENCE SET; Schema: public; Owner: sunjc826
+--
+
+SELECT pg_catalog.setval('public.labels_id_seq', 1, false);
+
+
+--
+-- Name: projects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: sunjc826
+--
+
+SELECT pg_catalog.setval('public.projects_id_seq', 1, false);
+
+
+--
+-- Name: subtasks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: sunjc826
+--
+
+SELECT pg_catalog.setval('public.subtasks_id_seq', 4, true);
+
+
+--
+-- Name: tag_tasks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: sunjc826
+--
+
+SELECT pg_catalog.setval('public.tag_tasks_id_seq', 1, false);
+
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: sunjc826
+--
+
+SELECT pg_catalog.setval('public.tags_id_seq', 3, true);
+
+
+--
+-- Name: tasks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: sunjc826
+--
+
+SELECT pg_catalog.setval('public.tasks_id_seq', 4, true);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: sunjc826
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 1, true);
+
+
+--
+-- Name: activities activities_pkey; Type: CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.activities
+    ADD CONSTRAINT activities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.ar_internal_metadata
+    ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: comments comments_pkey; Type: CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: filter_criteria filter_criteria_pkey; Type: CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.filter_criteria
+    ADD CONSTRAINT filter_criteria_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: filters filters_pkey; Type: CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.filters
+    ADD CONSTRAINT filters_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: label_tasks label_tasks_pkey; Type: CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.label_tasks
+    ADD CONSTRAINT label_tasks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: labels labels_pkey; Type: CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.labels
+    ADD CONSTRAINT labels_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: projects projects_pkey; Type: CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.projects
+    ADD CONSTRAINT projects_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.schema_migrations
+    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: subtasks subtasks_pkey; Type: CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.subtasks
+    ADD CONSTRAINT subtasks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tag_tasks tag_tasks_pkey; Type: CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.tag_tasks
+    ADD CONSTRAINT tag_tasks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tags tags_pkey; Type: CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.tags
+    ADD CONSTRAINT tags_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tasks tasks_pkey; Type: CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.tasks
+    ADD CONSTRAINT tasks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_activities_on_task_id; Type: INDEX; Schema: public; Owner: sunjc826
+--
+
+CREATE INDEX index_activities_on_task_id ON public.activities USING btree (task_id);
+
+
+--
+-- Name: index_comments_on_task_id; Type: INDEX; Schema: public; Owner: sunjc826
+--
+
+CREATE INDEX index_comments_on_task_id ON public.comments USING btree (task_id);
+
+
+--
+-- Name: index_filter_criteria_on_filter_id; Type: INDEX; Schema: public; Owner: sunjc826
+--
+
+CREATE INDEX index_filter_criteria_on_filter_id ON public.filter_criteria USING btree (filter_id);
+
+
+--
+-- Name: index_filter_criteria_on_filterable_id_and_filterable_type; Type: INDEX; Schema: public; Owner: sunjc826
+--
+
+CREATE INDEX index_filter_criteria_on_filterable_id_and_filterable_type ON public.filter_criteria USING btree (filterable_id, filterable_type);
+
+
+--
+-- Name: index_filters_on_user_id; Type: INDEX; Schema: public; Owner: sunjc826
+--
+
+CREATE INDEX index_filters_on_user_id ON public.filters USING btree (user_id);
+
+
+--
+-- Name: index_label_tasks_on_label_id; Type: INDEX; Schema: public; Owner: sunjc826
+--
+
+CREATE INDEX index_label_tasks_on_label_id ON public.label_tasks USING btree (label_id);
+
+
+--
+-- Name: index_label_tasks_on_task_id; Type: INDEX; Schema: public; Owner: sunjc826
+--
+
+CREATE INDEX index_label_tasks_on_task_id ON public.label_tasks USING btree (task_id);
+
+
+--
+-- Name: index_labels_on_user_id; Type: INDEX; Schema: public; Owner: sunjc826
+--
+
+CREATE INDEX index_labels_on_user_id ON public.labels USING btree (user_id);
+
+
+--
+-- Name: index_projects_on_user_id; Type: INDEX; Schema: public; Owner: sunjc826
+--
+
+CREATE INDEX index_projects_on_user_id ON public.projects USING btree (user_id);
+
+
+--
+-- Name: index_subtasks_on_task_id; Type: INDEX; Schema: public; Owner: sunjc826
+--
+
+CREATE INDEX index_subtasks_on_task_id ON public.subtasks USING btree (task_id);
+
+
+--
+-- Name: index_tag_tasks_on_tag_id; Type: INDEX; Schema: public; Owner: sunjc826
+--
+
+CREATE INDEX index_tag_tasks_on_tag_id ON public.tag_tasks USING btree (tag_id);
+
+
+--
+-- Name: index_tag_tasks_on_task_id; Type: INDEX; Schema: public; Owner: sunjc826
+--
+
+CREATE INDEX index_tag_tasks_on_task_id ON public.tag_tasks USING btree (task_id);
+
+
+--
+-- Name: index_tags_on_user_id; Type: INDEX; Schema: public; Owner: sunjc826
+--
+
+CREATE INDEX index_tags_on_user_id ON public.tags USING btree (user_id);
+
+
+--
+-- Name: index_tasks_on_project_id; Type: INDEX; Schema: public; Owner: sunjc826
+--
+
+CREATE INDEX index_tasks_on_project_id ON public.tasks USING btree (project_id);
+
+
+--
+-- Name: index_tasks_on_user_id; Type: INDEX; Schema: public; Owner: sunjc826
+--
+
+CREATE INDEX index_tasks_on_user_id ON public.tasks USING btree (user_id);
+
+
+--
+-- Name: tasks fk_rails_02e851e3b7; Type: FK CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.tasks
+    ADD CONSTRAINT fk_rails_02e851e3b7 FOREIGN KEY (project_id) REFERENCES public.projects(id);
+
+
+--
+-- Name: activities fk_rails_3c6b40ddcf; Type: FK CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.activities
+    ADD CONSTRAINT fk_rails_3c6b40ddcf FOREIGN KEY (task_id) REFERENCES public.tasks(id);
+
+
+--
+-- Name: filter_criteria fk_rails_444ee074c6; Type: FK CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.filter_criteria
+    ADD CONSTRAINT fk_rails_444ee074c6 FOREIGN KEY (filter_id) REFERENCES public.filters(id);
+
+
+--
+-- Name: tasks fk_rails_4d2a9e4d7e; Type: FK CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.tasks
+    ADD CONSTRAINT fk_rails_4d2a9e4d7e FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: comments fk_rails_6bd05453df; Type: FK CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT fk_rails_6bd05453df FOREIGN KEY (task_id) REFERENCES public.tasks(id);
+
+
+--
+-- Name: subtasks fk_rails_833a856951; Type: FK CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.subtasks
+    ADD CONSTRAINT fk_rails_833a856951 FOREIGN KEY (task_id) REFERENCES public.tasks(id);
+
+
+--
+-- Name: labels fk_rails_9ea980b469; Type: FK CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.labels
+    ADD CONSTRAINT fk_rails_9ea980b469 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: label_tasks fk_rails_adab47a332; Type: FK CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.label_tasks
+    ADD CONSTRAINT fk_rails_adab47a332 FOREIGN KEY (task_id) REFERENCES public.tasks(id);
+
+
+--
+-- Name: projects fk_rails_b872a6760a; Type: FK CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.projects
+    ADD CONSTRAINT fk_rails_b872a6760a FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: tag_tasks fk_rails_ba73385e48; Type: FK CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.tag_tasks
+    ADD CONSTRAINT fk_rails_ba73385e48 FOREIGN KEY (task_id) REFERENCES public.tasks(id);
+
+
+--
+-- Name: label_tasks fk_rails_cc73d1ffb6; Type: FK CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.label_tasks
+    ADD CONSTRAINT fk_rails_cc73d1ffb6 FOREIGN KEY (label_id) REFERENCES public.labels(id);
+
+
+--
+-- Name: tags fk_rails_e689f6d0cc; Type: FK CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.tags
+    ADD CONSTRAINT fk_rails_e689f6d0cc FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: filters fk_rails_f53aed9bb6; Type: FK CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.filters
+    ADD CONSTRAINT fk_rails_f53aed9bb6 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: tag_tasks fk_rails_fe107a0365; Type: FK CONSTRAINT; Schema: public; Owner: sunjc826
+--
+
+ALTER TABLE ONLY public.tag_tasks
+    ADD CONSTRAINT fk_rails_fe107a0365 FOREIGN KEY (tag_id) REFERENCES public.tags(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

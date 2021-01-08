@@ -308,7 +308,7 @@ const Login = () => {
         <ModalBody>{isLogin ? <LoginForm /> : <RegisterForm />}</ModalBody>
       </Modal>
       <Viewport>
-        <Row className="h-100 align-items-center bg-dark text-center">
+        <Row className="h-100 m-0 align-items-center bg-dark text-center">
           <Col xs={{ size: 8 }} md={{ size: 4 }} className="mx-auto">
             <Button color="primary" onClick={handleClick(true)}>
               Login

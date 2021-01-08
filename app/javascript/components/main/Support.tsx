@@ -12,10 +12,12 @@ import {
 const Support = () => {
   return (
     <Container>
-      <Row>
+      <Row className="mt-3">
         <Col xs="12">
           <Card>
-            <CardHeader>TodoApp Refund Department</CardHeader>
+            <CardHeader tag="h3" className="bg-info">
+              TodoApp Refund Department
+            </CardHeader>
             <CardBody>
               <CardText>
                 <i className="fas fa-phone"></i> 12345678

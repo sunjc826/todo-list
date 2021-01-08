@@ -31,7 +31,7 @@ const Home = ({ userState }: AppProps) => {
     <div>
       <Jumbotron fluid className="bg-primary border-rect">
         <Container>
-          <h1>Todo list, v0.1.0</h1>
+          <h1>Todo list, v1.0.0</h1>
         </Container>
       </Jumbotron>
       <Container>

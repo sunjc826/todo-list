@@ -12,7 +12,10 @@ const initialLabelState: State = {
   errMsg: "",
 };
 
-const labelReducer = (state = initialLabelState, action: LabelActionType) => {
+const labelReducer = (
+  state = initialLabelState,
+  action: LabelActionType
+): State => {
   switch (action.type) {
     case FETCH_LABELS_REQUEST:
       return {

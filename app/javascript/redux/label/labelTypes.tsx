@@ -1,3 +1,5 @@
+import { DataRecord } from "../shared";
+
 export const FETCH_LABELS_REQUEST = "FETCH_LABELS_REQUEST";
 export const FETCH_LABELS_SUCCESS = "FETCH_LABELS_SUCCESS";
 export const FETCH_LABELS_FAILURE = "FETCH_LABELS_FAILURE";
@@ -18,10 +20,10 @@ export interface FetchLabelsFailureAction {
 
 export interface SetLabelDataAction {
   type: typeof SET_LABEL_DATA;
-  payload: object;
+  payload: DataRecord;
 }
 
-export type LabelActionType = 
+export type LabelActionType =
   | FetchLabelsRequestAction
   | FetchLabelsSuccessAction
   | FetchLabelsFailureAction

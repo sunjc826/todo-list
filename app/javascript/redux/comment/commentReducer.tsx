@@ -4,15 +4,19 @@ import {
   FETCH_COMMENTS_FAILURE,
   SET_COMMENT_DATA,
   UPDATE_COMMENT_DATA,
+  CommentActionType,
 } from "./commentTypes";
 import { State } from "../shared";
-const initialCommentState = {
+const initialCommentState: State = {
   loading: false,
   data: null,
   errMsg: "",
 };
 
-const commentReducer = (state = initialCommentState, action) => {
+const commentReducer = (
+  state = initialCommentState,
+  action: CommentActionType
+): State => {
   switch (action.type) {
     case FETCH_COMMENTS_REQUEST:
       return {

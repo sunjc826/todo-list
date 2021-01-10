@@ -18,7 +18,7 @@ import {
   generatePostRequest,
 } from "../../helperFunctions";
 import { setUserData } from "../user/userActions";
-import { AppThunk, Id } from "../shared";
+import { AppThunk, DataRecord, Id, NormalizedData } from "../shared";
 
 const projectsUrl = "/api/v1/projects";
 
@@ -35,12 +35,14 @@ const fetchProjectsFailure = (errMsg: string): FetchProjectsFailureAction => ({
   payload: errMsg,
 });
 
-const setProjectData = (projectData: object): SetProjectDataAction => ({
+const setProjectData = (projectData: DataRecord): SetProjectDataAction => ({
   type: SET_PROJECT_DATA,
   payload: projectData,
 });
 
-const updateProjectData = (projectData: object): UpdateProjectDataAction => ({
+const updateProjectData = (
+  projectData: DataRecord
+): UpdateProjectDataAction => ({
   type: UPDATE_PROJECT_DATA,
   payload: projectData,
 });
@@ -72,7 +74,7 @@ const postProject = (project: ProjectData): AppThunk => (dispatch) => {
         throw new Error(res.statusText);
       }
     })
-    .then(({ headers, json }) => {
+    .then(({ headers, json }): { headers: Headers; json: NormalizedData } => {
       return { headers, json: normalize(json) };
     })
     .then(({ headers, json }) => {
@@ -103,9 +105,11 @@ const deleteProject = (projectId: Id): AppThunk => (dispatch) => {
         throw new Error(res.statusText);
       }
     })
-    .then((res) => {
-      return normalize(res);
-    })
+    .then(
+      (res): NormalizedData => {
+        return normalize(res);
+      }
+    )
     .then((res) => {
       const { user, project } = res;
       dispatch(setUserData(user));

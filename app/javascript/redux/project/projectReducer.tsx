@@ -22,7 +22,7 @@ const initialProjectState: ProjectState = {
 const projectReducer = (
   state = initialProjectState,
   action: ProjectActionType
-) => {
+): ProjectState => {
   switch (action.type) {
     case FETCH_PROJECTS_REQUEST:
       return {

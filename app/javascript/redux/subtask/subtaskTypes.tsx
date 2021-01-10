@@ -1,3 +1,5 @@
+import { DataRecord } from "../shared";
+
 export const FETCH_SUBTASKS_REQUEST = "FETCH_SUBTASKS_REQUEST";
 export const FETCH_SUBTASKS_SUCCESS = "FETCH_SUBTASKS_SUCCESS";
 export const FETCH_SUBTASKS_FAILURE = "FETCH_SUBTASKS_FAILURE";
@@ -19,15 +21,15 @@ export interface FetchSubtasksFailureAction {
 
 export interface SetSubtaskDataAction {
   type: typeof SET_SUBTASK_DATA;
-  payload: object;
+  payload: DataRecord;
 }
 
 export interface UpdateSubtaskDataAction {
   type: typeof UPDATE_SUBTASK_DATA;
-  payload: object;
+  payload: DataRecord;
 }
 
-export type SubtaskActionType = 
+export type SubtaskActionType =
   | FetchSubtasksRequestAction
   | FetchSubtasksSuccessAction
   | FetchSubtasksFailureAction

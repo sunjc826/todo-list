@@ -1,4 +1,4 @@
-import { Id } from "../shared";
+import { DataRecord, Id } from "../shared";
 
 export const FETCH_PROJECTS_REQUEST = "FETCH_PROJECTS_REQUEST";
 export const FETCH_PROJECTS_SUCCESS = "FETCH_PROJECTS_SUCCESS";
@@ -22,12 +22,12 @@ export interface FetchProjectsFailureAction {
 
 export interface SetProjectDataAction {
   type: typeof SET_PROJECT_DATA;
-  payload: object;
+  payload: DataRecord;
 }
 
 export interface UpdateProjectDataAction {
   type: typeof UPDATE_PROJECT_DATA;
-  payload: object;
+  payload: DataRecord;
 }
 
 export interface SetLastCreatedProjectAction {

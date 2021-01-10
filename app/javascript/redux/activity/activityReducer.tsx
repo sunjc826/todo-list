@@ -16,7 +16,7 @@ const defaultActivityState: State = {
 const activityReducer = (
   state = defaultActivityState,
   action: ActivityActionType
-) => {
+): State => {
   switch (action.type) {
     case FETCH_ACTIVITIES_REQUEST:
       return {

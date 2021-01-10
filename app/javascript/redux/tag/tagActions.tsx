@@ -9,6 +9,7 @@ import {
   SetTagDataAction,
 } from "./tagTypes";
 import normalize from "json-api-normalizer";
+import { DataRecord } from "../shared";
 
 const tagsUrl = "/api/v1/tags";
 
@@ -25,7 +26,7 @@ const fetchTagsFailure = (errMsg: string): FetchTagsFailureAction => ({
   payload: errMsg,
 });
 
-const setTagData = (tagsData: object): SetTagDataAction => ({
+const setTagData = (tagsData: DataRecord): SetTagDataAction => ({
   type: SET_TAG_DATA,
   payload: tagsData,
 });

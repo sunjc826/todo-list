@@ -24,7 +24,10 @@ const initialUserState: UserState = {
   userId: null,
 };
 
-const userReducer = (state = initialUserState, action: UserActionType) => {
+const userReducer = (
+  state = initialUserState,
+  action: UserActionType
+): UserState => {
   switch (action.type) {
     // the response to register_success and login_success are effectively the same
     // however, I decide to separate them for clarity

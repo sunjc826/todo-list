@@ -15,7 +15,7 @@ const initialFilterState: State = {
 const filterReducer = (
   state = initialFilterState,
   action: FilterActionType
-) => {
+): State => {
   switch (action.type) {
     case FETCH_FILTERS_REQUEST:
       return {

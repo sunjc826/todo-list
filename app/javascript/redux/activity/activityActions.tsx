@@ -16,7 +16,7 @@ import {
 } from "../../helperFunctions";
 import normalize from "json-api-normalizer";
 import { updateTaskData } from "../task/taskActions";
-import { AppThunk, Id } from "../shared";
+import { AppThunk, DataRecord, Id, NormalizedData } from "../shared";
 
 const fetchActivitiesRequest = (): FetchActivitiesRequestAction => ({
   type: FETCH_ACTIVITIES_REQUEST,
@@ -33,13 +33,13 @@ const fetchActivitiesFailure = (
   payload: errMsg,
 });
 
-const setActivityData = (activityData: object): SetActivityDataAction => ({
+const setActivityData = (activityData: DataRecord): SetActivityDataAction => ({
   type: SET_ACTIVITY_DATA,
   payload: activityData,
 });
 
 const updateActivityData = (
-  activityData: object
+  activityData: DataRecord
 ): UpdateActivityDataAction => ({
   type: UPDATE_ACTIVITY_DATA,
   payload: activityData,
@@ -48,7 +48,10 @@ const updateActivityData = (
 // note that posting the activity does not re-fetch the user
 // although the user has_many activities, for efficiency,
 // user relations (w.r.t. activities) are not updated when posting an activity
-const postActivity = (taskId: Id, activity): AppThunk => (dispatch) => {
+const postActivity = (
+  taskId: Id,
+  activity: { crud_type: "c" | "u" | "d"; item: "task" | "subtask" | "comment" }
+): AppThunk => (dispatch) => {
   const url = `/api/v1/tasks/${taskId}/activities`;
   return fetch(url, generatePostRequest(JSON.stringify({ activity })))
     .then((res) => {
@@ -58,9 +61,11 @@ const postActivity = (taskId: Id, activity): AppThunk => (dispatch) => {
         throw new Error(res.statusText);
       }
     })
-    .then((res) => {
-      return normalize(res);
-    })
+    .then(
+      (res): NormalizedData => {
+        return normalize(res);
+      }
+    )
     .then((res) => {
       const { activity } = res;
       dispatch(updateActivityData(activity));

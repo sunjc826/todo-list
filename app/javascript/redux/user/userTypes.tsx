@@ -1,4 +1,4 @@
-import { Id } from "../shared";
+import { Data, Id } from "../shared";
 
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -37,7 +37,7 @@ export interface FetchUserFailureAction {
 
 export interface SetUserDataAction {
   type: typeof SET_USER_DATA;
-  payload: object;
+  payload: Record<string, Data>;
 }
 
 export type UserActionType =

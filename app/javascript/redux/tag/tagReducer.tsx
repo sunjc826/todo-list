@@ -13,7 +13,7 @@ const defaultTags: State = {
   errMsg: "",
 };
 
-const tagReducer = (state = defaultTags, action: TagActionType) => {
+const tagReducer = (state = defaultTags, action: TagActionType): State => {
   switch (action.type) {
     case FETCH_TAGS_REQUEST:
       return {

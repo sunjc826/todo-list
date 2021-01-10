@@ -1,3 +1,5 @@
+import { DataRecord } from "../shared";
+
 export const FETCH_COMMENTS_REQUEST = "FETCH_COMMENTS_REQUEST";
 export const FETCH_COMMENTS_SUCCESS = "FETCH_COMMENTS_SUCCESS";
 export const FETCH_COMMENTS_FAILURE = "FETCH_COMMENTS_FAILURE";
@@ -19,15 +21,15 @@ export interface FetchCommentsFailureAction {
 
 export interface SetCommentDataAction {
   type: typeof SET_COMMENT_DATA;
-  payload: object;
+  payload: DataRecord;
 }
 
 export interface UpdateCommentDataAction {
   type: typeof UPDATE_COMMENT_DATA;
-  payload: object;
+  payload: DataRecord;
 }
 
-export type CommentActionType = 
+export type CommentActionType =
   | FetchCommentsRequestAction
   | FetchCommentsSuccessAction
   | FetchCommentsFailureAction

@@ -16,7 +16,7 @@ const initialSubtaskState: State = {
 const subtaskReducer = (
   state = initialSubtaskState,
   action: SubtaskActionType
-) => {
+): State => {
   switch (action.type) {
     case FETCH_SUBTASKS_REQUEST:
       return {

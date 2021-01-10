@@ -17,7 +17,7 @@ import {
 } from "../../helperFunctions";
 import { postActivity } from "../activity/activityActions";
 import normalize from "json-api-normalizer";
-import { AppThunk, Id } from "../shared";
+import { AppThunk, DataRecord, Id, NormalizedData } from "../shared";
 
 const commentUrl = "/api/v1/tasks/:task_id/comments";
 
@@ -34,12 +34,14 @@ const fetchCommentsFailure = (errMsg: string): FetchCommentsFailureAction => ({
   payload: errMsg,
 });
 
-const setCommentData = (commentData: object): SetCommentDataAction => ({
+const setCommentData = (commentData: DataRecord): SetCommentDataAction => ({
   type: SET_COMMENT_DATA,
   payload: commentData,
 });
 
-const updateCommentData = (commentData: object): UpdateCommentDataAction => ({
+const updateCommentData = (
+  commentData: DataRecord
+): UpdateCommentDataAction => ({
   type: UPDATE_COMMENT_DATA,
   payload: commentData,
 });
@@ -60,9 +62,11 @@ const postComment = (taskId: Id, comment: CommentData): AppThunk => (
         throw new Error(res.statusText);
       }
     })
-    .then((res) => {
-      return normalize(res);
-    })
+    .then(
+      (res): NormalizedData => {
+        return normalize(res);
+      }
+    )
     .then((res) => {
       const { comment, task } = res;
       dispatch(updateCommentData(comment));
@@ -87,9 +91,11 @@ const deleteComment = (taskId: Id, commentId: Id): AppThunk => (dispatch) => {
         throw new Error(res.statusText);
       }
     })
-    .then((res) => {
-      return normalize(res);
-    })
+    .then(
+      (res): NormalizedData => {
+        return normalize(res);
+      }
+    )
     .then((res) => {
       const { comment, task } = res;
       dispatch(updateCommentData(comment));

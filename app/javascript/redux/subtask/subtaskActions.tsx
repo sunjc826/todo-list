@@ -17,7 +17,7 @@ import {
 } from "./subtaskTypes";
 import { updateTaskData } from "../task/taskActions";
 import { postActivity } from "../activity/activityActions";
-import { Id, AppThunk } from "../shared";
+import { Id, AppThunk, DataRecord, NormalizedData } from "../shared";
 const fetchSubtasksRequest = (): FetchSubtasksRequestAction => ({
   type: FETCH_SUBTASKS_REQUEST,
 });
@@ -31,12 +31,14 @@ const fetchSubtasksFailure = (errMsg: string): FetchSubtasksFailureAction => ({
   payload: errMsg,
 });
 
-const setSubtaskData = (subtaskData: object): SetSubtaskDataAction => ({
+const setSubtaskData = (subtaskData: DataRecord): SetSubtaskDataAction => ({
   type: SET_SUBTASK_DATA,
   payload: subtaskData,
 });
 
-const updateSubtaskData = (subtaskData: object): UpdateSubtaskDataAction => ({
+const updateSubtaskData = (
+  subtaskData: DataRecord
+): UpdateSubtaskDataAction => ({
   type: UPDATE_SUBTASK_DATA,
   payload: subtaskData,
 });
@@ -58,9 +60,11 @@ const postSubtask = (taskId: Id, subtask: SubtaskData): AppThunk => (
         throw new Error(res.statusText);
       }
     })
-    .then((res) => {
-      return normalize(res);
-    })
+    .then(
+      (res): NormalizedData => {
+        return normalize(res);
+      }
+    )
     .then((res) => {
       const { task, subtask } = res;
       dispatch(updateSubtaskData(subtask));
@@ -83,9 +87,11 @@ const deleteSubtask = (taskId: Id, subtaskId: Id): AppThunk => (dispatch) => {
         throw new Error(res.statusText);
       }
     })
-    .then((res) => {
-      return normalize(res);
-    })
+    .then(
+      (res): NormalizedData => {
+        return normalize(res);
+      }
+    )
     .then((res) => {
       const { task, subtask } = res;
       dispatch(updateSubtaskData(subtask));

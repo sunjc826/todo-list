@@ -55,7 +55,7 @@ import {
   generatePostRequest,
   generateDeleteRequest,
 } from "../../helperFunctions";
-import { Id, AppThunk } from "../shared";
+import { Id, AppThunk, Data } from "../shared";
 
 const registrationsUrl = "/api/v1/registrations";
 const sessionsUrl = "/api/v1/sessions";
@@ -185,7 +185,7 @@ const fetchUserFailure = (errMsg: string): FetchUserFailureAction => ({
   payload: errMsg,
 });
 
-const setUserData = (userData: object): SetUserDataAction => ({
+const setUserData = (userData: Record<string, Data>): SetUserDataAction => ({
   type: SET_USER_DATA,
   payload: userData,
 });

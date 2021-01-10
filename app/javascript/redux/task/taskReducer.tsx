@@ -14,7 +14,10 @@ const initialTaskState: State = {
   errMsg: "",
 };
 
-const taskReducer = (state = initialTaskState, action: TaskActionType) => {
+const taskReducer = (
+  state = initialTaskState,
+  action: TaskActionType
+): State => {
   switch (action.type) {
     case FETCH_TASKS_REQUEST:
       return {

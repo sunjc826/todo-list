@@ -66,7 +66,7 @@ import {
   updateActivityData,
   postActivity,
 } from "../activity/activityActions";
-import { Id, AppThunk } from "../shared";
+import { Id, AppThunk, DataRecord, NormalizedData } from "../shared";
 
 const tasksUrl = "/api/v1/tasks";
 
@@ -83,7 +83,7 @@ const fetchTasksFailure = (errMsg: string): FetchTasksFailureAction => ({
   payload: errMsg,
 });
 
-const setTaskData = (taskData: object): SetTaskDataAction => ({
+const setTaskData = (taskData: DataRecord): SetTaskDataAction => ({
   type: SET_TASK_DATA,
   payload: taskData,
 });
@@ -103,9 +103,11 @@ const fetchTaskData = (taskId: Id): AppThunk => (dispatch) => {
         throw new Error(res.statusText);
       }
     })
-    .then((res) => {
-      return normalize(res);
-    })
+    .then(
+      (res): NormalizedData => {
+        return normalize(res);
+      }
+    )
     .then((res) => {
       const { task, subtask, comment, activity } = res;
       dispatch(updateSubtaskData(subtask));
@@ -122,7 +124,7 @@ const fetchTaskData = (taskId: Id): AppThunk => (dispatch) => {
     });
 };
 
-const updateTaskData = (taskData: object): UpdateTaskDataAction => ({
+const updateTaskData = (taskData: DataRecord): UpdateTaskDataAction => ({
   type: UPDATE_TASK_DATA,
   payload: taskData,
 });
@@ -167,7 +169,7 @@ const postTask = (
         throw new Error(res.statusText);
       }
     })
-    .then(({ headers, json }) => {
+    .then(({ headers, json }): { headers: Headers; json: NormalizedData } => {
       return { headers, json: normalize(json) };
     })
     .then((res) => {
@@ -201,10 +203,12 @@ const deleteTask = (taskId: Id): AppThunk => (dispatch) => {
         throw new Error(res.statusText);
       }
     })
-    .then((res) => {
-      // dispatch(fetchTasksRequest());
-      return normalize(res);
-    })
+    .then(
+      (res): NormalizedData => {
+        // dispatch(fetchTasksRequest());
+        return normalize(res);
+      }
+    )
     .then((res) => {
       const { user, project, task, label, tag, filter, activity } = res;
       // console.log("setting user");
@@ -236,15 +240,6 @@ const deleteTask = (taskId: Id): AppThunk => (dispatch) => {
       return res;
     });
 };
-
-interface NormalizedData {
-  user: object;
-  project: object;
-  task: object;
-  label: object;
-  tag: object;
-  filter: object;
-}
 
 const editTask = (
   taskId: Id,

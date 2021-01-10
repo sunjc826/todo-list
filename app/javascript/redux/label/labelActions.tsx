@@ -17,7 +17,13 @@ const labelsUrl = `/api/v1/labels`;
 import { setUserData } from "../user/userActions";
 import { setTaskData } from "../task/taskActions";
 import { setFilterData } from "../filter/filterActions";
-import { AppThunk, BootstrapColor, Id } from "../shared";
+import {
+  AppThunk,
+  BootstrapColor,
+  DataRecord,
+  Id,
+  NormalizedData,
+} from "../shared";
 
 const fetchLabelsRequest = (): FetchLabelsRequestAction => ({
   type: FETCH_LABELS_REQUEST,
@@ -32,7 +38,7 @@ const fetchLabelsFailure = (errMsg: string): FetchLabelsFailureAction => ({
   payload: errMsg,
 });
 
-const setLabelData = (labelData: object): SetLabelDataAction => ({
+const setLabelData = (labelData: DataRecord): SetLabelDataAction => ({
   type: SET_LABEL_DATA,
   payload: labelData,
 });
@@ -51,9 +57,11 @@ const postLabel = (label: LabelData): AppThunk => (dispatch) => {
         throw new Error(res.statusText);
       }
     })
-    .then((res) => {
-      return normalize(res);
-    })
+    .then(
+      (res): NormalizedData => {
+        return normalize(res);
+      }
+    )
     .then((res) => {
       const { user, label } = res;
       dispatch(setUserData(user));
@@ -71,9 +79,11 @@ const deleteLabel = (labelId: Id): AppThunk => (dispatch) => {
         throw new Error(res.statusText);
       }
     })
-    .then((res) => {
-      return normalize(res);
-    })
+    .then(
+      (res): NormalizedData => {
+        return normalize(res);
+      }
+    )
     .then((res) => {
       const { user, label, task, filter } = res;
       dispatch(setUserData(user));

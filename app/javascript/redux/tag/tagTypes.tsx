@@ -1,3 +1,5 @@
+import { DataRecord } from "../shared";
+
 export const FETCH_TAGS_REQUEST = "FETCH_TAGS_REQUEST";
 export const FETCH_TAGS_SUCCESS = "FETCH_TAGS_SUCCESS";
 export const FETCH_TAGS_FAILURE = "FETCH_TAGS_FAILURE";
@@ -18,10 +20,10 @@ export interface FetchTagsFailureAction {
 
 export interface SetTagDataAction {
   type: typeof SET_TAG_DATA;
-  payload: object;
+  payload: DataRecord;
 }
 
-export type TagActionType = 
+export type TagActionType =
   | FetchTagsRequestAction
   | FetchTagsSuccessAction
   | FetchTagsFailureAction

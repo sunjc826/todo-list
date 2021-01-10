@@ -8,9 +8,9 @@ import {
   SET_USER_DATA,
   UserActionType,
 } from "./userTypes";
-import { State, Id } from "../shared";
+import { State, Id, UserAttributes } from "../shared";
 
-export interface UserState extends State {
+export interface UserState extends State<UserAttributes> {
   loggedIn: boolean;
   userId: Id;
 }

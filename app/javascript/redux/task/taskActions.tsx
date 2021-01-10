@@ -66,7 +66,7 @@ import {
   updateActivityData,
   postActivity,
 } from "../activity/activityActions";
-import { Id, AppThunk, DataRecord, NormalizedData } from "../shared";
+import { Id, AppThunk, DataRecord, NormalizedData, TaskAttributes } from "../shared";
 
 const tasksUrl = "/api/v1/tasks";
 
@@ -83,7 +83,7 @@ const fetchTasksFailure = (errMsg: string): FetchTasksFailureAction => ({
   payload: errMsg,
 });
 
-const setTaskData = (taskData: DataRecord): SetTaskDataAction => ({
+const setTaskData = (taskData: DataRecord<TaskAttributes>): SetTaskDataAction => ({
   type: SET_TASK_DATA,
   payload: taskData,
 });
@@ -124,7 +124,7 @@ const fetchTaskData = (taskId: Id): AppThunk => (dispatch) => {
     });
 };
 
-const updateTaskData = (taskData: DataRecord): UpdateTaskDataAction => ({
+const updateTaskData = (taskData: DataRecord<TaskAttributes>): UpdateTaskDataAction => ({
   type: UPDATE_TASK_DATA,
   payload: taskData,
 });

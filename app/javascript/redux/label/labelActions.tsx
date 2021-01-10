@@ -22,6 +22,7 @@ import {
   BootstrapColor,
   DataRecord,
   Id,
+  LabelAttributes,
   NormalizedData,
 } from "../shared";
 
@@ -38,7 +39,9 @@ const fetchLabelsFailure = (errMsg: string): FetchLabelsFailureAction => ({
   payload: errMsg,
 });
 
-const setLabelData = (labelData: DataRecord): SetLabelDataAction => ({
+const setLabelData = (
+  labelData: DataRecord<LabelAttributes>
+): SetLabelDataAction => ({
   type: SET_LABEL_DATA,
   payload: labelData,
 });

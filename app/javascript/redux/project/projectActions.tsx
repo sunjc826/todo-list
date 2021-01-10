@@ -18,7 +18,13 @@ import {
   generatePostRequest,
 } from "../../helperFunctions";
 import { setUserData } from "../user/userActions";
-import { AppThunk, DataRecord, Id, NormalizedData } from "../shared";
+import {
+  AppThunk,
+  DataRecord,
+  Id,
+  NormalizedData,
+  ProjectAttributes,
+} from "../shared";
 
 const projectsUrl = "/api/v1/projects";
 
@@ -35,13 +41,15 @@ const fetchProjectsFailure = (errMsg: string): FetchProjectsFailureAction => ({
   payload: errMsg,
 });
 
-const setProjectData = (projectData: DataRecord): SetProjectDataAction => ({
+const setProjectData = (
+  projectData: DataRecord<ProjectAttributes>
+): SetProjectDataAction => ({
   type: SET_PROJECT_DATA,
   payload: projectData,
 });
 
 const updateProjectData = (
-  projectData: DataRecord
+  projectData: DataRecord<ProjectAttributes>
 ): UpdateProjectDataAction => ({
   type: UPDATE_PROJECT_DATA,
   payload: projectData,

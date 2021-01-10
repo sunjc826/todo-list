@@ -1,4 +1,4 @@
-import { DataRecord } from "../shared";
+import { CommentAttributes, DataRecord, Id } from "../shared";
 
 export const FETCH_COMMENTS_REQUEST = "FETCH_COMMENTS_REQUEST";
 export const FETCH_COMMENTS_SUCCESS = "FETCH_COMMENTS_SUCCESS";
@@ -21,12 +21,12 @@ export interface FetchCommentsFailureAction {
 
 export interface SetCommentDataAction {
   type: typeof SET_COMMENT_DATA;
-  payload: DataRecord;
+  payload: DataRecord<CommentAttributes>;
 }
 
 export interface UpdateCommentDataAction {
   type: typeof UPDATE_COMMENT_DATA;
-  payload: DataRecord;
+  payload: DataRecord<CommentAttributes>;
 }
 
 export type CommentActionType =

@@ -10,13 +10,17 @@ import {
   SetActivityDataAction,
   UpdateActivityDataAction,
 } from "./activityTypes";
-import {
-  generateDeleteRequest,
-  generatePostRequest,
-} from "../../helperFunctions";
+import { generatePostRequest } from "../../helperFunctions";
 import normalize from "json-api-normalizer";
 import { updateTaskData } from "../task/taskActions";
-import { AppThunk, DataRecord, Id, NormalizedData } from "../shared";
+import {
+  ActivityAttributes,
+  AppThunk,
+  CrudType,
+  DataRecord,
+  Id,
+  NormalizedData,
+} from "../shared";
 
 const fetchActivitiesRequest = (): FetchActivitiesRequestAction => ({
   type: FETCH_ACTIVITIES_REQUEST,
@@ -33,13 +37,15 @@ const fetchActivitiesFailure = (
   payload: errMsg,
 });
 
-const setActivityData = (activityData: DataRecord): SetActivityDataAction => ({
+const setActivityData = (
+  activityData: DataRecord<ActivityAttributes>
+): SetActivityDataAction => ({
   type: SET_ACTIVITY_DATA,
   payload: activityData,
 });
 
 const updateActivityData = (
-  activityData: DataRecord
+  activityData: DataRecord<ActivityAttributes>
 ): UpdateActivityDataAction => ({
   type: UPDATE_ACTIVITY_DATA,
   payload: activityData,
@@ -50,7 +56,7 @@ const updateActivityData = (
 // user relations (w.r.t. activities) are not updated when posting an activity
 const postActivity = (
   taskId: Id,
-  activity: { crud_type: "c" | "u" | "d"; item: "task" | "subtask" | "comment" }
+  activity: { crud_type: CrudType; item: "task" | "subtask" | "comment" }
 ): AppThunk => (dispatch) => {
   const url = `/api/v1/tasks/${taskId}/activities`;
   return fetch(url, generatePostRequest(JSON.stringify({ activity })))

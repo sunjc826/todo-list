@@ -5,15 +5,17 @@ import {
   SET_TAG_DATA,
   TagActionType,
 } from "./tagTypes";
-import { State } from "../shared";
+import { State, TagAttributes } from "../shared";
 
-const defaultTags: State = {
+export interface TagState extends State<TagAttributes> {}
+
+const defaultTags: TagState = {
   loading: false,
   data: null,
   errMsg: "",
 };
 
-const tagReducer = (state = defaultTags, action: TagActionType): State => {
+const tagReducer = (state = defaultTags, action: TagActionType): TagState => {
   switch (action.type) {
     case FETCH_TAGS_REQUEST:
       return {

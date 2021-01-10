@@ -1,4 +1,4 @@
-import { DataRecord } from "../shared";
+import { DataRecord, Id, SubtaskAttributes } from "../shared";
 
 export const FETCH_SUBTASKS_REQUEST = "FETCH_SUBTASKS_REQUEST";
 export const FETCH_SUBTASKS_SUCCESS = "FETCH_SUBTASKS_SUCCESS";
@@ -21,12 +21,12 @@ export interface FetchSubtasksFailureAction {
 
 export interface SetSubtaskDataAction {
   type: typeof SET_SUBTASK_DATA;
-  payload: DataRecord;
+  payload: DataRecord<SubtaskAttributes>;
 }
 
 export interface UpdateSubtaskDataAction {
   type: typeof UPDATE_SUBTASK_DATA;
-  payload: DataRecord;
+  payload: DataRecord<SubtaskAttributes>;
 }
 
 export type SubtaskActionType =

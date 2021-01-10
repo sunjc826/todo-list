@@ -13,7 +13,12 @@ import { setUserData } from "../user/userActions";
 import { setTagData, TagData } from "../tag/tagActions";
 import { LabelData, setLabelData } from "../label/labelActions";
 import { generatePostRequest } from "../../helperFunctions";
-import { AppThunk, DataRecord, NormalizedData } from "../shared";
+import {
+  AppThunk,
+  DataRecord,
+  FilterAttributes,
+  NormalizedData,
+} from "../shared";
 const filtersUrl = "/api/v1/filters";
 
 const fetchFiltersRequest = (): FetchFiltersRequestAction => ({
@@ -29,7 +34,9 @@ const fetchFiltersFailure = (errMsg: string): FetchFiltersFailureAction => ({
   payload: errMsg,
 });
 
-const setFilterData = (filterData: DataRecord): SetFilterDataAction => ({
+const setFilterData = (
+  filterData: DataRecord<FilterAttributes>
+): SetFilterDataAction => ({
   type: SET_FILTER_DATA,
   payload: filterData,
 });

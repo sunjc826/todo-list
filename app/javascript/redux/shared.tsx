@@ -11,6 +11,18 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   Action<string>
 >;
 
+export type Id = number | string | null;
+
+export type BootstrapColor =
+  | "primary"
+  | "secondary"
+  | "success"
+  | "warning"
+  | "danger"
+  | "info";
+
+export type CrudType = "c" | "u" | "d";
+
 export type Entity =
   | "user"
   | "project"
@@ -50,29 +62,86 @@ type RelationshipRecord = Record<
 // under relationships, I'm not sure how to create an exception for users
 // Array<{ id: string }> is the form taken by all other relationship entities
 // { id: string } is the form taken by users
-export interface Data {
-  attributes: Record<string, any>;
+export interface Data<T = Record<string, any>> {
+  attributes: T;
   id: string;
   relationships: NonUserRelationshipRecord; // | UserRelationshipRecord
   type: string;
 }
 
-export type DataRecord = Record<string, Data>;
+export type DataRecord<T = Record<string, any>> = Record<string, Data<T>>;
 
-export interface State {
+export interface State<T = Record<string, any>> {
   loading: boolean;
-  data: DataRecord | null;
+  data: DataRecord<T> | null;
   errMsg: string;
 }
 
-export type NormalizedData = Record<Entity, DataRecord>;
+export interface UserAttributes {
+  email: string;
+  name: string;
+}
 
-export type Id = number | string | null;
+export interface TaskAttributes {
+  completed: boolean;
+  content: string;
+  dateString: string;
+  deadline: string;
+  priority: number;
+  projectId?: Id;
+  userId: Id;
+}
 
-export type BootstrapColor =
-  | "primary"
-  | "secondary"
-  | "success"
-  | "warning"
-  | "danger"
-  | "info";
+export interface TagAttributes {
+  description: string;
+}
+
+export interface SubtaskAttributes {
+  completed: boolean;
+  content: string;
+  taskId: Id;
+}
+
+export interface ProjectAttributes {
+  completed: boolean;
+  content: string;
+  title: string;
+  userId: Id;
+}
+
+export interface LabelAttributes {
+  description: string;
+  color: BootstrapColor;
+  userId: Id;
+}
+
+export interface FilterAttributes {
+  description: string;
+  enddate: string;
+  startdate: string;
+  userId: Id;
+}
+
+export interface CommentAttributes {
+  content: string;
+  taskId: Id;
+}
+
+export interface ActivityAttributes {
+  createdAt: string;
+  crudType: CrudType;
+  item: "task" | "subtask" | "comment";
+}
+
+// Record<Entity, DataRecord>;
+export interface NormalizedData {
+  user: DataRecord<UserAttributes>;
+  project: DataRecord<ProjectAttributes>;
+  task: DataRecord<TaskAttributes>;
+  label: DataRecord<LabelAttributes>;
+  tag: DataRecord<TagAttributes>;
+  filter: DataRecord<FilterAttributes>;
+  comment: DataRecord<CommentAttributes>;
+  subtask: DataRecord<SubtaskAttributes>;
+  activity: DataRecord<ActivityAttributes>;
+}

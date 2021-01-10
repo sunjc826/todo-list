@@ -55,7 +55,7 @@ import {
   generatePostRequest,
   generateDeleteRequest,
 } from "../../helperFunctions";
-import { Id, AppThunk, Data } from "../shared";
+import { Id, AppThunk, Data, NormalizedData, UserAttributes } from "../shared";
 
 const registrationsUrl = "/api/v1/registrations";
 const sessionsUrl = "/api/v1/sessions";
@@ -78,7 +78,8 @@ interface RegistrationData {
   password_confirmation: string;
 }
 
-// TODO: Read up on ThunkAction generic parameters
+// ThunkAction generic type arguments
+// https://github.com/reduxjs/redux-thunk/blob/master/src/index.d.ts
 const register = (
   registrationData: RegistrationData
 ): AppThunk<Promise<any>> => (dispatch) => {
@@ -185,7 +186,9 @@ const fetchUserFailure = (errMsg: string): FetchUserFailureAction => ({
   payload: errMsg,
 });
 
-const setUserData = (userData: Record<string, Data>): SetUserDataAction => ({
+const setUserData = (
+  userData: Record<string, Data<UserAttributes>>
+): SetUserDataAction => ({
   type: SET_USER_DATA,
   payload: userData,
 });
@@ -207,9 +210,11 @@ const fetchUserData = (userId: Id): AppThunk<Promise<any>> => (dispatch) => {
         throw new Error(res.statusText);
       }
     })
-    .then((res) => {
-      return normalize(res);
-    })
+    .then(
+      (res): NormalizedData => {
+        return normalize(res);
+      }
+    )
     .then((res) => {
       // break up compound document into parts
       // and store into different parts of the redux store

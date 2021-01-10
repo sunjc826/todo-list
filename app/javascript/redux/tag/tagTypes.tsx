@@ -1,4 +1,4 @@
-import { DataRecord } from "../shared";
+import { DataRecord, TagAttributes } from "../shared";
 
 export const FETCH_TAGS_REQUEST = "FETCH_TAGS_REQUEST";
 export const FETCH_TAGS_SUCCESS = "FETCH_TAGS_SUCCESS";
@@ -20,7 +20,7 @@ export interface FetchTagsFailureAction {
 
 export interface SetTagDataAction {
   type: typeof SET_TAG_DATA;
-  payload: DataRecord;
+  payload: DataRecord<TagAttributes>;
 }
 
 export type TagActionType =

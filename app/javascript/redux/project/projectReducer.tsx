@@ -7,8 +7,8 @@ import {
   SET_LAST_CREATED_PROJECT,
   ProjectActionType,
 } from "./projectTypes";
-import { State, Id } from "../shared";
-export interface ProjectState extends State {
+import { State, Id, ProjectAttributes } from "../shared";
+export interface ProjectState extends State<ProjectAttributes> {
   lastCreatedProjectId: Id;
 }
 

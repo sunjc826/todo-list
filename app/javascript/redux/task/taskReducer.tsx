@@ -6,9 +6,11 @@ import {
   UPDATE_TASK_DATA,
   TaskActionType,
 } from "./taskTypes";
-import { State } from "../shared";
+import { State, TaskAttributes } from "../shared";
 
-const initialTaskState: State = {
+export interface TaskState extends State<TaskAttributes> {}
+
+const initialTaskState: TaskState = {
   loading: false,
   data: null,
   errMsg: "",
@@ -17,7 +19,7 @@ const initialTaskState: State = {
 const taskReducer = (
   state = initialTaskState,
   action: TaskActionType
-): State => {
+): TaskState => {
   switch (action.type) {
     case FETCH_TASKS_REQUEST:
       return {

@@ -17,7 +17,13 @@ import {
 } from "../../helperFunctions";
 import { postActivity } from "../activity/activityActions";
 import normalize from "json-api-normalizer";
-import { AppThunk, DataRecord, Id, NormalizedData } from "../shared";
+import {
+  AppThunk,
+  CommentAttributes,
+  DataRecord,
+  Id,
+  NormalizedData,
+} from "../shared";
 
 const commentUrl = "/api/v1/tasks/:task_id/comments";
 
@@ -34,13 +40,15 @@ const fetchCommentsFailure = (errMsg: string): FetchCommentsFailureAction => ({
   payload: errMsg,
 });
 
-const setCommentData = (commentData: DataRecord): SetCommentDataAction => ({
+const setCommentData = (
+  commentData: DataRecord<CommentAttributes>
+): SetCommentDataAction => ({
   type: SET_COMMENT_DATA,
   payload: commentData,
 });
 
 const updateCommentData = (
-  commentData: DataRecord
+  commentData: DataRecord<CommentAttributes>
 ): UpdateCommentDataAction => ({
   type: UPDATE_COMMENT_DATA,
   payload: commentData,

@@ -1,4 +1,4 @@
-import { DataRecord } from "../shared";
+import { DataRecord, Id, TaskAttributes } from "../shared";
 
 export const FETCH_TASKS_REQUEST = "FETCH_TASKS_REQUEST";
 export const FETCH_TASKS_SUCCESS = "FETCH_TASKS_SUCCESS";
@@ -21,12 +21,12 @@ export interface FetchTasksFailureAction {
 
 export interface SetTaskDataAction {
   type: typeof SET_TASK_DATA;
-  payload: DataRecord;
+  payload: DataRecord<TaskAttributes>;
 }
 
 export interface UpdateTaskDataAction {
   type: typeof UPDATE_TASK_DATA;
-  payload: DataRecord;
+  payload: DataRecord<TaskAttributes>;
 }
 
 export type TaskActionType =

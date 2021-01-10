@@ -1,8 +1,6 @@
 import React from "react";
 import { ListGroupItem } from "reactstrap";
-import { BootstrapColor, Id } from "../../../../redux/shared";
-
-type CrudType = "c" | "u" | "d";
+import { BootstrapColor, Id, CrudType } from "../../../../redux/shared";
 
 const crudToColor: {
   c: BootstrapColor;

@@ -14,10 +14,17 @@ import {
   FetchSubtasksFailureAction,
   SetSubtaskDataAction,
   UpdateSubtaskDataAction,
+  SubtaskActionType,
 } from "./subtaskTypes";
 import { updateTaskData } from "../task/taskActions";
 import { postActivity } from "../activity/activityActions";
-import { Id, AppThunk, DataRecord, NormalizedData } from "../shared";
+import {
+  Id,
+  AppThunk,
+  DataRecord,
+  NormalizedData,
+  SubtaskAttributes,
+} from "../shared";
 const fetchSubtasksRequest = (): FetchSubtasksRequestAction => ({
   type: FETCH_SUBTASKS_REQUEST,
 });
@@ -31,13 +38,15 @@ const fetchSubtasksFailure = (errMsg: string): FetchSubtasksFailureAction => ({
   payload: errMsg,
 });
 
-const setSubtaskData = (subtaskData: DataRecord): SetSubtaskDataAction => ({
+const setSubtaskData = (
+  subtaskData: DataRecord<SubtaskAttributes>
+): SetSubtaskDataAction => ({
   type: SET_SUBTASK_DATA,
   payload: subtaskData,
 });
 
 const updateSubtaskData = (
-  subtaskData: DataRecord
+  subtaskData: DataRecord<SubtaskAttributes>
 ): UpdateSubtaskDataAction => ({
   type: UPDATE_SUBTASK_DATA,
   payload: subtaskData,

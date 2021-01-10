@@ -6,8 +6,11 @@ import {
   UPDATE_COMMENT_DATA,
   CommentActionType,
 } from "./commentTypes";
-import { State } from "../shared";
-const initialCommentState: State = {
+import { CommentAttributes, State } from "../shared";
+
+export interface CommentState extends State<CommentAttributes> {}
+
+const initialCommentState: CommentState = {
   loading: false,
   data: null,
   errMsg: "",
@@ -16,7 +19,7 @@ const initialCommentState: State = {
 const commentReducer = (
   state = initialCommentState,
   action: CommentActionType
-): State => {
+): CommentState => {
   switch (action.type) {
     case FETCH_COMMENTS_REQUEST:
       return {

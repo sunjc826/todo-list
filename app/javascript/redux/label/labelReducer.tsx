@@ -5,8 +5,11 @@ import {
   SET_LABEL_DATA,
   LabelActionType,
 } from "./labelTypes";
-import { State } from "../shared";
-const initialLabelState: State = {
+import { LabelAttributes, State } from "../shared";
+
+export interface LabelState extends State<LabelAttributes> {}
+
+const initialLabelState: LabelState = {
   loading: false,
   data: null,
   errMsg: "",
@@ -15,7 +18,7 @@ const initialLabelState: State = {
 const labelReducer = (
   state = initialLabelState,
   action: LabelActionType
-): State => {
+): LabelState => {
   switch (action.type) {
     case FETCH_LABELS_REQUEST:
       return {

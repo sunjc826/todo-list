@@ -6,8 +6,11 @@ import {
   UPDATE_ACTIVITY_DATA,
   ActivityActionType,
 } from "./activityTypes";
-import { State } from "../shared";
-const defaultActivityState: State = {
+import { ActivityAttributes, State } from "../shared";
+
+export interface ActivityState extends State<ActivityAttributes> {}
+
+const defaultActivityState: ActivityState = {
   loading: false,
   data: null,
   errMsg: "",
@@ -16,7 +19,7 @@ const defaultActivityState: State = {
 const activityReducer = (
   state = defaultActivityState,
   action: ActivityActionType
-): State => {
+): ActivityState => {
   switch (action.type) {
     case FETCH_ACTIVITIES_REQUEST:
       return {

@@ -1,4 +1,4 @@
-import { DataRecord } from "../shared";
+import { BootstrapColor, DataRecord, Id, LabelAttributes } from "../shared";
 
 export const FETCH_LABELS_REQUEST = "FETCH_LABELS_REQUEST";
 export const FETCH_LABELS_SUCCESS = "FETCH_LABELS_SUCCESS";
@@ -20,7 +20,7 @@ export interface FetchLabelsFailureAction {
 
 export interface SetLabelDataAction {
   type: typeof SET_LABEL_DATA;
-  payload: DataRecord;
+  payload: DataRecord<LabelAttributes>;
 }
 
 export type LabelActionType =

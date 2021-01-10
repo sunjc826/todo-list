@@ -1,4 +1,4 @@
-import { Data, Id } from "../shared";
+import { Data, DataRecord, Id, UserAttributes } from "../shared";
 
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -37,7 +37,7 @@ export interface FetchUserFailureAction {
 
 export interface SetUserDataAction {
   type: typeof SET_USER_DATA;
-  payload: Record<string, Data>;
+  payload: DataRecord<UserAttributes>;
 }
 
 export type UserActionType =

@@ -5,8 +5,11 @@ import {
   SET_FILTER_DATA,
   FilterActionType,
 } from "./filterTypes";
-import { State } from "../shared";
-const initialFilterState: State = {
+import { FilterAttributes, State } from "../shared";
+
+export interface FilterState extends State<FilterAttributes> {}
+
+const initialFilterState: FilterState = {
   loading: false,
   data: null,
   errMsg: "",
@@ -15,7 +18,7 @@ const initialFilterState: State = {
 const filterReducer = (
   state = initialFilterState,
   action: FilterActionType
-): State => {
+): FilterState => {
   switch (action.type) {
     case FETCH_FILTERS_REQUEST:
       return {

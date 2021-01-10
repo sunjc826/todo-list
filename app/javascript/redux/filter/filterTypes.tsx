@@ -1,4 +1,4 @@
-import { DataRecord } from "../shared";
+import { DataRecord, FilterAttributes, Id } from "../shared";
 
 export const FETCH_FILTERS_REQUEST = "FETCH_FILTERS_REQUEST";
 export const FETCH_FILTERS_SUCCESS = "FETCH_FILTERS_SUCCESS";
@@ -20,7 +20,7 @@ export interface FetchFiltersFailureAction {
 
 export interface SetFilterDataAction {
   type: typeof SET_FILTER_DATA;
-  payload: DataRecord;
+  payload: DataRecord<FilterAttributes>;
 }
 
 export type FilterActionType =

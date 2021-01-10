@@ -6,8 +6,11 @@ import {
   UPDATE_SUBTASK_DATA,
   SubtaskActionType,
 } from "./subtaskTypes";
-import { State } from "../shared";
-const initialSubtaskState: State = {
+import { State, SubtaskAttributes } from "../shared";
+
+export interface SubtaskState extends State<SubtaskAttributes> {}
+
+const initialSubtaskState: SubtaskState = {
   loading: false,
   data: null,
   errMsg: "",
@@ -16,7 +19,7 @@ const initialSubtaskState: State = {
 const subtaskReducer = (
   state = initialSubtaskState,
   action: SubtaskActionType
-): State => {
+): SubtaskState => {
   switch (action.type) {
     case FETCH_SUBTASKS_REQUEST:
       return {

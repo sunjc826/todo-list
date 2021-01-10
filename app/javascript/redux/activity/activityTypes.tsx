@@ -1,4 +1,4 @@
-import { DataRecord } from "../shared";
+import { ActivityAttributes, CrudType, DataRecord } from "../shared";
 
 export const FETCH_ACTIVITIES_REQUEST = "FETCH_ACTIVITIES_REQUEST";
 export const FETCH_ACTIVITIES_SUCCESS = "FETCH_ACTIVITIES_SUCCESS";
@@ -21,12 +21,12 @@ export interface FetchActivitiesFailureAction {
 
 export interface SetActivityDataAction {
   type: typeof SET_ACTIVITY_DATA;
-  payload: DataRecord;
+  payload: DataRecord<ActivityAttributes>;
 }
 
 export interface UpdateActivityDataAction {
   type: typeof UPDATE_ACTIVITY_DATA;
-  payload: DataRecord;
+  payload: DataRecord<ActivityAttributes>;
 }
 
 export type ActivityActionType =

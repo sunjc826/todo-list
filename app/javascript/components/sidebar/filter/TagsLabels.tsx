@@ -3,20 +3,31 @@ import { useSelector } from "react-redux";
 import { Label, FormGroup, Input } from "reactstrap";
 import { RootState } from "../../../redux/rootReducer";
 
-type FormStateType = {
+interface FormState {
+  tag: Record<string, boolean>;
+  label: Record<string, boolean>;
+}
+
+interface FilterFormState extends FormState {
   filter: {
     description: string;
     startdate: string;
     enddate: string;
   };
-  tag: Record<string, boolean>;
-  label: Record<string, boolean>;
-};
+}
+
+interface QuickTaskFormState extends FormState {
+  content: string;
+  priority: number;
+  deadline: string;
+  completed: boolean;
+}
+// TODO: Not sure how to get rid of type errors in NewFilter and QuickNewTask
 
 interface AppProps {
-  formState: FormStateType;
-  setFormState: React.Dispatch<React.SetStateAction<FormStateType>>;
-  defaultFormState: FormStateType;
+  formState: FormState;
+  setFormState: React.Dispatch<React.SetStateAction<FormState>>;
+  defaultFormState: FormState;
 }
 
 const TagsLabels = ({

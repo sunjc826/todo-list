@@ -78,6 +78,7 @@ const NewLabel = ({ modalOpen, toggleModal }: AppProps) => {
       .catch((err) => {
         toggleAlert({ message: "Error: " + err.message, color: "danger" });
       });
+    setFormState(defaultFormState);
     toggleModal();
   };
 

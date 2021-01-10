@@ -63,6 +63,7 @@ const NewProject = ({ modalOpen, toggleModal }: AppProps) => {
           color: "danger",
         });
       });
+    setFormState(defaultFormState);
   };
 
   return (

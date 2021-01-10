@@ -74,6 +74,7 @@ const NewFilter = ({ modalOpen, toggleModal }: AppProps) => {
           color: "danger",
         });
       });
+    setFormState(defaultFormState);
     toggleModal();
   };
   const handleCancel = () => {

@@ -23,7 +23,15 @@ interface AppProps {
 const NewFilter = ({ modalOpen, toggleModal }: AppProps) => {
   // https://stackoverflow.com/questions/6982692/how-to-set-input-type-dates-default-value-to-today
   // "en-CA" outputs date in "YYYY-MM_DD" format
-  const defaultFormState = {
+  const defaultFormState: {
+    filter: {
+      description: string;
+      startdate: string;
+      enddate: string;
+    };
+    tag: Record<string, boolean>;
+    label: Record<string, boolean>;
+  } = {
     filter: {
       description: "",
       startdate: new Date().toLocaleDateString("en-CA"),
@@ -34,7 +42,7 @@ const NewFilter = ({ modalOpen, toggleModal }: AppProps) => {
   };
   const [formState, setFormState] = useState(defaultFormState);
 
-  const handleChange = (type: string) => (
+  const handleChange = (type: "filter" | "tag" | "label") => (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const newState = {

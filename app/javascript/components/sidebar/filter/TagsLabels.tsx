@@ -3,10 +3,28 @@ import { useSelector } from "react-redux";
 import { Label, FormGroup, Input } from "reactstrap";
 import { RootState } from "../../../redux/rootReducer";
 
-interface AppProps {}
+type FormStateType = {
+  filter: {
+    description: string;
+    startdate: string;
+    enddate: string;
+  };
+  tag: Record<string, boolean>;
+  label: Record<string, boolean>;
+};
 
-const TagsLabels = ({ formState, setFormState, defaultFormState }) => {
-  const handleCheckChange = (type: string) => (
+interface AppProps {
+  formState: FormStateType;
+  setFormState: React.Dispatch<React.SetStateAction<FormStateType>>;
+  defaultFormState: FormStateType;
+}
+
+const TagsLabels = ({
+  formState,
+  setFormState,
+  defaultFormState,
+}: AppProps) => {
+  const handleCheckChange = (type: "tag" | "label") => (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const newState = {

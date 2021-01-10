@@ -1,10 +1,10 @@
 import React from "react";
 import { Row, Col, ListGroup, ListGroupItem } from "reactstrap";
-import { Data } from "../../../redux/shared";
+import { Data, TaskAttributes } from "../../../redux/shared";
 import Task from "./Task";
 
 interface AppProps {
-  tasklist: Array<Data>;
+  tasklist: Array<Data<TaskAttributes>>;
 }
 
 const OverdueTaskList = ({ tasklist }: AppProps) => {

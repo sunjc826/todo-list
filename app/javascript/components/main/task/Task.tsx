@@ -6,7 +6,7 @@ import styled from "styled-components";
 import TaskModal from "./taskModal/TaskModal";
 import { deleteTask } from "../../../redux/actions";
 import QuickNewTask from "../../header/QuickNewTask";
-import { AppDispatch, Id } from "../../../redux/shared";
+import { AppDispatch, Data, Id, TaskAttributes } from "../../../redux/shared";
 import { RootState } from "../../../redux/rootReducer";
 
 const Tiny = styled.div`
@@ -23,12 +23,12 @@ const DeleteButton = styled.i`
 
 type TaskContextType = {
   taskId: Id;
-};
+} | null;
 
-const TaskContext = createContext(null);
+const TaskContext = createContext<TaskContextType>(null);
 
 interface AppProps {
-  task: object;
+  task: Data<TaskAttributes>;
   overdue?: boolean;
 }
 
@@ -49,7 +49,9 @@ const Task = ({ task, overdue }: AppProps) => {
   let project;
   if (!projectLoading && projectId) {
     for (let id in projectData) {
-      if (parseInt(id) === parseInt(projectId)) {
+      // TypeScript prefers Number over parseInt
+      // As parseInt expects a string
+      if (parseInt(id) === Number(projectId)) {
         project = projectData[id];
         break;
       }

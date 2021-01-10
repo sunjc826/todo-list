@@ -17,10 +17,11 @@ import { deleteProject } from "../../../redux/actions";
 import { AlertContext } from "../../Main";
 import { Id, State } from "../../../redux/shared";
 import { ProjectState } from "../../../redux/project/projectReducer";
+import { TaskState } from "../../../redux/task/taskReducer";
 
 interface AppProps {
   projectState: ProjectState;
-  taskState: State;
+  taskState: TaskState;
 }
 
 interface ParamTypes {

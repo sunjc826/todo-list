@@ -15,7 +15,7 @@ interface AppProps {
   completed: boolean;
   content: string;
   priority: number;
-  projectId: Id;
+  projectId?: Id;
   dateString: string;
 }
 

@@ -16,7 +16,6 @@ import { postTask, editTask } from "../../redux/actions";
 import { useHistory } from "react-router-dom";
 import {
   required,
-  minLength,
   maxLength,
   ValidatorRecord,
   BoolLike,
@@ -140,8 +139,6 @@ const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }: AppProps) => {
     if (isEdit) {
       dispatch(
         editTask(taskId!, formState, {
-          tagId: null,
-          labelId: null,
           tagIds,
           labelIds,
         })

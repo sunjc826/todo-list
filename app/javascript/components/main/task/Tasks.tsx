@@ -14,12 +14,16 @@ import {
 import { useQuery } from "../../../customHooks";
 import { AlertContext } from "../../Main";
 import { State } from "../../../redux/shared";
+import { TaskState } from "../../../redux/task/taskReducer";
+import { TagState } from "../../../redux/tag/tagReducer";
+import { LabelState } from "../../../redux/label/labelReducer";
+import { FilterState } from "../../../redux/filter/filterReducer";
 
 interface AppProps {
-  taskState: State;
-  tagState: State;
-  labelState: State;
-  filterState: State;
+  taskState: TaskState;
+  tagState: TagState;
+  labelState: LabelState;
+  filterState: FilterState;
 }
 
 const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
@@ -140,7 +144,7 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
     }
 
     if (query.has("searchTerm")) {
-      const searchTerm = query.get("searchTerm");
+      const searchTerm = query.get("searchTerm")!;
       const filteredTaskData: typeof taskData = {};
       for (const key in taskData) {
         const ele = taskData[key];

@@ -34,7 +34,10 @@ const NewTask = ({ setNewTask, day, project }: AppProps) => {
   const query = useQuery();
   let tagId: Id = null;
   let labelId: Id = null;
-  let filter_tags_and_labels = { tagIds: [], labelIds: [] };
+  let filter_tags_and_labels: {
+    tagIds: Array<number | string>;
+    labelIds: Array<number | string>;
+  } = { tagIds: [], labelIds: [] };
   const filterState = useSelector((state: RootState) => state.filter);
   // const filterLoading = filterState.loading;
   // const filterErrMsg = filterState.errMsg;
@@ -61,7 +64,7 @@ const NewTask = ({ setNewTask, day, project }: AppProps) => {
   if (project) {
     projectId = params.projectId!;
   }
-  let defaultDate = null;
+  let defaultDate = "";
   if (day) {
     defaultDate = day.toLocaleDateString("en-CA");
   }

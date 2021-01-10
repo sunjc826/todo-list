@@ -66,7 +66,13 @@ import {
   updateActivityData,
   postActivity,
 } from "../activity/activityActions";
-import { Id, AppThunk, DataRecord, NormalizedData, TaskAttributes } from "../shared";
+import {
+  Id,
+  AppThunk,
+  DataRecord,
+  NormalizedData,
+  TaskAttributes,
+} from "../shared";
 
 const tasksUrl = "/api/v1/tasks";
 
@@ -83,7 +89,9 @@ const fetchTasksFailure = (errMsg: string): FetchTasksFailureAction => ({
   payload: errMsg,
 });
 
-const setTaskData = (taskData: DataRecord<TaskAttributes>): SetTaskDataAction => ({
+const setTaskData = (
+  taskData: DataRecord<TaskAttributes>
+): SetTaskDataAction => ({
   type: SET_TASK_DATA,
   payload: taskData,
 });
@@ -124,7 +132,9 @@ const fetchTaskData = (taskId: Id): AppThunk => (dispatch) => {
     });
 };
 
-const updateTaskData = (taskData: DataRecord<TaskAttributes>): UpdateTaskDataAction => ({
+const updateTaskData = (
+  taskData: DataRecord<TaskAttributes>
+): UpdateTaskDataAction => ({
   type: UPDATE_TASK_DATA,
   payload: taskData,
 });
@@ -132,9 +142,9 @@ const updateTaskData = (taskData: DataRecord<TaskAttributes>): UpdateTaskDataAct
 type Task = {
   content: string;
   priority: number;
-  deadline: Date;
+  deadline: Date | string | null;
   completed: boolean;
-  project_id: Id;
+  project_id?: Id;
 };
 
 // no need to supply userId since the session cookie containing user_id is sent over
@@ -148,7 +158,13 @@ const postTask = (
     projectId,
     tagIds,
     labelIds,
-  }: { tagId: Id; labelId: Id; projectId: Id; tagIds: Id[]; labelIds: Id[] }
+  }: {
+    tagId?: Id;
+    labelId?: Id;
+    projectId?: Id;
+    tagIds?: Id[];
+    labelIds?: Id[];
+  }
 ): AppThunk<Promise<any>> => (dispatch) => {
   const post = {
     task,

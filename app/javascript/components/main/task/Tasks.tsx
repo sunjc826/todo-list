@@ -13,9 +13,17 @@ import {
 } from "../../../helperFunctions";
 import { useQuery } from "../../../customHooks";
 import { AlertContext } from "../../Main";
+import { State } from "../../../redux/shared";
 
-const Tasks = ({ taskState, tagState, labelState, filterState }) => {
-  const { date } = useContext(TimeContext);
+interface AppProps {
+  taskState: State;
+  tagState: State;
+  labelState: State;
+  filterState: State;
+}
+
+const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
+  const { date } = useContext(TimeContext)!;
   const dateString = dateToString(date);
 
   const taskLoading = taskState.loading;
@@ -27,23 +35,23 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
   let tasksComponent = null;
   let badgesComponent = null; // shows the current tag/label/filter that is in effect
   const query = useQuery();
-  const { toggleAlert } = useContext(AlertContext);
+  const { toggleAlert } = useContext(AlertContext)!;
 
   if (taskLoading) {
-    toggleAlert("Tasks loading...");
+    toggleAlert({ message: "Tasks loading...", color: "info" });
   } else if (taskErrMsg) {
-    toggleAlert("Error loading tasks");
+    toggleAlert({ message: "Error loading tasks", color: "danger" });
   } else {
     if (query.has("tagId")) {
-      const tagId = query.get("tagId");
+      const tagId = query.get("tagId")!;
       // set taskData to only include Tasks with the given tag.
-      const tagData = tagState.data;
+      const tagData = tagState.data!;
       const tag = tagData[tagId];
       const relatedTasks = tag.relationships.tasks.data;
-      const filteredTaskData = {};
+      const filteredTaskData: typeof taskData = {};
       relatedTasks.forEach((task) => {
         const taskId = task.id;
-        filteredTaskData[taskId] = taskData[taskId];
+        filteredTaskData[taskId] = taskData![taskId];
       });
       taskData = filteredTaskData;
 
@@ -53,15 +61,15 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
         </Badge>
       );
     } else if (query.has("labelId")) {
-      const labelId = query.get("labelId");
+      const labelId = query.get("labelId")!;
       // set taskData to only include Tasks with the given label.
-      const labelData = labelState.data;
+      const labelData = labelState.data!;
       const label = labelData[labelId];
       const relatedTasks = label.relationships.tasks.data;
-      const filteredTaskData = {};
+      const filteredTaskData: typeof taskData = {};
       relatedTasks.forEach((task) => {
         const taskId = task.id;
-        filteredTaskData[taskId] = taskData[taskId];
+        filteredTaskData[taskId] = taskData![taskId];
       });
       taskData = filteredTaskData;
 
@@ -71,9 +79,9 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
         </Badge>
       );
     } else if (query.has("filterId")) {
-      const filterId = query.get("filterId");
+      const filterId = query.get("filterId")!;
       // set taskData to only include Tasks with the given filter.
-      const filterData = filterState.data;
+      const filterData = filterState.data!;
       const filter = filterData[filterId];
       const filterStartDate = new Date(filter.attributes.startdate);
       const filterEndDate = new Date(filter.attributes.enddate);
@@ -81,7 +89,7 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
       const filterLabels = filter.relationships.labels.data.map(
         (label) => label.id
       );
-      const filteredTaskData = {};
+      const filteredTaskData: typeof taskData = {};
       // filter by date
       dateList = dateList.filter((date) =>
         dateLiesBetween({
@@ -108,8 +116,8 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
         }
       }
       taskData = filteredTaskData;
-      const tagData = tagState.data;
-      const labelData = labelState.data;
+      const tagData = tagState.data!;
+      const labelData = labelState.data!;
       const tagBadges = filterTags.map((tagId) => {
         return (
           <Badge color="dark" pill key={"tag " + tagId}>
@@ -133,7 +141,7 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
 
     if (query.has("searchTerm")) {
       const searchTerm = query.get("searchTerm");
-      const filteredTaskData = {};
+      const filteredTaskData: typeof taskData = {};
       for (const key in taskData) {
         const ele = taskData[key];
         const taskName = ele.attributes.content;
@@ -170,7 +178,7 @@ const Tasks = ({ taskState, tagState, labelState, filterState }) => {
           tasklist.push(ele);
         }
       }
-      return <TaskList key={day} day={day} tasklist={tasklist} />;
+      return <TaskList key={day.toString()} day={day} tasklist={tasklist} />;
     });
 
     currentTasksComponent.unshift(overdueTasksComponent);

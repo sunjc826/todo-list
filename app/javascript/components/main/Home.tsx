@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { Row, Col, Container, Jumbotron } from "reactstrap";
 import { AlertContext } from "../Main";
 import { useHistory } from "react-router-dom";
-import { UserState } from "../../redux/user/userReducer";
+import { UserState } from "../../redux/user/UserState";
 
 interface AppProps {
   userState: UserState;

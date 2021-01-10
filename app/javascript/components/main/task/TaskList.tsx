@@ -3,10 +3,11 @@ import { Row, Col, ListGroup, ListGroupItem } from "reactstrap";
 import Task from "./Task";
 import { dateToString } from "../../../helperFunctions";
 import NewTask from "./NewTask";
+import { Data } from "../../../redux/shared";
 
 interface AppProps {
   day: Date;
-  tasklist: Array<object>;
+  tasklist: Array<Data>;
 }
 
 // lists out all tasks on the given day

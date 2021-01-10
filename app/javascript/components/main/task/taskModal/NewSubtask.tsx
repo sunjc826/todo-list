@@ -18,7 +18,7 @@ const NewSubtask = ({ taskId, setNewSubtask }: AppProps) => {
   };
   const [formState, setFormState] = useState(defaultFormState);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormState({
       ...formState,
       [e.target.name]: e.target.value,

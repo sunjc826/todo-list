@@ -16,7 +16,13 @@ import {
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { register, login } from "../../redux/actions";
-import { Field, required, validEmail } from "../../validators";
+import {
+  BoolLike,
+  Field,
+  required,
+  ValidatorRecord,
+  validEmail,
+} from "../../validators";
 const Viewport = styled.div`
   height: 100vh;
 `;
@@ -51,7 +57,7 @@ const RegisterForm = () => {
   const [formState, setFormState] = useState(defaultFormState);
   const [formValid, setFormValid] = useState(defaultFormValid);
   const [formTouched, setFormTouched] = useState(defaultFormTouched);
-  const formValidators = {
+  const formValidators: ValidatorRecord = {
     name: [required],
     email: [required, validEmail],
     password: [required],
@@ -67,12 +73,14 @@ const RegisterForm = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let fieldValid = formValidators[e.target.name].reduce(
-      (isValid, validator) => {
+      (isValid: BoolLike, validator) => {
         return isValid && validator(e.target.value);
       },
       true
     );
+
     fieldValid = Boolean(fieldValid);
+
     setFormValid({
       ...formValid,
       [e.target.name]: fieldValid,
@@ -198,7 +206,7 @@ const LoginForm = () => {
     email: false,
     password: false,
   };
-  const formValidators = {
+  const formValidators: ValidatorRecord = {
     email: [required, validEmail],
     password: [required],
   };
@@ -215,7 +223,7 @@ const LoginForm = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let fieldValid = formValidators[e.target.name].reduce(
-      (isValid, validator) => {
+      (isValid: BoolLike, validator) => {
         return isValid && validator(e.target.value);
       },
       true

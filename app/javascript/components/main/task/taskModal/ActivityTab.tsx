@@ -1,17 +1,22 @@
 import React, { useState, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Row, Col, ListGroup, ListGroupItem, Input, Button } from "reactstrap";
-import { Id } from "../../../../redux/shared";
+import { RootState } from "../../../../redux/rootReducer";
+import {
+  Id,
+  NonUserRelationshipRecord,
+  RelationshipEntity,
+} from "../../../../redux/shared";
 import { AlertContext } from "../../../Main";
 import Activity from "./Activity";
 
 interface AppProps {
   taskId: Id;
-  taskRelations: object;
+  taskRelations: NonUserRelationshipRecord;
 }
 
 const ActivityTab = ({ taskId, taskRelations }: AppProps) => {
-  const activityState = useSelector((state) => state.activity);
+  const activityState = useSelector((state: RootState) => state.activity);
 
   const activityLoading = activityState.loading;
   const activityErrMsg = activityState.errMsg;
@@ -23,7 +28,7 @@ const ActivityTab = ({ taskId, taskRelations }: AppProps) => {
   } else {
     const activities = taskRelations.activities.data.map((ele) => {
       const activityId = ele.id;
-      return activityData[activityId];
+      return activityData![activityId];
     });
 
     activitiesComponent = activities.map((activity) => {

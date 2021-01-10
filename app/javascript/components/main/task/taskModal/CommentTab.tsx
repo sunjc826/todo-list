@@ -13,12 +13,12 @@ import {
 import Comment from "./Comment";
 import { postComment } from "../../../../redux/actions";
 import { AlertContext } from "../../../Main";
-import { Id } from "../../../../redux/shared";
+import { Id, NonUserRelationshipRecord } from "../../../../redux/shared";
 import { RootState } from "../../../../redux/rootReducer";
 
 interface AppProps {
   taskId: Id;
-  taskRelations: object;
+  taskRelations: NonUserRelationshipRecord;
 }
 
 const CommentTab = ({ taskId, taskRelations }: AppProps) => {
@@ -35,7 +35,7 @@ const CommentTab = ({ taskId, taskRelations }: AppProps) => {
   } else {
     const comments = taskRelations.comments.data.map((ele) => {
       const commentId = ele.id;
-      return commentData[commentId];
+      return commentData![commentId];
     });
 
     commentsComponent = comments.map((comment) => {

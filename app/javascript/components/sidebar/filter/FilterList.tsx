@@ -27,7 +27,7 @@ const FilterList = ({ collapseOpen }: AppProps) => {
       const ele = filterData[key];
       const filterAttributes = ele.attributes;
 
-      const handleClick = (e) => {
+      const handleClick = (e: React.MouseEvent) => {
         history.push(`/tasks?filterId=${key}`);
         e.stopPropagation();
       };

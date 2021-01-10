@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Row, Col, ListGroup, ListGroupItem } from "reactstrap";
 import { RootState } from "../../../../redux/rootReducer";
-import { Id } from "../../../../redux/shared";
+import { Id, NonUserRelationshipRecord } from "../../../../redux/shared";
 import NewSubtask from "./NewSubtask";
 import Subtask from "./Subtask";
 
 interface AppProps {
   taskId: Id;
-  taskRelations: object;
+  taskRelations: NonUserRelationshipRecord;
 }
 
 const SubtaskTab = ({ taskId, taskRelations }: AppProps) => {
@@ -26,7 +26,7 @@ const SubtaskTab = ({ taskId, taskRelations }: AppProps) => {
     // directly access the subtasks that are related to taskId
     const subtasks = taskRelations.subtasks.data.map((ele) => {
       const subtaskId = ele.id;
-      return subtaskData[subtaskId];
+      return subtaskData![subtaskId];
     });
 
     subtasksComponent = subtasks.map((subtask) => {

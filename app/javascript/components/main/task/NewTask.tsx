@@ -6,31 +6,36 @@ import {
   FormGroup,
   Input,
   Button,
-  Label,
   FormFeedback,
   FormText,
 } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { postTask } from "../../../redux/actions";
-import { useParams, useLocation } from "react-router-dom";
-import { required, minLength, maxLength } from "../../../validators";
+import { useParams } from "react-router-dom";
+import {
+  required,
+  maxLength,
+  ValidatorRecord,
+  BoolLike,
+} from "../../../validators";
 import { useQuery } from "../../../customHooks";
 import { AlertContext } from "../../Main";
-import { RefactorActionInfo } from "typescript";
+import { Id } from "../../../redux/shared";
+import { RootState } from "../../../redux/rootReducer";
 
 interface AppProps {
   setNewTask: (b: boolean) => void;
-  day: Date;
+  day?: Date;
   project?: boolean;
 }
 
 const NewTask = ({ setNewTask, day, project }: AppProps) => {
   // check whether task has tags or labels
   const query = useQuery();
-  let tagId = null;
-  let labelId = null;
+  let tagId: Id = null;
+  let labelId: Id = null;
   let filter_tags_and_labels = { tagIds: [], labelIds: [] };
-  const filterState = useSelector((state) => state.filter);
+  const filterState = useSelector((state: RootState) => state.filter);
   // const filterLoading = filterState.loading;
   // const filterErrMsg = filterState.errMsg;
   const filterData = filterState.data;
@@ -40,8 +45,8 @@ const NewTask = ({ setNewTask, day, project }: AppProps) => {
   } else if (query.has("labelId")) {
     labelId = query.get("labelId");
   } else if (query.has("filterId")) {
-    const filterId = query.get("filterId");
-    const filterRelations = filterData[filterId].relationships;
+    const filterId: Id = query.get("filterId");
+    const filterRelations = filterData![filterId!].relationships;
     filter_tags_and_labels.tagIds = filterRelations.tags.data.map(
       (tag) => tag.id
     );
@@ -51,16 +56,19 @@ const NewTask = ({ setNewTask, day, project }: AppProps) => {
   }
 
   // check whether task is part of a project
-  const params = useParams();
-  let projectId = null;
+  const params = useParams<Record<string, string | undefined>>();
+  let projectId: Id = null;
   if (project) {
-    projectId = params.projectId;
+    projectId = params.projectId!;
   }
-
+  let defaultDate = null;
+  if (day) {
+    defaultDate = day.toLocaleDateString("en-CA");
+  }
   const defaultFormState = {
     content: "",
     priority: 3,
-    deadline: day,
+    deadline: defaultDate,
     completed: false,
     project_id: projectId,
   };
@@ -72,7 +80,7 @@ const NewTask = ({ setNewTask, day, project }: AppProps) => {
     content: false,
     deadline: false,
   };
-  const formValidators = {
+  const formValidators: ValidatorRecord = {
     content: [required, maxLength(20)],
     deadline: [required],
   };
@@ -82,7 +90,7 @@ const NewTask = ({ setNewTask, day, project }: AppProps) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let fieldValid = formValidators[e.target.name].reduce(
-      (isValid, validator) => {
+      (isValid: BoolLike, validator) => {
         return isValid && validator(e.target.value);
       },
       true

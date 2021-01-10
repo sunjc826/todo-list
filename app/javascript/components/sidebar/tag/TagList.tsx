@@ -27,7 +27,7 @@ const TagList = ({ collapseOpen }: AppProps) => {
       const ele = tagData[key];
       const tagId = ele.id;
       const tagAttributes = ele.attributes;
-      const handleClick = (e) => {
+      const handleClick = (e: React.MouseEvent) => {
         history.push(`/tasks?tagId=${tagId}`);
         e.stopPropagation();
       };

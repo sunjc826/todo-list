@@ -38,7 +38,9 @@ const NewProject = ({ modalOpen, toggleModal }: AppProps) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { toggleAlert } = useContext(AlertContext)!;
-  const handleSubmit = (e) => {
+  const handleSubmit = (
+    e: React.FormEvent<HTMLFormElement> | React.MouseEvent
+  ) => {
     e.preventDefault();
     // TODO: Here, instead of relying on a return value (lastCreatedProjectId), is it possible
     // to get the most recent version of the redux store.project's lastCreatedProjectId?

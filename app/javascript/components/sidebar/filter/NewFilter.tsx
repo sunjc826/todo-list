@@ -14,7 +14,12 @@ import { postFilter } from "../../../redux/actions";
 import { AlertContext } from "../../Main";
 import TagsLabels from "./TagsLabels";
 
-const NewFilter = ({ modalOpen, toggleModal }) => {
+interface AppProps {
+  modalOpen: boolean;
+  toggleModal: () => void;
+}
+
+const NewFilter = ({ modalOpen, toggleModal }: AppProps) => {
   // https://stackoverflow.com/questions/6982692/how-to-set-input-type-dates-default-value-to-today
   // "en-CA" outputs date in "YYYY-MM_DD" format
   const defaultFormState = {
@@ -28,7 +33,7 @@ const NewFilter = ({ modalOpen, toggleModal }) => {
   };
   const [formState, setFormState] = useState(defaultFormState);
 
-  const handleChange = (type) => (e) => {
+  const handleChange = (type) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const newState = {
       ...formState,
       [type]: {
@@ -40,8 +45,10 @@ const NewFilter = ({ modalOpen, toggleModal }) => {
   };
 
   const dispatch = useDispatch();
-  const { toggleAlert } = useContext(AlertContext);
-  const handleSubmit = (e) => {
+  const { toggleAlert } = useContext(AlertContext)!;
+  const handleSubmit = (
+    e: React.FormEvent<HTMLFormElement> | React.MouseEvent
+  ) => {
     e.preventDefault();
     dispatch(postFilter(formState))
       .then((res) => {

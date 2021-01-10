@@ -1,6 +1,6 @@
 import React from "react";
 import { ListGroupItem } from "reactstrap";
-import { BootstrapColor } from "../../../../redux/shared";
+import { BootstrapColor, Id } from "../../../../redux/shared";
 
 type CrudType = "c" | "u" | "d";
 
@@ -24,6 +24,7 @@ interface AppProps {
   crudType: CrudType;
   item: string;
   createdAt: string;
+  activityId: Id;
 }
 
 const Activity = ({ crudType, item, createdAt }: AppProps) => {

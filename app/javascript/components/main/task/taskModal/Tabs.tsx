@@ -1,19 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  TabContent,
-  TabPane,
-  Nav,
-  NavItem,
-  NavLink,
-  Row,
-  Col,
-} from "reactstrap";
+import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import SubtaskTab from "./SubtaskTab";
 import CommentTab from "./CommentTab";
 import ActivityTab from "./ActivityTab";
 import { TaskContext } from "../Task";
 import { fetchTaskData } from "../../../../redux/actions";
+import { RootState } from "../../../../redux/rootReducer";
 
 type Toggleable = "1" | "2" | "3";
 
@@ -28,7 +21,8 @@ const Tabs = () => {
     dispatch(fetchTaskData(taskId));
   }, []);
 
-  const task = useSelector((state) => state.task.data[taskId]);
+  const taskState = useSelector((state: RootState) => state.task);
+  const task = taskState.data![taskId];
   const taskRelations = task.relationships;
 
   const [activeTab, setActiveTab] = useState("1");

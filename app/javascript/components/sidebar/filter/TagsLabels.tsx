@@ -1,6 +1,9 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Label, FormGroup, Input } from "reactstrap";
+import { RootState } from "../../../redux/rootReducer";
+
+interface AppProps {}
 
 const TagsLabels = ({ formState, setFormState, defaultFormState }) => {
   const handleCheckChange = (type) => (e) => {
@@ -15,15 +18,15 @@ const TagsLabels = ({ formState, setFormState, defaultFormState }) => {
   };
   // Prevents the parent element ListGroup from capturing the event
   // and toggling the Collapse component
-  const stopProp = (e) => {
+  const stopProp = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
 
-  const tagState = useSelector((state) => state.tag);
+  const tagState = useSelector((state: RootState) => state.tag);
   const tagLoading = tagState.loading;
   const tagErrMsg = tagState.errMsg;
   const tagData = tagState.data;
-  const labelState = useSelector((state) => state.label);
+  const labelState = useSelector((state: RootState) => state.label);
   const labelLoading = labelState.loading;
   const labelErrMsg = labelState.errMsg;
   const labelData = labelState.data;

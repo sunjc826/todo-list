@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { postFilter } from "../../../redux/actions";
 import { AlertContext } from "../../Main";
 import TagsLabels from "./TagsLabels";
+import { AppDispatch } from "../../../redux/shared";
 
 interface AppProps {
   modalOpen: boolean;
@@ -33,7 +34,9 @@ const NewFilter = ({ modalOpen, toggleModal }: AppProps) => {
   };
   const [formState, setFormState] = useState(defaultFormState);
 
-  const handleChange = (type) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (type: string) => (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const newState = {
       ...formState,
       [type]: {
@@ -44,7 +47,7 @@ const NewFilter = ({ modalOpen, toggleModal }: AppProps) => {
     setFormState(newState);
   };
 
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const { toggleAlert } = useContext(AlertContext)!;
   const handleSubmit = (
     e: React.FormEvent<HTMLFormElement> | React.MouseEvent

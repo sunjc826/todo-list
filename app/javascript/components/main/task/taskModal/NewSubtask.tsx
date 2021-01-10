@@ -3,7 +3,7 @@ import { Button, Form, FormGroup, Input } from "reactstrap";
 import { useDispatch } from "react-redux";
 import { postSubtask } from "../../../../redux/actions";
 import { AlertContext } from "../../../Main";
-import { Id } from "../../../../redux/shared";
+import { AppDispatch, Id } from "../../../../redux/shared";
 
 interface AppProps {
   taskId: Id;
@@ -11,7 +11,7 @@ interface AppProps {
 }
 
 const NewSubtask = ({ taskId, setNewSubtask }: AppProps) => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const defaultFormState = {
     content: "",
     completed: false,

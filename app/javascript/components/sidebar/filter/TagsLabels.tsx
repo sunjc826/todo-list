@@ -6,7 +6,9 @@ import { RootState } from "../../../redux/rootReducer";
 interface AppProps {}
 
 const TagsLabels = ({ formState, setFormState, defaultFormState }) => {
-  const handleCheckChange = (type) => (e) => {
+  const handleCheckChange = (type: string) => (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const newState = {
       ...formState,
       [type]: {

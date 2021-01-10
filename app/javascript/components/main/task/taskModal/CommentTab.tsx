@@ -13,7 +13,11 @@ import {
 import Comment from "./Comment";
 import { postComment } from "../../../../redux/actions";
 import { AlertContext } from "../../../Main";
-import { Id, NonUserRelationshipRecord } from "../../../../redux/shared";
+import {
+  AppDispatch,
+  Id,
+  NonUserRelationshipRecord,
+} from "../../../../redux/shared";
 import { RootState } from "../../../../redux/rootReducer";
 
 interface AppProps {
@@ -23,7 +27,7 @@ interface AppProps {
 
 const CommentTab = ({ taskId, taskRelations }: AppProps) => {
   const commentState = useSelector((state: RootState) => state.comment);
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const commentLoading = commentState.loading;
   const commentErrMsg = commentState.errMsg;
@@ -61,7 +65,7 @@ const CommentTab = ({ taskId, taskRelations }: AppProps) => {
     const formOutput = { content: formComment };
     setFormComment("");
     dispatch(postComment(taskId, formOutput))
-      .then((res) => {
+      .then(() => {
         toggleAlert({
           message: "Successfully created new comment",
           color: "success",

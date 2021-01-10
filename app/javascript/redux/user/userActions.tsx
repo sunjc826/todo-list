@@ -79,9 +79,9 @@ interface RegistrationData {
 }
 
 // TODO: Read up on ThunkAction generic parameters
-const register = (registrationData: RegistrationData): AppThunk => (
-  dispatch
-) => {
+const register = (
+  registrationData: RegistrationData
+): AppThunk<Promise<any>> => (dispatch) => {
   return fetch(
     registrationsUrl,
     generatePostRequest(JSON.stringify({ user: registrationData }))
@@ -109,7 +109,7 @@ interface LoginData {
   password: string;
 }
 
-const login = (loginData: LoginData): AppThunk => (dispatch) => {
+const login = (loginData: LoginData): AppThunk<Promise<any>> => (dispatch) => {
   return fetch(
     sessionsUrl,
     generatePostRequest(JSON.stringify({ user: loginData }))

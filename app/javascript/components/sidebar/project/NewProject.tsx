@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { postProject } from "../../../redux/actions";
 import { useHistory } from "react-router-dom";
 import { AlertContext } from "../../Main";
+import { AppDispatch } from "../../../redux/shared";
 
 interface AppProps {
   modalOpen: boolean;
@@ -35,7 +36,7 @@ const NewProject = ({ modalOpen, toggleModal }: AppProps) => {
     });
   };
 
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
   const { toggleAlert } = useContext(AlertContext)!;
   const handleSubmit = (

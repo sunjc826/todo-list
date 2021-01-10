@@ -48,7 +48,7 @@ const postFilter = ({
   filter: FilterData;
   tag: object;
   label: object;
-}): AppThunk => (dispatch) => {
+}): AppThunk<Promise<any>> => (dispatch) => {
   return fetch(
     filtersUrl,
     generatePostRequest(

@@ -6,7 +6,7 @@ import styled from "styled-components";
 import TaskModal from "./taskModal/TaskModal";
 import { deleteTask } from "../../../redux/actions";
 import QuickNewTask from "../../header/QuickNewTask";
-import { Id } from "../../../redux/shared";
+import { AppDispatch, Id } from "../../../redux/shared";
 import { RootState } from "../../../redux/rootReducer";
 
 const Tiny = styled.div`
@@ -61,7 +61,7 @@ const Task = ({ task, overdue }: AppProps) => {
     setModalOpen(!modalOpen);
   };
 
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const handleClick = (e: React.MouseEvent) => {
     dispatch(deleteTask(task.id));
     e.stopPropagation();

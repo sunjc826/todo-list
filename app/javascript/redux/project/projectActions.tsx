@@ -60,7 +60,9 @@ interface ProjectData {
   completed: boolean;
 }
 
-const postProject = (project: ProjectData): AppThunk => (dispatch) => {
+const postProject = (project: ProjectData): AppThunk<Promise<any>> => (
+  dispatch
+) => {
   // https://stackoverflow.com/questions/41812056/extract-both-json-and-headers-from-fetch
 
   return fetch(projectsUrl, generatePostRequest(JSON.stringify({ project })))
@@ -95,7 +97,7 @@ const postProject = (project: ProjectData): AppThunk => (dispatch) => {
     });
 };
 
-const deleteProject = (projectId: Id): AppThunk => (dispatch) => {
+const deleteProject = (projectId: Id): AppThunk<Promise<any>> => (dispatch) => {
   const url = `${projectsUrl}/${projectId}`;
   return fetch(url, generateDeleteRequest())
     .then((res) => {

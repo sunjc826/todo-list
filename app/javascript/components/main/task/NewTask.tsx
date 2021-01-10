@@ -20,7 +20,7 @@ import {
 } from "../../../validators";
 import { useQuery } from "../../../customHooks";
 import { AlertContext } from "../../Main";
-import { Id } from "../../../redux/shared";
+import { AppDispatch, Id } from "../../../redux/shared";
 import { RootState } from "../../../redux/rootReducer";
 
 interface AppProps {
@@ -126,7 +126,7 @@ const NewTask = ({ setNewTask, day, project }: AppProps) => {
     );
   });
 
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const { toggleAlert } = useContext(AlertContext)!;
   const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();

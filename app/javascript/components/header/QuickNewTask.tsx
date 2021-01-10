@@ -26,7 +26,7 @@ import TagsLabels from "../sidebar/filter/TagsLabels";
 import { ThunkDispatch } from "redux-thunk";
 import { RootState } from "../../redux/rootReducer";
 import { AnyAction } from "redux";
-import { Id } from "../../redux/shared";
+import { AppDispatch, Id } from "../../redux/shared";
 
 interface AppProps {
   modalOpen: boolean;
@@ -76,7 +76,7 @@ const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }: AppProps) => {
   const [formState, setFormState] = useState(defaultFormState);
   const [formValid, setFormValid] = useState(defaultFormValid);
   const [formTouched, setFormTouched] = useState(defaultFormTouched);
-  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let fieldValid = formValidators[e.target.name].reduce(
       (isValid: BoolLike, validator) => {
@@ -139,7 +139,7 @@ const QuickNewTask = ({ modalOpen, toggleModal, isEdit, taskId }: AppProps) => {
 
     if (isEdit) {
       dispatch(
-        editTask(taskId, formState, {
+        editTask(taskId!, formState, {
           tagId: null,
           labelId: null,
           tagIds,

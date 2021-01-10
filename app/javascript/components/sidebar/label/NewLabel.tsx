@@ -14,7 +14,7 @@ import {
 import { useDispatch } from "react-redux";
 import { postLabel } from "../../../redux/actions";
 import { AlertContext } from "../../Main";
-import { BootstrapColor } from "../../../redux/shared";
+import { AppDispatch, BootstrapColor } from "../../../redux/shared";
 
 const bootstrapColors: Array<BootstrapColor> = [
   "primary",
@@ -67,7 +67,7 @@ const NewLabel = ({ modalOpen, toggleModal }: AppProps) => {
     );
   });
 
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const { toggleAlert } = useContext(AlertContext)!;
   const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();

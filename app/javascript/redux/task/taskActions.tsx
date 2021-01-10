@@ -149,7 +149,7 @@ const postTask = (
     tagIds,
     labelIds,
   }: { tagId: Id; labelId: Id; projectId: Id; tagIds: Id[]; labelIds: Id[] }
-): AppThunk => (dispatch) => {
+): AppThunk<Promise<any>> => (dispatch) => {
   const post = {
     task,
     tag: { tag_id: tagId },
@@ -193,9 +193,9 @@ const postTask = (
     });
 };
 
-const deleteTask = (taskId: Id): AppThunk => (dispatch) => {
+const deleteTask = (taskId: Id): AppThunk<Promise<any>> => (dispatch) => {
   const url = `${tasksUrl}/${taskId}`;
-  fetch(url, generateDeleteRequest())
+  return fetch(url, generateDeleteRequest())
     .then((res) => {
       if (res.ok) {
         return res.json();
@@ -245,7 +245,7 @@ const editTask = (
   taskId: Id,
   task: Task,
   { tagIds, labelIds }: { tagIds: Id[]; labelIds: Id[] }
-): AppThunk => (dispatch) => {
+): AppThunk<Promise<any>> => (dispatch) => {
   const url = `${tasksUrl}/${taskId}`;
   const post = {
     task,

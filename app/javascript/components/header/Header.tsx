@@ -19,6 +19,7 @@ import { SidebarContext } from "../Index";
 import ActivityModal from "./ActivityModal";
 
 // import { ModalContext } from "../../customComponents";
+
 const Header = () => {
   const dispatch = useDispatch();
   const { sidebarActive, setSidebarActive, resetSidebar } = useContext(

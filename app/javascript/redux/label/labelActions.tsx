@@ -48,7 +48,7 @@ interface LabelData {
   color: BootstrapColor;
 }
 
-const postLabel = (label: LabelData): AppThunk => (dispatch) => {
+const postLabel = (label: LabelData): AppThunk<Promise<any>> => (dispatch) => {
   return fetch(labelsUrl, generatePostRequest(JSON.stringify({ label })))
     .then((res) => {
       if (res.ok) {
@@ -69,7 +69,7 @@ const postLabel = (label: LabelData): AppThunk => (dispatch) => {
     });
 };
 
-const deleteLabel = (labelId: Id): AppThunk => (dispatch) => {
+const deleteLabel = (labelId: Id): AppThunk<Promise<any>> => (dispatch) => {
   const url = `${labelsUrl}/${labelId}`;
   return fetch(url, generateDeleteRequest())
     .then((res) => {

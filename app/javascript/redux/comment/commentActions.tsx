@@ -50,9 +50,10 @@ interface CommentData {
   content: string;
 }
 
-const postComment = (taskId: Id, comment: CommentData): AppThunk => (
-  dispatch
-) => {
+const postComment = (
+  taskId: Id,
+  comment: CommentData
+): AppThunk<Promise<any>> => (dispatch) => {
   const url = `/api/v1/tasks/${taskId}/comments`;
   return fetch(url, generatePostRequest(JSON.stringify({ comment })))
     .then((res) => {

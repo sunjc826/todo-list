@@ -23,6 +23,7 @@ import {
   ValidatorRecord,
   validEmail,
 } from "../../validators";
+import { AppDispatch } from "../../redux/shared";
 const Viewport = styled.div`
   height: 100vh;
 `;
@@ -32,7 +33,7 @@ const RegisterForm = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const onDismiss = () => setAlertVisible(false);
 
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const defaultFormState = {
     name: "",
     email: "",
@@ -193,7 +194,7 @@ const LoginForm = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const onDismiss = () => setAlertVisible(false);
 
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const defaultFormState = {
     email: "",
     password: "",

@@ -48,9 +48,10 @@ interface SubtaskData {
   completed: boolean;
 }
 
-const postSubtask = (taskId: Id, subtask: SubtaskData): AppThunk => (
-  dispatch
-) => {
+const postSubtask = (
+  taskId: Id,
+  subtask: SubtaskData
+): AppThunk<Promise<any>> => (dispatch) => {
   const url = `/api/v1/tasks/${taskId}/subtasks`;
   return fetch(url, generatePostRequest(JSON.stringify({ subtask })))
     .then((res) => {
@@ -77,7 +78,9 @@ const postSubtask = (taskId: Id, subtask: SubtaskData): AppThunk => (
     });
 };
 
-const deleteSubtask = (taskId: Id, subtaskId: Id): AppThunk => (dispatch) => {
+const deleteSubtask = (taskId: Id, subtaskId: Id): AppThunk<Promise<any>> => (
+  dispatch
+) => {
   const url = `/api/v1/tasks/${taskId}/subtasks/${subtaskId}`;
   return fetch(url, generateDeleteRequest())
     .then((res) => {

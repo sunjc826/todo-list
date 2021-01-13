@@ -14,6 +14,7 @@ export {
   postTask,
   deleteTask,
   editTask,
+  toggleCompleteTask,
 } from "./task/taskActions";
 export { postComment, deleteComment } from "./comment/commentActions";
 export { postSubtask, deleteSubtask } from "./subtask/subtaskActions";

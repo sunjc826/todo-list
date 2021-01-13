@@ -59,3 +59,7 @@
     margin-left: 0;
   }
 }
+
+.completed-task .task-name {
+  text-decoration: line-through;
+}

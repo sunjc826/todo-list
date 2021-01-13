@@ -4,7 +4,7 @@ import { Row, Col, ListGroupItem, Button } from "reactstrap";
 import { dateToString, getColorForPercentage } from "../../../helperFunctions";
 import styled from "styled-components";
 import TaskModal from "./taskModal/TaskModal";
-import { deleteTask } from "../../../redux/actions";
+import { deleteTask, toggleCompleteTask } from "../../../redux/actions";
 import QuickNewTask from "../../header/QuickNewTask";
 import { AppDispatch, Data, Id, TaskAttributes } from "../../../redux/shared";
 import { RootState } from "../../../redux/rootReducer";
@@ -72,6 +72,12 @@ const Task = ({ task, overdue }: AppProps) => {
   const [editOpen, setEditOpen] = useState(false);
   const toggleEdit = () => setEditOpen(!editOpen);
 
+  const [onHover, setOnHover] = useState(false);
+  const handleComplete = (e: React.MouseEvent) => {
+    dispatch(toggleCompleteTask(task.id));
+    e.stopPropagation();
+  };
+
   return (
     <TaskContext.Provider value={{ taskId: task.id }}>
       <ListGroupItem action>
@@ -88,7 +94,10 @@ const Task = ({ task, overdue }: AppProps) => {
           taskId={task.id}
         />
         <Row onClick={toggleModal}>
-          <Col xs="4" className="mr-auto">
+          <Col
+            xs="4"
+            className={`mr-auto ${completed ? "completed-task" : ""}`}
+          >
             <Row className="my-0 py-0">
               <Col xs="12">
                 <p>
@@ -96,7 +105,7 @@ const Task = ({ task, overdue }: AppProps) => {
                     className="far fa-times-circle"
                     onClick={handleClick}
                   ></DeleteButton>
-                  {" " + content}{" "}
+                  <span className="task-name">{" " + content} </span>
                   <i
                     className="fas fa-circle"
                     style={{
@@ -125,6 +134,14 @@ const Task = ({ task, overdue }: AppProps) => {
             >
               Edit
             </Button>
+            <i
+              className={`far ${
+                onHover != completed ? "fa-check-circle" : "fa-circle"
+              } mx-2`}
+              onMouseEnter={() => setOnHover(true)}
+              onMouseLeave={() => setOnHover(false)}
+              onClick={handleComplete}
+            ></i>
           </Col>
         </Row>
       </ListGroupItem>

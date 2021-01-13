@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Row, Col, Container, Badge } from "reactstrap";
+import { Row, Col, Container, Badge, Button } from "reactstrap";
 import { TimeContext } from "../../Index";
 import TaskList from "./TaskList";
 import OverdueTaskList from "./OverdueTaskList";
@@ -27,6 +27,9 @@ interface AppProps {
 }
 
 const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
+  const [showIncomplete, setShowIncomplete] = useState(false);
+  const toggleShowIncomplete = () => setShowIncomplete(!showIncomplete);
+
   const { date } = useContext(TimeContext)!;
   const dateString = dateToString(date);
 
@@ -46,6 +49,18 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
   } else if (taskErrMsg) {
     toggleAlert({ message: "Error loading tasks", color: "danger" });
   } else {
+    // filter by completion state
+    if (showIncomplete) {
+      const filteredTaskData: typeof taskData = {};
+      for (const key in taskData) {
+        const ele = taskData[key];
+        if (!ele.attributes.completed) {
+          filteredTaskData[key] = ele;
+        }
+      }
+      taskData = filteredTaskData;
+    }
+
     if (query.has("tagId")) {
       const tagId = query.get("tagId")!;
       // set taskData to only include Tasks with the given tag.
@@ -191,10 +206,15 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
 
   return (
     <Container>
-      <Row>
-        <Col xs="12">
-          <p>{dateString}</p>
+      <Row className="align-items-center mt-2 border border-primary">
+        <Col xs="6" className="mr-auto">
+          <p className="my-2">{dateString}</p>
           {badgesComponent}
+        </Col>
+        <Col xs="6" md="2">
+          <Button size="sm" onClick={toggleShowIncomplete}>
+            {showIncomplete ? "Incomplete Tasks" : "All Tasks"}
+          </Button>
         </Col>
       </Row>
       {tasksComponent}

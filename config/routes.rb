@@ -24,6 +24,8 @@ Rails.application.routes.draw do
         resources :comments, only: [:create, :update, :destroy]
         resources :activities, only: [:create]
       end
+      patch "/tasks/:id/complete", to: "tasks#complete"
+
       resources :users, only: [:show, :create, :update, :destroy]
     end
   end

@@ -98,6 +98,17 @@ module Api
         end
       end
 
+      # set task as complete/incomplete
+      def complete
+        task_id = params[:id]
+        task = @current_user.tasks.find(task_id)
+
+        if task.update({ completed: !task.completed })
+          render json: TaskSerializer.new(task).serializable_hash.to_json
+        else
+          render status: :unprocessable_entity
+        end
+      end
       
 
       # helper functions

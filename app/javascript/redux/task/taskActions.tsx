@@ -296,6 +296,34 @@ const editTask = (
     });
 };
 
+const toggleCompleteTask = (taskId: Id): AppThunk<Promise<any>> => (
+  dispatch
+) => {
+  const url = `${tasksUrl}/${taskId}/complete`;
+  return fetch(url, generateEditRequest(JSON.stringify({})))
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(res.statusText);
+      }
+    })
+    .then(
+      (res): NormalizedData => {
+        return normalize(res);
+      }
+    )
+    .then((res) => {
+      const { task } = res;
+      dispatch(updateTaskData(task));
+      return res;
+    })
+    .then((res) => {
+      dispatch(postActivity(taskId, { crud_type: "u", item: "task" }));
+      return res;
+    });
+};
+
 export {
   fetchTasksRequest,
   fetchTasksSuccess,
@@ -306,4 +334,5 @@ export {
   postTask,
   deleteTask,
   editTask,
+  toggleCompleteTask,
 };

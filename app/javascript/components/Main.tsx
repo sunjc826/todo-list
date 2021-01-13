@@ -23,6 +23,7 @@ import { RootState } from "../redux/rootReducer";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 import { BootstrapColor } from "../redux/shared";
+import Statistics from "./main/Statistics";
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
@@ -119,6 +120,9 @@ const Main = () => {
                 </Route>
                 <Route exact path={url + "support"}>
                   <Support />
+                </Route>
+                <Route exact path={url + "statistics"}>
+                  <Statistics taskState={taskState} />
                 </Route>
                 <Route path={url + "home"}>
                   <Home userState={userState} />

@@ -34,6 +34,7 @@ const Header = () => {
   const [homeTooltipOpen, setHomeTooltipOpen] = useState(false);
   const [plusTooltipOpen, setPlusTooltipOpen] = useState(false);
   const [questionTooltipOpen, setQuestionTooltipOpen] = useState(false);
+  const [statisticsTooltipOpen, setStatisticsTooltipOpen] = useState(false);
   const [activityTooltipOpen, setActivityTooltipOpen] = useState(false);
 
   const [modalOpen, setModalOpen] = useState({ task: false, activity: false });
@@ -117,6 +118,19 @@ const Header = () => {
                 toggle={() => setQuestionTooltipOpen(!questionTooltipOpen)}
               >
                 Support
+              </Tooltip>
+            </NavItem>
+            <NavItem className="mx-3">
+              <NavLink to="/statistics" className="nav-link">
+                <i className="far fa-chart-bar fa-lg" id="statistics"></i>
+              </NavLink>
+              <Tooltip
+                placement="right"
+                target="statistics"
+                isOpen={statisticsTooltipOpen}
+                toggle={() => setStatisticsTooltipOpen(!statisticsTooltipOpen)}
+              >
+                Statistics
               </Tooltip>
             </NavItem>
             <NavItem

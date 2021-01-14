@@ -8,6 +8,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import data from "./supportData";
 
 const Support = () => {
   return (
@@ -28,6 +29,24 @@ const Support = () => {
               <CardText>
                 <i className="fas fa-fax"></i> +1-123-1234567
               </CardText>
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
+      <Row className="mt-3">
+        <Col xs="12">
+          <Card>
+            <CardHeader tag="h3" className="bg-info">
+              User Manual
+            </CardHeader>
+            <CardBody>
+              {data.manual.map((paragraph, index) => {
+                return (
+                  <CardText key={index} style={{ whiteSpace: "pre-wrap" }}>
+                    {paragraph}
+                  </CardText>
+                );
+              })}
             </CardBody>
           </Card>
         </Col>

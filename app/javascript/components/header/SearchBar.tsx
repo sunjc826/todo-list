@@ -5,15 +5,17 @@ import { useLocation, useHistory } from "react-router-dom";
 // import { useQuery } from "../../customHooks";
 
 const SearchBar = () => {
+  const [touched, setTouched] = useState(false);
   const [query, setQuery] = useState("");
   const location = useLocation();
   const history = useHistory();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTouched(true);
     setQuery(e.target.value);
   };
 
   useEffect(() => {
-    if (query) {
+    if (touched) {
       const parsed = queryString.parse(location.search);
       const newQuery = queryString.stringify({ ...parsed, searchTerm: query });
       history.push(`/tasks?${newQuery}`);

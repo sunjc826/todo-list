@@ -301,6 +301,8 @@ const LoginForm = () => {
 const Login = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
+  const [loginHover, setLoginHover] = useState(false);
+  const [registerHover, setRegisterHover] = useState(false);
 
   const toggle = () => setModalOpen(!modalOpen);
   const handleClick = (type: boolean) => () => {
@@ -317,12 +319,26 @@ const Login = () => {
         <ModalBody>{isLogin ? <LoginForm /> : <RegisterForm />}</ModalBody>
       </Modal>
       <Viewport>
-        <Row className="h-100 m-0 align-items-center bg-dark text-center">
+        <Row
+          className={`h-100 m-0 align-items-center text-center ${
+            loginHover ? "bg-primary" : registerHover ? "bg-info" : "bg-dark"
+          }`}
+        >
           <Col xs={{ size: 8 }} md={{ size: 4 }} className="mx-auto">
-            <Button color="primary" onClick={handleClick(true)}>
+            <Button
+              color="primary"
+              onClick={handleClick(true)}
+              onMouseEnter={() => setLoginHover(true)}
+              onMouseLeave={() => setLoginHover(false)}
+            >
               Login
             </Button>
-            <Button color="info" onClick={handleClick(false)}>
+            <Button
+              color="info"
+              onClick={handleClick(false)}
+              onMouseEnter={() => setRegisterHover(true)}
+              onMouseLeave={() => setRegisterHover(false)}
+            >
               Register
             </Button>
           </Col>

@@ -145,3 +145,7 @@ export interface NormalizedData {
   subtask: DataRecord<SubtaskAttributes>;
   activity: DataRecord<ActivityAttributes>;
 }
+
+export interface Comparator<E> {
+  (a: E, b: E): number;
+}

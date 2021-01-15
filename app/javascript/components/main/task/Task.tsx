@@ -29,10 +29,10 @@ const TaskContext = createContext<TaskContextType>(null);
 
 interface AppProps {
   task: Data<TaskAttributes>;
-  overdue?: boolean;
+  showDate?: boolean;
 }
 
-const Task = ({ task, overdue }: AppProps) => {
+const Task = ({ task, showDate }: AppProps) => {
   const projectState = useSelector((state: RootState) => state.project);
   const projectLoading = projectState.loading;
   const projectErrMsg = projectState.errMsg;
@@ -114,7 +114,7 @@ const Task = ({ task, overdue }: AppProps) => {
                   ></i>
                 </p>
                 <Tiny>
-                  {overdue && (
+                  {showDate && (
                     <p className="text-danger">{dateToString(dateString)}</p>
                   )}
                 </Tiny>

@@ -7,6 +7,10 @@ import {
   ListGroup,
   ListGroupItem,
   Button,
+  Dropdown,
+  DropdownItem,
+  DropdownToggle,
+  DropdownMenu,
 } from "reactstrap";
 import Task from "../task/Task";
 import { compareDateByDay } from "../../../helperFunctions";
@@ -15,7 +19,13 @@ import NewTask from "../task/NewTask";
 import { useDispatch } from "react-redux";
 import { deleteProject } from "../../../redux/actions";
 import { AlertContext } from "../../Main";
-import { Id, State } from "../../../redux/shared";
+import {
+  Comparator,
+  Id,
+  State,
+  Data,
+  TaskAttributes,
+} from "../../../redux/shared";
 import { ProjectState } from "../../../redux/project/projectReducer";
 import { TaskState } from "../../../redux/task/taskReducer";
 
@@ -28,6 +38,20 @@ interface ParamTypes {
   projectId: string;
 }
 
+const priorityComparator: Comparator<Data<TaskAttributes>> = (a, b) => {
+  return a.attributes.priority < b.attributes.priority ? -1 : 1;
+};
+
+const dateComparator: Comparator<Data<TaskAttributes>> = (a, b) => {
+  return compareDateByDay({
+    date1: a.attributes.dateString,
+    date2: b.attributes.dateString,
+    strict: true,
+  })
+    ? -1
+    : 1;
+};
+
 const Project = ({ projectState, taskState }: AppProps) => {
   const { projectId } = useParams<ParamTypes>();
   const projectLoading = projectState.loading;
@@ -38,6 +62,10 @@ const Project = ({ projectState, taskState }: AppProps) => {
   const { date } = useContext(TimeContext)!;
   const { toggleAlert } = useContext(AlertContext)!;
   const [newTask, setNewTask] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+  const [sortBy, setSortBy] = useState<"none" | "date" | "priority">("none");
+  const [sortAscending, setSortAscending] = useState(true);
 
   let projectComponent;
 
@@ -58,14 +86,34 @@ const Project = ({ projectState, taskState }: AppProps) => {
       }
     }
 
-    const taskListComponent = taskList.map((task) => {
-      const isBeforeToday = compareDateByDay({
-        date1: task.attributes.dateString,
-        date2: date,
-        strict: true,
-      });
+    // sorting
+    if (sortBy !== "none") {
+      let comparator: Comparator<Data<TaskAttributes>>;
+      switch (sortBy) {
+        case "date":
+          comparator = dateComparator;
+          break;
+        case "priority":
+          comparator = priorityComparator;
+          break;
+        default:
+          throw new Error("Case unaccounted for");
+      }
+      if (sortAscending) {
+        taskList.sort(comparator);
+      } else {
+        taskList.sort((a, b) => comparator(b, a));
+      }
+    }
 
-      return <Task task={task} overdue={isBeforeToday} key={task.id} />;
+    const taskListComponent = taskList.map((task) => {
+      // const isBeforeToday = compareDateByDay({
+      //   date1: task.attributes.dateString,
+      //   date2: date,
+      //   strict: true,
+      // });
+
+      return <Task task={task} showDate key={task.id} />;
     });
 
     const dispatch = useDispatch();
@@ -79,12 +127,45 @@ const Project = ({ projectState, taskState }: AppProps) => {
     projectComponent = (
       <Container>
         <Row className="my-3">
-          <Col xs="8">
+          <Col xs="6">
             <h2>{title}</h2>
             <p>{content}</p>
           </Col>
-          <Col xs="4" className="text-right">
-            <Button type="button" color="danger" onClick={handleClick}>
+          <Col xs="6" className="text-right">
+            <Dropdown
+              isOpen={dropdownOpen}
+              toggle={toggleDropdown}
+              style={{ display: "inline-flex" }}
+              className="mr-3"
+            >
+              <DropdownToggle caret>Sort</DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem header>Sort by</DropdownItem>
+                <DropdownItem onClick={() => setSortBy("none")}>
+                  Reset
+                </DropdownItem>
+                <DropdownItem onClick={() => setSortBy("date")}>
+                  Date
+                </DropdownItem>
+                <DropdownItem onClick={() => setSortBy("priority")}>
+                  Priority
+                </DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem header>Sort order</DropdownItem>
+                <DropdownItem onClick={() => setSortAscending(true)}>
+                  Ascending
+                </DropdownItem>
+                <DropdownItem onClick={() => setSortAscending(false)}>
+                  Descending
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+            <Button
+              type="button"
+              color="danger"
+              onClick={handleClick}
+              style={{ display: "inline-flex" }}
+            >
               Delete Project
             </Button>
           </Col>

@@ -9,7 +9,7 @@ interface AppProps {
 
 const OverdueTaskList = ({ tasklist }: AppProps) => {
   const taskComponentList = tasklist.map((task) => {
-    return <Task key={task.id} task={task} overdue />;
+    return <Task key={task.id} task={task} showDate />;
   });
 
   return (

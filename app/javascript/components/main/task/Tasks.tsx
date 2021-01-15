@@ -211,7 +211,7 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
           <p className="my-2">{dateString}</p>
           {badgesComponent}
         </Col>
-        <Col xs="6" md="2">
+        <Col xs="6" md="2" className="text-right">
           <Button size="sm" onClick={toggleShowIncomplete}>
             {showIncomplete ? "Incomplete Tasks" : "All Tasks"}
           </Button>

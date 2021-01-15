@@ -17,14 +17,14 @@ const Support = () => {
         <Col xs="12">
           <Card>
             <CardHeader tag="h3" className="bg-info">
-              TodoApp Refund Department
+              TodoApp Tech Support
             </CardHeader>
             <CardBody>
               <CardText>
                 <i className="fas fa-phone"></i> 12345678
               </CardText>
               <CardText>
-                <i className="fas fa-envelope"></i> legit@techsupport.com
+                <i className="fas fa-envelope"></i> techsupport@todo.com
               </CardText>
               <CardText>
                 <i className="fas fa-fax"></i> +1-123-1234567

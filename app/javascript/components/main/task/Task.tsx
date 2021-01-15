@@ -8,6 +8,7 @@ import { deleteTask, toggleCompleteTask } from "../../../redux/actions";
 import QuickNewTask from "../../header/QuickNewTask";
 import { AppDispatch, Data, Id, TaskAttributes } from "../../../redux/shared";
 import { RootState } from "../../../redux/rootReducer";
+import CheckComplete from "./CheckComplete";
 
 const Tiny = styled.div`
   font-size: 0.7rem;
@@ -72,7 +73,7 @@ const Task = ({ task, showDate }: AppProps) => {
   const [editOpen, setEditOpen] = useState(false);
   const toggleEdit = () => setEditOpen(!editOpen);
 
-  const [onHover, setOnHover] = useState(false);
+  // const [onHover, setOnHover] = useState(false);
   const handleComplete = (e: React.MouseEvent) => {
     dispatch(toggleCompleteTask(task.id));
     e.stopPropagation();
@@ -134,14 +135,10 @@ const Task = ({ task, showDate }: AppProps) => {
             >
               Edit
             </Button>
-            <i
-              className={`far ${
-                onHover != completed ? "fa-check-circle" : "fa-circle"
-              } mx-2`}
-              onMouseEnter={() => setOnHover(true)}
-              onMouseLeave={() => setOnHover(false)}
-              onClick={handleComplete}
-            ></i>
+            <CheckComplete
+              completed={completed}
+              handleComplete={handleComplete}
+            />
           </Col>
         </Row>
       </ListGroupItem>

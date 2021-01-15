@@ -25,7 +25,7 @@ Rails.application.routes.draw do
         resources :activities, only: [:create]
       end
       patch "/tasks/:id/complete", to: "tasks#complete"
-
+      patch "/projects/:id/complete", to: "projects#complete"
       resources :users, only: [:show, :create, :update, :destroy]
     end
   end

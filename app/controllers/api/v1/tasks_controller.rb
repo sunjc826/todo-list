@@ -102,9 +102,14 @@ module Api
       def complete
         task_id = params[:id]
         task = @current_user.tasks.find(task_id)
+        
+        # if uncompleting a task belonging to a project, uncomplete the project as well
+        if task.project && task.completed
+          task.project.update({completed: false})
+        end
 
         if task.update({ completed: !task.completed })
-          render json: TaskSerializer.new(task).serializable_hash.to_json
+          render json: TaskSerializer.new(task, {include: [:project]}).serializable_hash.to_json
         else
           render status: :unprocessable_entity
         end

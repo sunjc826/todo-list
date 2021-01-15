@@ -15,6 +15,7 @@ import {
 } from "./projectTypes";
 import {
   generateDeleteRequest,
+  generateEditRequest,
   generatePostRequest,
 } from "../../helperFunctions";
 import { setUserData } from "../user/userActions";
@@ -25,6 +26,10 @@ import {
   NormalizedData,
   ProjectAttributes,
 } from "../shared";
+import { setTaskData } from "../task/taskActions";
+import { setSubtaskData } from "../subtask/subtaskActions";
+import { setCommentData } from "../comment/commentActions";
+import { setActivityData } from "../activity/activityActions";
 
 const projectsUrl = "/api/v1/projects";
 
@@ -121,9 +126,40 @@ const deleteProject = (projectId: Id): AppThunk<Promise<any>> => (dispatch) => {
       }
     )
     .then((res) => {
-      const { user, project } = res;
+      const { user, project, task, subtask, comment, activity } = res;
       dispatch(setUserData(user));
       dispatch(setProjectData(project));
+      dispatch(setTaskData(task));
+      dispatch(setSubtaskData(subtask));
+      dispatch(setCommentData(comment));
+      dispatch(setActivityData(activity));
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+const completeProject = (projectId: Id): AppThunk<Promise<any>> => (
+  dispatch
+) => {
+  const url = `${projectsUrl}/${projectId}/complete`;
+  return fetch(url, generateEditRequest("{}"))
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(res.statusText);
+      }
+    })
+    .then(
+      (res): NormalizedData => {
+        return normalize(res);
+      }
+    )
+    .then((res) => {
+      const { project, task } = res;
+      dispatch(setProjectData(project));
+      dispatch(setTaskData(task));
     })
     .catch((err) => {
       console.log(err.message);
@@ -138,4 +174,5 @@ export {
   updateProjectData,
   postProject,
   deleteProject,
+  completeProject,
 };

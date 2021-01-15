@@ -31,6 +31,33 @@ module Api
         end
       end
 
+      def complete
+        project_id = params[:id]
+        project = @current_user.projects.find(project_id)
+        # https://stackoverflow.com/questions/20779746/difference-between-save-and-update-in-using-with-different-http-requests
+        # Alternative to xxx.update({new_attr}) is to directly modify attributes and then calling save
+
+        if project.completed # set project and related tasks to uncompleted
+          project.completed = false
+          project.tasks.each do |task|
+            task.completed = false
+            task.save!
+          end
+        else # set project and related tasks to completed
+          project.completed = true
+          project.tasks.each do |task|
+            task.completed = true
+            task.save!
+          end
+        end
+
+        if project.save
+          render json: ProjectSerializer.new(project, {include: [:tasks]}).serializable_hash.to_json
+        else
+          render json: :unprocessable_entity
+        end
+      end
+
       def self.options(last_created_project_id)
         options = UsersController.options
         # Not sure how the :meta tag works

@@ -34,6 +34,7 @@ import {
   fetchProjectsSuccess,
   fetchProjectsFailure,
   setProjectData,
+  updateProjectData,
 } from "../project/projectActions";
 import {
   fetchLabelsRequest,
@@ -300,7 +301,7 @@ const toggleCompleteTask = (taskId: Id): AppThunk<Promise<any>> => (
   dispatch
 ) => {
   const url = `${tasksUrl}/${taskId}/complete`;
-  return fetch(url, generateEditRequest(JSON.stringify({})))
+  return fetch(url, generateEditRequest("{}"))
     .then((res) => {
       if (res.ok) {
         return res.json();
@@ -314,11 +315,19 @@ const toggleCompleteTask = (taskId: Id): AppThunk<Promise<any>> => (
       }
     )
     .then((res) => {
-      const { task } = res;
+      const { task, project } = res;
       dispatch(updateTaskData(task));
+      if (project) {
+        dispatch(updateProjectData(project));
+      }
       return res;
     })
     .then((res) => {
+      // This may be a design flaw for 2 reasons:
+      // 1. One extra HTTP Request
+      // 2. Generally, it is best to have "One Action, One HTTP Request" so as to decouple the front end from
+      // back end. However, I deem posting of activity to be a rather trivial action, so perhaps
+      // even if postActivity is not dispatched, there won't be any major issues.
       dispatch(postActivity(taskId, { crud_type: "u", item: "task" }));
       return res;
     });

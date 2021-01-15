@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { MouseEvent, useContext, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import {
   Container,
@@ -17,7 +17,7 @@ import { compareDateByDay } from "../../../helperFunctions";
 import { TimeContext } from "../../Index";
 import NewTask from "../task/NewTask";
 import { useDispatch } from "react-redux";
-import { deleteProject } from "../../../redux/actions";
+import { completeProject, deleteProject } from "../../../redux/actions";
 import { AlertContext } from "../../Main";
 import {
   Comparator,
@@ -28,6 +28,7 @@ import {
 } from "../../../redux/shared";
 import { ProjectState } from "../../../redux/project/projectReducer";
 import { TaskState } from "../../../redux/task/taskReducer";
+import CheckComplete from "../task/CheckComplete";
 
 interface AppProps {
   projectState: ProjectState;
@@ -107,12 +108,6 @@ const Project = ({ projectState, taskState }: AppProps) => {
     }
 
     const taskListComponent = taskList.map((task) => {
-      // const isBeforeToday = compareDateByDay({
-      //   date1: task.attributes.dateString,
-      //   date2: date,
-      //   strict: true,
-      // });
-
       return <Task task={task} showDate key={task.id} />;
     });
 
@@ -124,6 +119,11 @@ const Project = ({ projectState, taskState }: AppProps) => {
       e.stopPropagation();
     };
 
+    const handleComplete = (e: React.MouseEvent) => {
+      dispatch(completeProject(projectId));
+      e.stopPropagation();
+    };
+
     projectComponent = (
       <Container>
         <Row className="my-3">
@@ -132,6 +132,11 @@ const Project = ({ projectState, taskState }: AppProps) => {
             <p>{content}</p>
           </Col>
           <Col xs="6" className="text-right">
+            <span>{completed ? "Uncomplete project" : "Complete Project"}</span>
+            <CheckComplete
+              completed={completed}
+              handleComplete={handleComplete}
+            />
             <Dropdown
               isOpen={dropdownOpen}
               toggle={toggleDropdown}
@@ -141,21 +146,36 @@ const Project = ({ projectState, taskState }: AppProps) => {
               <DropdownToggle caret>Sort</DropdownToggle>
               <DropdownMenu>
                 <DropdownItem header>Sort by</DropdownItem>
-                <DropdownItem onClick={() => setSortBy("none")}>
+                <DropdownItem
+                  onClick={() => setSortBy("none")}
+                  active={sortBy === "none"}
+                >
                   Reset
                 </DropdownItem>
-                <DropdownItem onClick={() => setSortBy("date")}>
+                <DropdownItem
+                  onClick={() => setSortBy("date")}
+                  active={sortBy === "date"}
+                >
                   Date
                 </DropdownItem>
-                <DropdownItem onClick={() => setSortBy("priority")}>
+                <DropdownItem
+                  onClick={() => setSortBy("priority")}
+                  active={sortBy === "priority"}
+                >
                   Priority
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem header>Sort order</DropdownItem>
-                <DropdownItem onClick={() => setSortAscending(true)}>
+                <DropdownItem
+                  onClick={() => setSortAscending(true)}
+                  active={sortAscending}
+                >
                   Ascending
                 </DropdownItem>
-                <DropdownItem onClick={() => setSortAscending(false)}>
+                <DropdownItem
+                  onClick={() => setSortAscending(false)}
+                  active={!sortAscending}
+                >
                   Descending
                 </DropdownItem>
               </DropdownMenu>

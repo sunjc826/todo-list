@@ -26,7 +26,7 @@ import {
   NormalizedData,
   ProjectAttributes,
 } from "../shared";
-import { setTaskData } from "../task/taskActions";
+import { setTaskData, updateTaskData } from "../task/taskActions";
 import { setSubtaskData } from "../subtask/subtaskActions";
 import { setCommentData } from "../comment/commentActions";
 import { setActivityData } from "../activity/activityActions";
@@ -158,8 +158,8 @@ const completeProject = (projectId: Id): AppThunk<Promise<any>> => (
     )
     .then((res) => {
       const { project, task } = res;
-      dispatch(setProjectData(project));
-      dispatch(setTaskData(task));
+      dispatch(updateProjectData(project));
+      dispatch(updateTaskData(task));
     })
     .catch((err) => {
       console.log(err.message);

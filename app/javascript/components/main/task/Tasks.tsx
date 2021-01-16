@@ -19,6 +19,7 @@ import { TagState } from "../../../redux/tag/tagReducer";
 import { LabelState } from "../../../redux/label/labelReducer";
 import { FilterState } from "../../../redux/filter/filterReducer";
 import Toggle from "react-toggle";
+import { useHistory } from "react-router-dom";
 
 interface AppProps {
   taskState: TaskState;
@@ -44,7 +45,7 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
   let badgesComponent = null; // shows the current tag/label/filter that is in effect
   const query = useQuery();
   const { toggleAlert } = useContext(AlertContext)!;
-
+  const history = useHistory();
   if (taskLoading) {
     toggleAlert({ message: "Tasks loading...", color: "info" });
   } else if (taskErrMsg) {
@@ -139,18 +140,34 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
       const tagData = tagState.data!;
       const labelData = labelState.data!;
       const tagBadges = filterTags.map((tagId) => {
+        const handleClick = (e: React.MouseEvent) => {
+          history.push(`/tasks?tagId=${tagId}`);
+          e.stopPropagation();
+        };
         return (
-          <Badge color="dark" pill key={"tag " + tagId}>
+          <Badge
+            color="dark"
+            pill
+            key={"tag " + tagId}
+            onClick={handleClick}
+            className="pointer"
+          >
             {tagData[tagId].attributes.description}
           </Badge>
         );
       });
       const labelBadges = filterLabels.map((labelId) => {
+        const handleClick = (e: React.MouseEvent) => {
+          history.push(`/tasks?labelId=${labelId}`);
+          e.stopPropagation();
+        };
         return (
           <Badge
             color={labelData[labelId].attributes.color}
             pill
             key={"label" + labelId}
+            onClick={handleClick}
+            className="pointer"
           >
             {labelData[labelId].attributes.description}
           </Badge>

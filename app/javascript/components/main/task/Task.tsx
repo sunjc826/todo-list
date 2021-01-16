@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Row, Col, ListGroupItem, Button } from "reactstrap";
+import { Row, Col, ListGroupItem, Button, Badge } from "reactstrap";
 import { dateToString, getColorForPercentage } from "../../../helperFunctions";
 import styled from "styled-components";
 import TaskModal from "./taskModal/TaskModal";
@@ -10,6 +10,7 @@ import { AppDispatch, Data, Id, TaskAttributes } from "../../../redux/shared";
 import { RootState } from "../../../redux/rootReducer";
 import CheckComplete from "./CheckComplete";
 import Tasks from "./Tasks";
+import { useHistory } from "react-router-dom";
 
 const Tiny = styled.div`
   font-size: 0.8rem;
@@ -48,7 +49,7 @@ const Task = ({ task, showDate }: AppProps) => {
     dateString,
   } = task.attributes;
 
-  const { subtasks, comments } = task.relationships;
+  const { subtasks, comments, tags, labels } = task.relationships;
 
   let project;
   if (!projectLoading && projectId) {
@@ -81,6 +82,54 @@ const Task = ({ task, showDate }: AppProps) => {
     dispatch(toggleCompleteTask(task.id));
     e.stopPropagation();
   };
+
+  const tagState = useSelector((state: RootState) => state.tag);
+  const tagData = tagState.data!;
+  const labelState = useSelector((state: RootState) => state.label);
+  const labelData = labelState.data!;
+  const history = useHistory();
+
+  const tagsList = tags.data.map(({ id }) => {
+    const desc = tagData["" + id].attributes.description;
+    const handleClick = (e: React.MouseEvent) => {
+      history.push(`/tasks?tagId=${id}`);
+      e.stopPropagation();
+    };
+    return (
+      <Badge
+        color="dark"
+        pill
+        key={"t" + id}
+        onClick={handleClick}
+        className="pointer"
+      >
+        {desc}
+      </Badge>
+    );
+  });
+
+  const labelsList = labels.data.map(({ id }) => {
+    const attr = labelData["" + id].attributes;
+    const desc = attr.description;
+    const color = attr.color;
+    const handleClick = (e: React.MouseEvent) => {
+      history.push(`/tasks?labelId=${id}`);
+      e.stopPropagation();
+    };
+    return (
+      <Badge
+        color={color}
+        pill
+        key={"l" + id}
+        onClick={handleClick}
+        className="pointer"
+      >
+        {desc}
+      </Badge>
+    );
+  });
+
+  const badgeList = tagsList.concat(labelsList);
 
   return (
     <TaskContext.Provider value={{ taskId: task.id }}>
@@ -136,6 +185,7 @@ const Task = ({ task, showDate }: AppProps) => {
                       {comments.data.length + " "}
                     </span>
                   )}
+                  {badgeList}
                 </Tiny>
               </Col>
             </Row>

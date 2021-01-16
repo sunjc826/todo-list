@@ -26,6 +26,7 @@ import {
 import { AppDispatch } from "../../redux/shared";
 const Viewport = styled.div`
   height: 100vh;
+  transition: background-color 0.75s ease;
 `;
 
 const RegisterForm = () => {
@@ -318,28 +319,30 @@ const Login = () => {
         </ModalHeader>
         <ModalBody>{isLogin ? <LoginForm /> : <RegisterForm />}</ModalBody>
       </Modal>
-      <Viewport>
-        <Row
-          className={`h-100 m-0 align-items-center text-center ${
-            loginHover ? "bg-primary" : registerHover ? "bg-info" : "bg-dark"
-          }`}
-        >
+      <Viewport
+        className={`${
+          loginHover ? "bg-primary" : registerHover ? "bg-info" : "bg-dark"
+        }`}
+      >
+        <Row className={`h-100 m-0 align-items-center text-center `}>
           <Col xs={{ size: 8 }} md={{ size: 4 }} className="mx-auto">
             <Button
+              className="btn-transition"
               color="primary"
               onClick={handleClick(true)}
               onMouseEnter={() => setLoginHover(true)}
               onMouseLeave={() => setLoginHover(false)}
             >
-              Login
+              Login <i className="fas fa-sign-in-alt"></i>
             </Button>
             <Button
+              className="btn-transition"
               color="info"
               onClick={handleClick(false)}
               onMouseEnter={() => setRegisterHover(true)}
               onMouseLeave={() => setRegisterHover(false)}
             >
-              Register
+              Register <i className="fas fa-user-plus"></i>
             </Button>
           </Col>
         </Row>

@@ -127,13 +127,13 @@ const Task = ({ task, showDate }: AppProps) => {
             <Button
               type="button"
               color="warning"
-              className="d-inline"
+              className="d-inline btn-transition"
               onClick={(e) => {
                 e.stopPropagation();
                 toggleEdit();
               }}
             >
-              Edit
+              Edit <i className="fas fa-edit"></i>
             </Button>
             <CheckComplete
               completed={completed}

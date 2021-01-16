@@ -63,3 +63,21 @@
 .completed-task .task-name {
   text-decoration: line-through;
 }
+
+.btn-transition {
+  transition: all 0.75s ease;
+  overflow: hidden;
+}
+
+.btn-transition i {
+  transition: max-width 0.75s ease, opacity 0.75s ease;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 0;
+  opacity: 0;
+}
+
+.btn-transition:hover i {
+  max-width: 2rem;
+  opacity: 1;
+}

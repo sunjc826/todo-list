@@ -148,7 +148,12 @@ const Header = () => {
               </Tooltip>
             </NavItem>
             <NavItem>
-              <Button onClick={() => dispatch(logout())}>Logout</Button>
+              <Button
+                onClick={() => dispatch(logout())}
+                className="btn-transition"
+              >
+                Logout <i className="fas fa-sign-out-alt"></i>
+              </Button>
             </NavItem>
           </Nav>
         </Collapse>

@@ -140,7 +140,7 @@ const Project = ({ projectState, taskState }: AppProps) => {
             <Dropdown
               isOpen={dropdownOpen}
               toggle={toggleDropdown}
-              style={{ display: "inline-flex" }}
+              style={{ display: "inline" }}
               className="mr-3"
             >
               <DropdownToggle caret>Sort</DropdownToggle>
@@ -184,9 +184,10 @@ const Project = ({ projectState, taskState }: AppProps) => {
               type="button"
               color="danger"
               onClick={handleClick}
-              style={{ display: "inline-flex" }}
+              style={{ display: "inline" }}
+              className="btn-transition"
             >
-              Delete Project
+              Delete Project <i className="fas fa-trash"></i>
             </Button>
           </Col>
         </Row>

@@ -81,3 +81,11 @@
   max-width: 2rem;
   opacity: 1;
 }
+
+.btn-hide .btn {
+  opacity: 0;
+}
+
+.btn-hide:hover .btn {
+  opacity: 1;
+}

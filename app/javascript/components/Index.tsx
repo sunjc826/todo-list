@@ -6,15 +6,16 @@ import { Provider } from "react-redux";
 import store from "../redux/store";
 import "./app.css";
 import App from "./App";
-import {getMillisecondsToNextHour} from "../helperFunctions";
+import { getMillisecondsToNextHour } from "../helperFunctions";
+import "react-toggle/style.css";
 
 type Collapsible = "projects" | "tags" | "labels" | "filters";
 
 const defaultCollapseState = {
-    projects: false,
-    tags: false,
-    labels: false,
-    filters: false,
+  projects: false,
+  tags: false,
+  labels: false,
+  filters: false,
 };
 
 type TimeContextType = {
@@ -50,7 +51,7 @@ const Index = () => {
 
   // sidebar states
   const [sidebarActive, setSidebarActive] = useState(false);
-  
+
   const [collapseOpen, setCollapseOpen] = useState(defaultCollapseState);
   const toggleCollapse = (item: Collapsible) => () =>
     setCollapseOpen({
@@ -78,7 +79,7 @@ const Index = () => {
       </TimeContext.Provider>
     </Provider>
   );
-}
+};
 
 export default Index;
 export { TimeContext, SidebarContext, TimeContextType, SidebarContextType };

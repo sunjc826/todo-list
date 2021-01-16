@@ -9,9 +9,10 @@ import QuickNewTask from "../../header/QuickNewTask";
 import { AppDispatch, Data, Id, TaskAttributes } from "../../../redux/shared";
 import { RootState } from "../../../redux/rootReducer";
 import CheckComplete from "./CheckComplete";
+import Tasks from "./Tasks";
 
 const Tiny = styled.div`
-  font-size: 0.7rem;
+  font-size: 0.8rem;
 `;
 
 const DeleteButton = styled.i`
@@ -47,6 +48,8 @@ const Task = ({ task, showDate }: AppProps) => {
     dateString,
   } = task.attributes;
 
+  const { subtasks, comments } = task.relationships;
+
   let project;
   if (!projectLoading && projectId) {
     for (let id in projectData) {
@@ -81,7 +84,7 @@ const Task = ({ task, showDate }: AppProps) => {
 
   return (
     <TaskContext.Provider value={{ taskId: task.id }}>
-      <ListGroupItem action>
+      <ListGroupItem action className="btn-hide">
         <TaskModal
           modalOpen={modalOpen}
           toggleModal={toggleModal}
@@ -116,14 +119,28 @@ const Task = ({ task, showDate }: AppProps) => {
                 </p>
                 <Tiny>
                   {showDate && (
-                    <p className="text-danger">{dateToString(dateString)}</p>
+                    <span className="text-danger">
+                      <i className="far fa-calendar-alt"></i>
+                      {" " + dateToString(dateString) + " "}
+                    </span>
+                  )}
+                  {subtasks.data.length > 0 && (
+                    <span>
+                      <i className="fas fa-tasks"></i>{" "}
+                      {subtasks.data.length + " "}
+                    </span>
+                  )}
+                  {comments.data.length > 0 && (
+                    <span>
+                      <i className="far fa-comment"></i>{" "}
+                      {comments.data.length + " "}
+                    </span>
                   )}
                 </Tiny>
               </Col>
             </Row>
           </Col>
           <Col xs="4" className="text-right">
-            {project && <p>{project.attributes.title}</p>}
             <Button
               type="button"
               color="warning"
@@ -139,6 +156,11 @@ const Task = ({ task, showDate }: AppProps) => {
               completed={completed}
               handleComplete={handleComplete}
             />
+            {project && (
+              <p>
+                <i className="fas fa-circle"></i> {project.attributes.title}
+              </p>
+            )}
           </Col>
         </Row>
       </ListGroupItem>

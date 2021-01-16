@@ -32,7 +32,11 @@ const TaskModal = ({
   return (
     <Modal isOpen={modalOpen} toggle={toggleModal} scrollable size="lg">
       <ModalHeader toggle={toggleModal}>
-        {projectTitle ? <p>{projectTitle}</p> : null}
+        {projectTitle ? (
+          <p>
+            <i className="fas fa-circle fa-sm"></i> {projectTitle}
+          </p>
+        ) : null}
         <SmallHeading>{content}</SmallHeading>
       </ModalHeader>
       <ModalBody>

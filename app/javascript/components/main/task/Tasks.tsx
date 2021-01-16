@@ -18,6 +18,7 @@ import { TaskState } from "../../../redux/task/taskReducer";
 import { TagState } from "../../../redux/tag/tagReducer";
 import { LabelState } from "../../../redux/label/labelReducer";
 import { FilterState } from "../../../redux/filter/filterReducer";
+import Toggle from "react-toggle";
 
 interface AppProps {
   taskState: TaskState;
@@ -212,9 +213,16 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
           {badgesComponent}
         </Col>
         <Col xs="6" className="text-right">
-          <Button size="sm" onClick={toggleShowIncomplete}>
-            Showing {showIncomplete ? "Incomplete Tasks" : "All Tasks"}
-          </Button>
+          <label>
+            <span>
+              Showing {showIncomplete ? "Incomplete Tasks" : "All Tasks"}
+            </span>{" "}
+            <Toggle
+              defaultChecked={showIncomplete}
+              icons={false}
+              onChange={toggleShowIncomplete}
+            />
+          </label>
         </Col>
       </Row>
       {tasksComponent}

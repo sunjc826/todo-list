@@ -12,6 +12,7 @@ import {
   Container,
   FormFeedback,
   Alert,
+  Jumbotron,
 } from "reactstrap";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
@@ -24,6 +25,8 @@ import {
   validEmail,
 } from "../../validators";
 import { AppDispatch } from "../../redux/shared";
+import { inherits } from "util";
+import Footer from "../footer/Footer";
 const Viewport = styled.div`
   height: 100vh;
   transition: background-color 0.75s ease;
@@ -319,16 +322,23 @@ const Login = () => {
         </ModalHeader>
         <ModalBody>{isLogin ? <LoginForm /> : <RegisterForm />}</ModalBody>
       </Modal>
-      <Viewport
-        className={`${
-          loginHover ? "bg-primary" : registerHover ? "bg-info" : "bg-dark"
-        }`}
-      >
-        <Row className={`h-100 m-0 align-items-center text-center `}>
-          <Col xs={{ size: 8 }} md={{ size: 4 }} className="mx-auto">
+
+      <Jumbotron className="vertical-center">
+        <Container>
+          <h1 className="display-3">React-Rails Todo App</h1>
+          <p
+            className={`lead ${
+              loginHover ? "text-primary" : registerHover ? "text-info" : ""
+            }`}
+          >
+            v1.0.0
+          </p>
+          <hr className="my-2" />
+          <p className="lead text-center">
             <Button
               className="btn-transition"
               color="primary"
+              size="lg"
               onClick={handleClick(true)}
               onMouseEnter={() => setLoginHover(true)}
               onMouseLeave={() => setLoginHover(false)}
@@ -338,17 +348,24 @@ const Login = () => {
             <Button
               className="btn-transition"
               color="info"
+              size="lg"
               onClick={handleClick(false)}
               onMouseEnter={() => setRegisterHover(true)}
               onMouseLeave={() => setRegisterHover(false)}
             >
               Register <i className="fas fa-user-plus"></i>
             </Button>
-          </Col>
-        </Row>
-      </Viewport>
+          </p>
+        </Container>
+      </Jumbotron>
+
+      <Footer />
     </Fragment>
   );
 };
-
+/*
+<Row className={`h-80 m-0 align-items-center text-center `}>
+          <Col xs={{ size: 8 }} md={{ size: 4 }} className="mx-auto"></Col>
+        </Row>
+*/
 export default Login;

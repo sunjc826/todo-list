@@ -6,9 +6,9 @@ const Footer = () => {
   return (
     <footer className="footer">
       <Container>
-        <Row>
-          <p>Created 2020</p>
-        </Row>
+        <span className="text-muted">
+          Created by Sun Jia Cheng, 2020 December
+        </span>
       </Container>
     </footer>
   );

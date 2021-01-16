@@ -7,6 +7,7 @@ import { useLocation, useHistory } from "react-router-dom";
 const SearchBar = () => {
   const [touched, setTouched] = useState(false);
   const [query, setQuery] = useState("");
+  const [focus, setFocus] = useState(false);
   const location = useLocation();
   const history = useHistory();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,9 +33,11 @@ const SearchBar = () => {
           type="text"
           id="search-bar"
           name="search-bar"
-          placeholder="Find task by name"
-          className="border-0"
+          placeholder={focus ? "Taskname" : ""}
+          className={`border-0 ${focus ? "active" : ""}`}
           value={query}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
           onChange={handleChange}
         />
       </FormGroup>

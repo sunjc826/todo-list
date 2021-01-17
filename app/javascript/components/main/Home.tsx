@@ -3,7 +3,7 @@ import { Row, Col, Container, Jumbotron } from "reactstrap";
 import { AlertContext } from "../Main";
 import { useHistory } from "react-router-dom";
 import { UserState } from "../../redux/user/userReducer";
-
+import { Link } from "react-router-dom";
 interface AppProps {
   userState: UserState;
 }
@@ -30,20 +30,18 @@ const Home = ({ userState }: AppProps) => {
 
   return (
     <div>
-      <Jumbotron fluid className="bg-primary border-rect">
+      <Jumbotron className="border-rect">
         <Container>
-          <h1>Todo list, v1.0.0</h1>
+          <h1 className="display-3"> Welcome</h1>
+          {userLoading || !userData ? null : (
+            <p className="lead">
+              {userData[userId!.toString()].attributes.name}
+            </p>
+          )}
+          <hr className="my-2" />
+          <Link to="/support">Getting started</Link>
         </Container>
       </Jumbotron>
-      <Container>
-        <Row>
-          <Col xs="12">
-            {userLoading || !userData ? null : (
-              <p>Welcome, {userData[userId!.toString()].attributes.name}</p>
-            )}
-          </Col>
-        </Row>
-      </Container>
     </div>
   );
 };

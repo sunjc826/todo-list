@@ -38,7 +38,7 @@ const ActivityModal = ({ modalOpen, toggleModal }: AppProps) => {
     }
   }
   return (
-    <Modal isOpen={modalOpen} toggle={toggleModal}>
+    <Modal isOpen={modalOpen} toggle={toggleModal} scrollable size="lg">
       <ModalHeader toggle={toggleModal}>All Activities</ModalHeader>
       <ModalBody>
         <Container>

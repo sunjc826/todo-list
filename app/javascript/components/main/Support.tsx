@@ -17,26 +17,6 @@ const Support = () => {
         <Col xs="12">
           <Card>
             <CardHeader tag="h3" className="bg-info">
-              TodoApp Tech Support
-            </CardHeader>
-            <CardBody>
-              <CardText>
-                <i className="fas fa-phone"></i> 12345678
-              </CardText>
-              <CardText>
-                <i className="fas fa-envelope"></i> techsupport@todo.com
-              </CardText>
-              <CardText>
-                <i className="fas fa-fax"></i> +1-123-1234567
-              </CardText>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-      <Row className="mt-3">
-        <Col xs="12">
-          <Card>
-            <CardHeader tag="h3" className="bg-info">
               User Manual
             </CardHeader>
             <CardBody>

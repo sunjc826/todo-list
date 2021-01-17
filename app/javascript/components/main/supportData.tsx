@@ -4,7 +4,7 @@ const data = {
     Registration requires unique email (with respect to model-level validation). 
     After registration/login, a session is created until the browser is closed. 
     After registration/login , the user will be redirected to the homepage. 
-    If login is successful, the user should see a Welcome, [user’s name] message below the Jumbotron.`,
+    If login is successful, the user should see a [user’s name] in the Jumbotron.`,
     `2. Header 
     2.1. TodoApp NavBrand 
     Clicking this will redirect the user to the homepage. 

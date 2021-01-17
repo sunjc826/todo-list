@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import {
   Container,
   Row,
@@ -7,6 +7,7 @@ import {
   CardTitle,
   CardText,
   Button,
+  Jumbotron,
 } from "reactstrap";
 import normalize from "json-api-normalizer";
 import { DataRecord, NormalizedData, UserAttributes } from "../../redux/shared";
@@ -36,7 +37,6 @@ const Users = ({ userState }: AppProps) => {
         return normalize(res);
       })
       .then((res) => {
-        console.log(res);
         setUsersData(res.user);
       });
   }, []);
@@ -48,7 +48,7 @@ const Users = ({ userState }: AppProps) => {
       const isCurrentUser = Number(userId) === Number(key);
 
       const component = (
-        <Col xs="6" md="4" key={ele.id}>
+        <Col xs="6" md="4" key={ele.id} className="my-3">
           <Card body>
             <CardTitle tag="h5">{`${ele.attributes.name}${
               isCurrentUser && " (You)"
@@ -64,14 +64,16 @@ const Users = ({ userState }: AppProps) => {
   }
 
   return (
-    <Container>
-      <Row>
-        <Col xs="12" className="text-center">
+    <Fragment>
+      <Jumbotron>
+        <Container>
           <h1>Fellow Users</h1>
-        </Col>
-      </Row>
-      <Row className="mt-5">{usersComponent}</Row>
-    </Container>
+        </Container>
+      </Jumbotron>
+      <Container>
+        <Row className="mt-5">{usersComponent}</Row>
+      </Container>
+    </Fragment>
   );
 };
 

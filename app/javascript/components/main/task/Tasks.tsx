@@ -51,18 +51,6 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
   } else if (taskErrMsg) {
     toggleAlert({ message: "Error loading tasks", color: "danger" });
   } else {
-    // filter by completion state
-    if (showIncomplete) {
-      const filteredTaskData: typeof taskData = {};
-      for (const key in taskData) {
-        const ele = taskData[key];
-        if (!ele.attributes.completed) {
-          filteredTaskData[key] = ele;
-        }
-      }
-      taskData = filteredTaskData;
-    }
-
     if (query.has("tagId")) {
       const tagId = query.get("tagId")!;
       // set taskData to only include Tasks with the given tag.
@@ -174,6 +162,18 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
         );
       });
       badgesComponent = tagBadges.concat(labelBadges);
+    }
+
+    // filter by completion state
+    if (showIncomplete) {
+      const filteredTaskData: typeof taskData = {};
+      for (const key in taskData) {
+        const ele = taskData[key];
+        if (!ele.attributes.completed) {
+          filteredTaskData[key] = ele;
+        }
+      }
+      taskData = filteredTaskData;
     }
 
     if (query.has("searchTerm")) {

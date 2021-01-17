@@ -96,13 +96,7 @@ const Task = ({ task, showDate }: AppProps) => {
       e.stopPropagation();
     };
     return (
-      <Badge
-        color="dark"
-        pill
-        key={"t" + id}
-        onClick={handleClick}
-        className="pointer"
-      >
+      <Badge color="dark" pill key={"t" + id} onClick={handleClick} href="#">
         {desc}
       </Badge>
     );
@@ -116,14 +110,9 @@ const Task = ({ task, showDate }: AppProps) => {
       history.push(`/tasks?labelId=${id}`);
       e.stopPropagation();
     };
+    // href="#" provides link styling
     return (
-      <Badge
-        color={color}
-        pill
-        key={"l" + id}
-        onClick={handleClick}
-        className="pointer"
-      >
+      <Badge color={color} pill key={"l" + id} onClick={handleClick} href="#">
         {desc}
       </Badge>
     );

@@ -150,7 +150,7 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
             pill
             key={"tag " + tagId}
             onClick={handleClick}
-            className="pointer"
+            href="#"
           >
             {tagData[tagId].attributes.description}
           </Badge>
@@ -167,7 +167,7 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
             pill
             key={"label" + labelId}
             onClick={handleClick}
-            className="pointer"
+            href="#"
           >
             {labelData[labelId].attributes.description}
           </Badge>

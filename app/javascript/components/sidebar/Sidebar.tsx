@@ -1,16 +1,35 @@
 import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { Container, Row, Col, ListGroup, ListGroupItem } from "reactstrap";
+import {
+  Container,
+  Row,
+  Col,
+  ListGroup,
+  ListGroupItem,
+  Badge,
+} from "reactstrap";
 import ProjectList from "./project/ProjectList";
 import TagList from "./tag/TagList";
 import LabelList from "./label/LabelList";
 import FilterList from "./filter/FilterList";
 import { SidebarContext } from "../Index";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/rootReducer";
 const Sidebar = () => {
   const history = useHistory();
   const { sidebarActive, collapseOpen, toggleCollapse } = useContext(
     SidebarContext
   )!;
+
+  const userState = useSelector((state: RootState) => state.user);
+  const userId = userState.userId!;
+  const userData = userState.data!;
+
+  const userRelations = userData[userId].relationships;
+  const numTasks = userRelations.tasks.data.length;
+  const numProjects = userRelations.projects.data.length;
+  const numLabels = userRelations.labels.data.length;
+  const numFilters = userRelations.filters.data.length;
 
   return (
     <div id="sidebar" className={`${sidebarActive ? "active" : ""}`}>
@@ -18,11 +37,12 @@ const Sidebar = () => {
         <Col xs="12">
           <ListGroup flush>
             <ListGroupItem action onClick={() => history.push("/home")}>
-              <Link to="/home">Homepage</Link>
+              <Link to="/home">Home</Link>
             </ListGroupItem>
             <ListGroupItem action onClick={() => history.push("/tasks")}>
               <Link to="/tasks">
-                <i className="fas fa-tasks"></i> All Tasks
+                <i className="fas fa-tasks"></i> All Tasks{" "}
+                <Badge pill>{numTasks}</Badge>
               </Link>
             </ListGroupItem>
             <ListGroupItem action onClick={toggleCollapse("projects")}>
@@ -31,7 +51,8 @@ const Sidebar = () => {
                   collapseOpen.projects ? "list-open" : "list-closed"
                 }`}
               >
-                <i className="fas fa-project-diagram"></i> Projects
+                <i className="fas fa-project-diagram"></i> Projects{" "}
+                <Badge pill>{numProjects}</Badge>
               </p>
               <ProjectList collapseOpen={collapseOpen.projects} />
             </ListGroupItem>
@@ -51,7 +72,8 @@ const Sidebar = () => {
                   collapseOpen.labels ? "list-open" : "list-closed"
                 }`}
               >
-                <i className="fas fa-user-tag"></i> Labels
+                <i className="fas fa-user-tag"></i> Labels{" "}
+                <Badge pill>{numLabels}</Badge>
               </p>
               <LabelList collapseOpen={collapseOpen.labels} />
             </ListGroupItem>
@@ -61,7 +83,8 @@ const Sidebar = () => {
                   collapseOpen.filters ? "list-open" : "list-closed"
                 }`}
               >
-                <i className="fas fa-filter"></i> Filters
+                <i className="fas fa-filter"></i> Filters{" "}
+                <Badge pill>{numFilters}</Badge>
               </p>
               <FilterList collapseOpen={collapseOpen.filters} />
             </ListGroupItem>

@@ -4,6 +4,10 @@ module Api
       include CurrentUserConcern
       include RequireLoginConcern
 
+      def index
+        render json: UserSerializer.new(User.all).serializable_hash.to_json
+      end
+
       def show
         # puts form_authenticity_token
         render json: UserSerializer.new(@current_user, UsersController.options).serializable_hash.to_json

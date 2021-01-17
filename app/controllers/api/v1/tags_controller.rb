@@ -6,7 +6,7 @@ module Api
 
       def show
         tag = @current_user.tags.find(params[:id])
-        render json: LabelSerializer.new(label).serializable_hash.to_json
+        render json: TagSerializer.new(tag).serializable_hash.to_json
       end
     end
   end

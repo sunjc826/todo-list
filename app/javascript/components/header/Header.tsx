@@ -36,6 +36,7 @@ const Header = () => {
   const [questionTooltipOpen, setQuestionTooltipOpen] = useState(false);
   const [statisticsTooltipOpen, setStatisticsTooltipOpen] = useState(false);
   const [activityTooltipOpen, setActivityTooltipOpen] = useState(false);
+  const [usersTooltipOpen, setUsersTooltipOpen] = useState(false);
 
   const [modalOpen, setModalOpen] = useState({ task: false, activity: false });
   const toggleModal = (type: "task" | "activity") => () =>
@@ -145,6 +146,19 @@ const Header = () => {
                 toggle={() => setActivityTooltipOpen(!activityTooltipOpen)}
               >
                 All Activities
+              </Tooltip>
+            </NavItem>
+            <NavItem className="mx-3">
+              <NavLink to="/users" className="nav-link">
+                <i className="fas fa-users fa-lg" id="users"></i>
+              </NavLink>
+              <Tooltip
+                placement="right"
+                target="users"
+                isOpen={usersTooltipOpen}
+                toggle={() => setUsersTooltipOpen(!usersTooltipOpen)}
+              >
+                Other Users
               </Tooltip>
             </NavItem>
             <NavItem>

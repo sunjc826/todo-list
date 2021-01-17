@@ -24,6 +24,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 import { BootstrapColor } from "../redux/shared";
 import Statistics from "./main/Statistics";
+import Users from "./main/Users";
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
@@ -126,6 +127,9 @@ const Main = () => {
                 </Route>
                 <Route path={url + "home"}>
                   <Home userState={userState} />
+                </Route>
+                <Route path={url + "users"}>
+                  <Users userState={userState} />
                 </Route>
               </Switch>
             </div>

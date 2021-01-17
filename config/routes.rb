@@ -12,13 +12,13 @@ Rails.application.routes.draw do
       resources :sessions, only: [:index, :create]
       delete "/sessions/logout", to: "sessions#logout"
 
-      resources :filter_criteria
-      resources :filters
+      resources :filter_criteria, except: [:index]
+      resources :filters, except: [:index]
       resources :label_tasks
-      resources :labels
-      resources :projects
+      resources :labels, except: [:index]
+      resources :projects, except: [:index]
       resources :tag_tasks
-      resources :tags, only: [:index]
+      resources :tags, except: [:index, :destroy]
       resources :tasks do
         resources :subtasks, only: [:create, :update, :destroy]
         resources :comments, only: [:create, :update, :destroy]
@@ -26,7 +26,7 @@ Rails.application.routes.draw do
       end
       patch "/tasks/:id/complete", to: "tasks#complete"
       patch "/projects/:id/complete", to: "projects#complete"
-      resources :users, only: [:show, :create, :update, :destroy]
+      resources :users, only: [:index, :show, :create, :update, :destroy]
     end
   end
 

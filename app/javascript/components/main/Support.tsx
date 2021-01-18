@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link, Route, Switch } from "react-router-dom";
 import {
   Card,
   CardBody,
@@ -7,10 +8,15 @@ import {
   Container,
   Row,
   Col,
+  Pagination,
+  PaginationItem,
+  PaginationLink,
 } from "reactstrap";
 import data from "./supportData";
 
 const Support = () => {
+  const [curPage, setCurPage] = useState("");
+
   return (
     <Container>
       <Row className="mt-3">
@@ -20,13 +26,43 @@ const Support = () => {
               User Manual
             </CardHeader>
             <CardBody>
-              {data.manual.map((paragraph, index) => {
-                return (
-                  <CardText key={index} style={{ whiteSpace: "pre-wrap" }}>
-                    {paragraph}
+              <Pagination>
+                {data.manual.map(({ title }) => {
+                  return (
+                    <PaginationItem
+                      key={title}
+                      onClick={() => setCurPage(title)}
+                      active={curPage === title}
+                    >
+                      <Link
+                        className="page-link"
+                        to={`/support/${title}`}
+                        id={title}
+                      >
+                        {title}
+                      </Link>
+                    </PaginationItem>
+                  );
+                })}
+              </Pagination>
+              <Switch>
+                <Route exact path={`/support`}>
+                  <CardText style={{ whiteSpace: "pre-wrap" }}>
+                    Click one of the above links to see the relevant info
                   </CardText>
-                );
-              })}
+                </Route>
+                {data.manual.map(({ title, content }) => {
+                  return (
+                    <Route exact path={`/support/${title}`} key={title}>
+                      <CardText
+                        style={{ whiteSpace: "pre-wrap", textIndent: 0 }}
+                      >
+                        {content}
+                      </CardText>
+                    </Route>
+                  );
+                })}
+              </Switch>
             </CardBody>
           </Card>
         </Col>

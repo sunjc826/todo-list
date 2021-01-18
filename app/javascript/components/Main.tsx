@@ -119,7 +119,7 @@ const Main = () => {
                 <Route exact path={url + "project/:projectId"}>
                   <Project projectState={projectState} taskState={taskState} />
                 </Route>
-                <Route exact path={url + "support"}>
+                <Route path={url + "support"}>
                   <Support />
                 </Route>
                 <Route exact path={url + "statistics"}>

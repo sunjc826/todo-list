@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  shared_project: one
+  shared_user: one
+
+two:
+  shared_project: two
+  shared_user: two

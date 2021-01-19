@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_31_171327) do
+ActiveRecord::Schema.define(version: 2021_01_19_103954) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,6 +82,15 @@ ActiveRecord::Schema.define(version: 2020_12_31_171327) do
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
+  create_table "shared_project_users", force: :cascade do |t|
+    t.bigint "project_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["project_id"], name: "index_shared_project_users_on_project_id"
+    t.index ["user_id"], name: "index_shared_project_users_on_user_id"
+  end
+
   create_table "subtasks", force: :cascade do |t|
     t.string "content"
     t.boolean "completed"
@@ -137,6 +146,8 @@ ActiveRecord::Schema.define(version: 2020_12_31_171327) do
   add_foreign_key "label_tasks", "tasks"
   add_foreign_key "labels", "users"
   add_foreign_key "projects", "users"
+  add_foreign_key "shared_project_users", "projects"
+  add_foreign_key "shared_project_users", "users"
   add_foreign_key "subtasks", "tasks"
   add_foreign_key "tag_tasks", "tags"
   add_foreign_key "tag_tasks", "tasks"

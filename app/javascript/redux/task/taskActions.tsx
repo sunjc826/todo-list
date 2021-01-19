@@ -186,17 +186,49 @@ const postTask = (
         throw new Error(res.statusText);
       }
     })
-    .then(({ headers, json }): { headers: Headers; json: NormalizedData } => {
-      return { headers, json: normalize(json) };
+    .then(({ headers, json }): {
+      headers: Headers;
+      user: any;
+      project: any;
+    } => {
+      // console.log(json);
+
+      const { user, project } = json;
+      const userObj = JSON.parse(user);
+      let projectObj;
+      if (project) {
+        projectObj = JSON.parse(project);
+      }
+      return { headers, user: userObj, project: projectObj };
+    })
+    .then(({ headers, user, project }): {
+      headers: Headers;
+      user: NormalizedData;
+      project: NormalizedData;
+    } => {
+      // console.log(user);
+      // console.log(project);
+      return {
+        headers,
+        user: normalize(user),
+        project: project ? normalize(project) : null,
+      };
     })
     .then((res) => {
-      const { user, project, task, label, tag, filter, activity } = res.json;
+      const { user, project, task, label, tag, filter, activity } = res.user;
+
       dispatch(setUserData(user));
       dispatch(setProjectData(project));
       dispatch(updateTaskData(task));
       dispatch(setLabelData(label));
       dispatch(setTagData(tag));
       dispatch(setFilterData(filter));
+
+      if (res.project) {
+        const { project, task } = res.project;
+        dispatch(updateProjectData(project));
+        dispatch(updateTaskData(task));
+      }
       return res;
     })
     .then((res) => {
@@ -220,14 +252,27 @@ const deleteTask = (taskId: Id): AppThunk<Promise<any>> => (dispatch) => {
         throw new Error(res.statusText);
       }
     })
-    .then(
-      (res): NormalizedData => {
-        // dispatch(fetchTasksRequest());
-        return normalize(res);
-      }
-    )
     .then((res) => {
-      const { user, project, task, label, tag, filter, activity } = res;
+      const { user, project } = res;
+      const userObj = JSON.parse(user);
+      let projectObj;
+      if (project) {
+        projectObj = JSON.parse(project);
+      }
+      return { user: userObj, project: projectObj };
+    })
+    .then(({ user, project }): {
+      user: NormalizedData;
+      project: NormalizedData;
+    } => {
+      // dispatch(fetchTasksRequest());
+      return {
+        user: normalize(user),
+        project: project ? normalize(project) : null,
+      };
+    })
+    .then((res) => {
+      const { user, project, task, label, tag, filter, activity } = res.user;
       // console.log("setting user");
       dispatch(setUserData(user));
 
@@ -254,6 +299,13 @@ const deleteTask = (taskId: Id): AppThunk<Promise<any>> => (dispatch) => {
       dispatch(setTaskData(task));
 
       // dispatch(fetchTasksSuccess());
+
+      if (res.project) {
+        const { project, task } = res.project;
+        dispatch(updateProjectData(project));
+        dispatch(updateTaskData(task));
+      }
+
       return res;
     });
 };

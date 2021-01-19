@@ -52,9 +52,21 @@ module Api
           task.labels << label
         end
 
+        
+
         if task.save
           response.headers["last_created_task_id"] = task.id
-          render json: UserSerializer.new(@current_user, UsersController.options).serializable_hash.to_json
+          project_id = params[:task][:project_id]
+          if project_id
+            if @current_user.projects.exists?(id: project_id)
+              project = @current_user.projects.find(project_id)
+            else
+              project = @current_user.shared_projects.find(project_id)
+            end
+            render json: {project: ProjectSerializer.new(project, {include: [:tasks]}).serializable_hash.to_json, user: UserSerializer.new(@current_user, UsersController.options).serializable_hash.to_json}
+          else
+            render json: {user: UserSerializer.new(@current_user, UsersController.options).serializable_hash.to_json}
+          end
         else
           render status: :unprocessable_entity
         end
@@ -64,10 +76,16 @@ module Api
       def destroy
         task_id = params[:id]
         to_destroy = @current_user.tasks.find(task_id)
+        project = to_destroy.project
         to_destroy.destroy
 
         if to_destroy.destroyed?
-          render json: UserSerializer.new(@current_user, UsersController.options).serializable_hash.to_json
+          if project
+            render json: {project: ProjectSerializer.new(project, {include: [:tasks]}).serializable_hash.to_json, user: UserSerializer.new(@current_user, UsersController.options).serializable_hash.to_json}
+          else
+            render json: {user: UserSerializer.new(@current_user, UsersController.options).serializable_hash.to_json}
+          end
+          
         else
           render status: :bad_request
         end
@@ -141,6 +159,7 @@ module Api
         params.require(:filter).permit(tag_ids: [], label_ids: [])
       end
 
+      
     end
   end
 end

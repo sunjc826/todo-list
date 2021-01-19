@@ -44,5 +44,4 @@ For more, see the User Manual in the application itself, or [here](https://githu
 
 - Issues
 
-  - Deletion of tasks on a shared project is currently problematic. Because fetch after deletion will only fetch tasks belonging to the current user. i.e. Tasks created by other users will not be fetched. For now, a manual refresh/remounting is required.
-    Creation of tasks on a shared project is ok.
+  - Project sharing is quite experimental. So far, adding and deleting tasks on a shared project seems to work correctly, however editing of tasks, as well as adding/deleting subtasks and comments will probably not work.

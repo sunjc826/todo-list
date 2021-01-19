@@ -1,4 +1,4 @@
-import React, { MouseEvent, useContext, useState } from "react";
+import React, { MouseEvent, useContext, useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import {
   Container,
@@ -11,6 +11,7 @@ import {
   DropdownItem,
   DropdownToggle,
   DropdownMenu,
+  Modal,
 } from "reactstrap";
 import Task from "../task/Task";
 import { compareDateByDay } from "../../../helperFunctions";
@@ -25,12 +26,19 @@ import {
   State,
   Data,
   TaskAttributes,
+  UserAttributes,
+  DataRecord,
+  NormalizedData,
 } from "../../../redux/shared";
 import { ProjectState } from "../../../redux/project/projectReducer";
 import { TaskState } from "../../../redux/task/taskReducer";
 import CheckComplete from "../task/CheckComplete";
+import normalize from "json-api-normalizer";
+import ShareModal from "./ShareModal";
+import { UserState } from "../../../redux/user/userReducer";
 
 interface AppProps {
+  userState: UserState;
   projectState: ProjectState;
   taskState: TaskState;
 }
@@ -53,7 +61,7 @@ const dateComparator: Comparator<Data<TaskAttributes>> = (a, b) => {
     : 1;
 };
 
-const Project = ({ projectState, taskState }: AppProps) => {
+const Project = ({ userState, projectState, taskState }: AppProps) => {
   const { projectId } = useParams<ParamTypes>();
   const projectLoading = projectState.loading;
   const projectErrMsg = projectState.errMsg;
@@ -67,6 +75,9 @@ const Project = ({ projectState, taskState }: AppProps) => {
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
   const [sortBy, setSortBy] = useState<"none" | "date" | "priority">("none");
   const [sortAscending, setSortAscending] = useState(true);
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const toggleModal = () => setModalOpen(!modalOpen);
 
   let projectComponent;
 
@@ -124,8 +135,15 @@ const Project = ({ projectState, taskState }: AppProps) => {
       e.stopPropagation();
     };
 
+    const projectOwnerId = project.attributes.userId;
+    const userId = userState.userId;
+    const ownsProject = Number(projectOwnerId) === Number(userId);
+
     projectComponent = (
       <Container>
+        <Modal isOpen={modalOpen} toggle={toggleModal} size="lg">
+          <ShareModal toggleModal={toggleModal} />
+        </Modal>
         <Row className="my-3">
           <Col xs="6">
             <h2>{title}</h2>
@@ -188,6 +206,16 @@ const Project = ({ projectState, taskState }: AppProps) => {
               className="btn-transition"
             >
               Delete Project <i className="fas fa-trash"></i>
+            </Button>
+          </Col>
+
+          <Col xs="12" className="text-right">
+            <Button
+              color="warning"
+              onClick={toggleModal}
+              disabled={!ownsProject}
+            >
+              Share
             </Button>
           </Col>
         </Row>

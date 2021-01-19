@@ -117,7 +117,11 @@ const Main = () => {
                   />
                 </Route>
                 <Route exact path={url + "project/:projectId"}>
-                  <Project projectState={projectState} taskState={taskState} />
+                  <Project
+                    userState={userState}
+                    projectState={projectState}
+                    taskState={taskState}
+                  />
                 </Route>
                 <Route path={url + "support"}>
                   <Support />
@@ -129,7 +133,7 @@ const Main = () => {
                   <Home userState={userState} />
                 </Route>
                 <Route path={url + "users"}>
-                  <Users userState={userState} />
+                  <Users />
                 </Route>
               </Switch>
             </div>

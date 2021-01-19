@@ -16,7 +16,7 @@ module Api
 
       def self.options
         options = {}
-        options[:include] = [:filters, :labels, :projects, :tasks, :tags, :activities]
+        options[:include] = [:filters, :labels, :projects, :tasks, :tags, :activities, :shared_projects]
         return options
       end
 

@@ -36,6 +36,8 @@ export type Entity =
 
 export type RelationshipEntity =
   | "projects"
+  | "sharedProjects"
+  | "sharedUsers"
   | "tasks"
   | "labels"
   | "tags"

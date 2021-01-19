@@ -58,6 +58,22 @@ module Api
         end
       end
 
+      def share
+        project_id = params[:id]
+        share_id = params[:user_id]
+        project = @current_user.projects.find(project_id)
+        # get user to share project with
+        share_user = User.find(share_id)
+        # add this user to the list of shared_users of the project
+        project.shared_users << share_user
+
+        if project.save
+          render json: ProjectSerializer.new(project, {include: [:tasks]}).serializable_hash.to_json
+        else
+          render json: :unprocessable_entity
+        end
+      end
+
       def self.options(last_created_project_id)
         options = UsersController.options
         # Not sure how the :meta tag works

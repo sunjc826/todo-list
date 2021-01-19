@@ -28,6 +28,7 @@ const Sidebar = () => {
   const userRelations = userData[userId].relationships;
   const numTasks = userRelations.tasks.data.length;
   const numProjects = userRelations.projects.data.length;
+  const numSharedProjects = userRelations.sharedProjects.data.length;
   const numLabels = userRelations.labels.data.length;
   const numFilters = userRelations.filters.data.length;
 
@@ -52,7 +53,9 @@ const Sidebar = () => {
                 }`}
               >
                 <i className="fas fa-project-diagram"></i> Projects{" "}
-                <Badge pill>{numProjects}</Badge>
+                <Badge pill>
+                  {numProjects}/{numSharedProjects}
+                </Badge>
               </p>
               <ProjectList collapseOpen={collapseOpen.projects} />
             </ListGroupItem>

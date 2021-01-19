@@ -26,6 +26,7 @@ Rails.application.routes.draw do
       end
       patch "/tasks/:id/complete", to: "tasks#complete"
       patch "/projects/:id/complete", to: "projects#complete"
+      patch "/projects/:id/share/:user_id", to: "projects#share"
       resources :users, only: [:index, :show, :create, :update, :destroy]
     end
   end

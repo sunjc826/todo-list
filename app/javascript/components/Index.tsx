@@ -9,10 +9,16 @@ import App from "./App";
 import { getMillisecondsToNextHour } from "../helperFunctions";
 import "react-toggle/style.css";
 
-type Collapsible = "projects" | "tags" | "labels" | "filters";
+type Collapsible =
+  | "projects"
+  | "sharedProjects"
+  | "tags"
+  | "labels"
+  | "filters";
 
 const defaultCollapseState = {
   projects: false,
+  sharedProjects: false,
   tags: false,
   labels: false,
   filters: false,

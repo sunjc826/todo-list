@@ -31,14 +31,15 @@ const ProjectList = ({ collapseOpen }: AppProps) => {
     // filter out projects belonging to user
     for (const key in projectData) {
       const ele = projectData[key];
-      const eleUserId = ele.attributes.userId;
-      if (eleUserId === userId) {
-        projectList.push(ele);
-      }
+      // const eleUserId = ele.attributes.userId;
+      // if (eleUserId === userId) {
+      projectList.push(ele);
+      // }
     }
 
     projectListComponent = projectList.map((project) => {
       const projectId = project.id;
+      const projectOwnerId = project.attributes.userId;
       const handleClick = (e: React.MouseEvent) => {
         history.push(`/project/${projectId}`);
         e.stopPropagation();
@@ -50,7 +51,8 @@ const ProjectList = ({ collapseOpen }: AppProps) => {
           className="px-0"
           onClick={handleClick}
         >
-          <Link to={`/project/${projectId}`}>{project.attributes.title}</Link>
+          <Link to={`/project/${projectId}`}>{project.attributes.title}</Link>{" "}
+          {projectOwnerId !== userId && <i className="fas fa-user-friends"></i>}
         </ListGroupItem>
       );
     });

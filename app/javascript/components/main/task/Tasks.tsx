@@ -198,8 +198,11 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
       }
       totalTask++;
     }
-    completionPercentage = (completedCount / totalTask) * 100;
-
+    if (totalTask === 0) {
+      completionPercentage = 100;
+    } else {
+      completionPercentage = (completedCount / totalTask) * 100;
+    }
     let overdueTasksComponent = null;
     let currentTasksComponent = null;
     let overdueTasklist = [];

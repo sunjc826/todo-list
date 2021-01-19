@@ -75,7 +75,21 @@ module Api
 
       def destroy
         task_id = params[:id]
-        to_destroy = @current_user.tasks.find(task_id)
+        to_destroy = nil
+        if @current_user.tasks.exists?(id: task_id)
+          to_destroy = @current_user.tasks.find(task_id)
+        else
+          task = Task.find(task_id)
+          project = task.project
+          # check if project is shared with user
+          if project.shared_users.exists?(id: @current_user.id)
+            puts "current user id asking to delete task"
+            puts @current_user.id
+            to_destroy = task
+          end
+        end
+
+        
         project = to_destroy.project
         to_destroy.destroy
 

@@ -32,7 +32,7 @@
 
   - [Deployed Application](secure-shelf-48205.herokuapp.com/)
 
-- Functionalities
+- Some of the Functionalities
 
   - Account creation
   - Add tasks with deadlines and priorities
@@ -44,4 +44,4 @@ For more, see the User Manual in the application itself, or [here](https://githu
 
 - Issues
 
-  - Project sharing is quite experimental. So far, adding and deleting tasks on a shared project seems to work correctly, however editing of tasks, as well as adding/deleting subtasks and comments will probably not work.
+  - Project sharing is very experimental and will likely stay the case in future due to the sheer difficulty in its implementation. So far, adding and deleting tasks on a shared project seems to work correctly, however editing of tasks, as well as adding/deleting subtasks and comments will probably not work. Even checking/unchecking completion status does not work.

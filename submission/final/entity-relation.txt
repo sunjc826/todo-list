@@ -1,5 +1,3 @@
-// Used at https://dbdiagram.io/
-
 // Notes
 // 1. Tag and Label will use Single Table Inheritance 
 // 
@@ -86,4 +84,9 @@ Table Filter {
 Table FilterCriterium {
   filter_id integer [ref: > Filter.filter_id]
   criteria_id integer [ref: > Label.label_id, ref: > Tag.tag_id]
+}
+
+Table SharedProjectUser {
+  user_id integer [ref: > User.user_id]
+  project_id integer [ref: > Project.project_id]
 }

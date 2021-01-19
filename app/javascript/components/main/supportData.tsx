@@ -51,8 +51,10 @@ const data = {
     View all tasks without filters. 
     
     Projects 
+    The numbers next to the project indicate the following: Number of projects owned by you/Number of projects shared with you.
     Click to open a list consisting of the current projects. 
     Click the corresponding projects to view the project’s details and the tasks associated with the project. 
+    Projects with a 2-person icon are those that are shared with you.
     
     Tags 
     Tags are essentially permanent labels that cannot be deleted. The tags “Work”, “Social”, “Personal” are created per-user during registration. 
@@ -75,7 +77,9 @@ const data = {
     Editing of subtasks and comments is not supported. 
     
     Project View 
-    Shows a list of tasks (not ordered by date) that are relevant to the project. Any task created here will belong to the project. 
+    Shows a list of tasks (not ordered by date) that are relevant to the project. 
+    Any task created here will belong to the project. 
+    Click on the share button on your own projects to share your projects with other users.
     
     Tag/Label View 
     Shows the tasks with the currently selected tag/label. Any task created here will have the currently selected tag/label. 

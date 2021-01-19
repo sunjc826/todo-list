@@ -43,7 +43,7 @@ const getNextDay = (date: DateString) => {
 type generateDateListArgs = {
   curDate: Date;
   days: number;
-}
+};
 
 const generateDateList = ({ curDate, days }: generateDateListArgs) => {
   const dateList = [];
@@ -58,7 +58,7 @@ type compareDateByDayArgs = {
   date1: DateString;
   date2: DateString;
   strict: boolean;
-}
+};
 
 const compareDateByDay = ({ date1, date2, strict }: compareDateByDayArgs) => {
   let d1 = new Date(date1);
@@ -83,7 +83,7 @@ type dateLiesBetweenArgs = {
   startDate: DateString;
   endDate: DateString;
   date: DateString;
-}
+};
 
 const dateLiesBetween = ({ startDate, endDate, date }: dateLiesBetweenArgs) => {
   return (
@@ -146,7 +146,7 @@ const generateEditRequest = (body: string): RequestInit => {
 type listContainsArgs = {
   smaller: unknown[];
   larger: unknown[];
-}
+};
 
 // returns true if smaller list is contained in larger list
 const listContains = ({ smaller, larger }: listContainsArgs) => {

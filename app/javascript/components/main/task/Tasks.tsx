@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Row, Col, Container, Badge, Button } from "reactstrap";
+import { Row, Col, Container, Badge, Button, Progress } from "reactstrap";
 import { TimeContext } from "../../Index";
 import TaskList from "./TaskList";
 import OverdueTaskList from "./OverdueTaskList";
@@ -43,6 +43,7 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
   let dateList = generateDateList({ curDate: date, days: DAYS_DISPLAYED });
   let tasksComponent = null;
   let badgesComponent = null; // shows the current tag/label/filter that is in effect
+  let completedCount, totalTask, completionPercentage;
   const query = useQuery();
   const { toggleAlert } = useContext(AlertContext)!;
   const history = useHistory();
@@ -163,7 +164,6 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
       });
       badgesComponent = tagBadges.concat(labelBadges);
     }
-
     // filter by completion state
     if (showIncomplete) {
       const filteredTaskData: typeof taskData = {};
@@ -188,6 +188,17 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
       }
       taskData = filteredTaskData;
     }
+
+    completedCount = 0;
+    totalTask = 0;
+    for (const key in taskData) {
+      const ele = taskData[key];
+      if (ele.attributes.completed) {
+        completedCount++;
+      }
+      totalTask++;
+    }
+    completionPercentage = (completedCount / totalTask) * 100;
 
     let overdueTasksComponent = null;
     let currentTasksComponent = null;
@@ -224,7 +235,7 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
 
   return (
     <Container>
-      <Row className="align-items-center mt-2 border border-primary">
+      <Row className="align-items-center mt-2">
         <Col xs="6" className="mr-auto">
           <p className="my-2">{dateString}</p>
           {badgesComponent}
@@ -241,6 +252,14 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
             />
           </label>
         </Col>
+        {!showIncomplete && completionPercentage !== undefined ? (
+          <Col xs="12">
+            <div className="text-center">
+              {Math.floor(completionPercentage)}%
+            </div>
+            <Progress value={completionPercentage}></Progress>
+          </Col>
+        ) : null}
       </Row>
       {tasksComponent}
     </Container>

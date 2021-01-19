@@ -3,23 +3,41 @@
 - Name: Sun Jia Cheng
 - Matriculation Number: A0214263N
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Developer
 
-Things you may want to cover:
+- Details
 
-- Ruby version
-  ruby 2.7.2p137 (2020-10-01 revision 5445e04352) [x86_64-linux]
-- System dependencies
+  - Ruby version: ruby 2.7.2p137 (2020-10-01 revision 5445e04352) [x86_64-linux]
+  - Frontend: React
+  - Backend: Rails
+  - Uses react-rails
+  - Database: Postgres
 
-- Configuration
+- Installing dependencies
 
-- Database creation
+  ```
+  bundle install
+  yarn install
+  ```
 
-- Database initialization
+- Resetting database and using the most recent migrations
+  ```
+  rails db:schema:load (to clear db)
+  rails db:migrate
+  ```
 
-- How to run the test suite
+## User
 
-- Services (job queues, cache servers, search engines, etc.)
+- Links
 
-- Deployment instructions
+  - [Deployed Application](secure-shelf-48205.herokuapp.com/)
+
+- Functionalities
+
+  - Account creation
+  - Add tasks with deadlines and priorities
+  - Comment on tasks
+  - Toggle completion state of tasks and projects
+  - Tags, Labels, Filters
+
+For more, see the User Manual in the application itself, or [here](https://github.com/sunjc826/todo-list/blob/main/submission/final/UserManual.pdf).

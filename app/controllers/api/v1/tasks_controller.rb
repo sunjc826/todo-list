@@ -81,10 +81,12 @@ module Api
         else
           task = Task.find(task_id)
           project = task.project
-          # check if project is shared with user
-          if project.shared_users.exists?(id: @current_user.id)
-            puts "current user id asking to delete task"
-            puts @current_user.id
+          # A security measure: check if project is indeed shared with user
+          # The other possible case is that the current_user is the creator of the project
+          # and is trying to delete someone else's task
+          if project.shared_users.exists?(id: @current_user.id) || project.user.id == @current_user.id
+            # puts "current user id asking to delete task"
+            # puts @current_user.id
             to_destroy = task
           end
         end

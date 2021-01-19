@@ -5,8 +5,13 @@ module Api
       include RequireLoginConcern
 
       def show
-        project = @current_user.projects.find(params[:id])
-        render json: ProjectSerializer.new(project).serializable_hash.to_json
+        
+        if @current_user.projects.exists?(id: params[:id])
+          project = @current_user.projects.find(params[:id])
+        else
+          project = @current_user.shared_projects.find(params[:id])
+        end
+        render json: ProjectSerializer.new(project, {include: [:tasks]}).serializable_hash.to_json
       end
 
       def create

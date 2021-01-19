@@ -17,8 +17,12 @@ import Task from "../task/Task";
 import { compareDateByDay } from "../../../helperFunctions";
 import { TimeContext } from "../../Index";
 import NewTask from "../task/NewTask";
-import { useDispatch } from "react-redux";
-import { completeProject, deleteProject } from "../../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  completeProject,
+  deleteProject,
+  fetchProject,
+} from "../../../redux/actions";
 import { AlertContext } from "../../Main";
 import {
   Comparator,
@@ -29,6 +33,7 @@ import {
   UserAttributes,
   DataRecord,
   NormalizedData,
+  AppDispatch,
 } from "../../../redux/shared";
 import { ProjectState } from "../../../redux/project/projectReducer";
 import { TaskState } from "../../../redux/task/taskReducer";
@@ -36,11 +41,10 @@ import CheckComplete from "../task/CheckComplete";
 import normalize from "json-api-normalizer";
 import ShareModal from "./ShareModal";
 import { UserState } from "../../../redux/user/userReducer";
+import { RootState } from "../../../redux/rootReducer";
 
 interface AppProps {
   userState: UserState;
-  projectState: ProjectState;
-  taskState: TaskState;
 }
 
 interface ParamTypes {
@@ -61,11 +65,19 @@ const dateComparator: Comparator<Data<TaskAttributes>> = (a, b) => {
     : 1;
 };
 
-const Project = ({ userState, projectState, taskState }: AppProps) => {
+const Project = ({ userState }: AppProps) => {
   const { projectId } = useParams<ParamTypes>();
+  const dispatch: AppDispatch = useDispatch();
+  // fetching here is needed to update shared projects with tasks created by other users
+  useEffect(() => {
+    dispatch(fetchProject(projectId));
+  }, [projectId]);
+
+  const projectState = useSelector((state: RootState) => state.project);
   const projectLoading = projectState.loading;
   const projectErrMsg = projectState.errMsg;
   const projectData = projectState.data;
+  const taskState = useSelector((state: RootState) => state.task);
   const taskData = taskState.data;
 
   const { date } = useContext(TimeContext)!;
@@ -78,7 +90,7 @@ const Project = ({ userState, projectState, taskState }: AppProps) => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const toggleModal = () => setModalOpen(!modalOpen);
-
+  let ownsProject = true;
   let projectComponent;
 
   if (projectLoading) {
@@ -137,7 +149,7 @@ const Project = ({ userState, projectState, taskState }: AppProps) => {
 
     const projectOwnerId = project.attributes.userId;
     const userId = userState.userId;
-    const ownsProject = Number(projectOwnerId) === Number(userId);
+    ownsProject = Number(projectOwnerId) === Number(userId);
 
     projectComponent = (
       <Container>

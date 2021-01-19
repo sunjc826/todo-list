@@ -23,6 +23,7 @@ export {
   deleteProject,
   completeProject,
   updateProjectData,
+  fetchProject,
 } from "./project/projectActions";
 export { postLabel, deleteLabel } from "./label/labelActions";
 export { postFilter } from "./filter/filterActions";

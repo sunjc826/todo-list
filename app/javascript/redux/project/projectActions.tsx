@@ -166,6 +166,31 @@ const completeProject = (projectId: Id): AppThunk<Promise<any>> => (
     });
 };
 
+const fetchProject = (projectId: Id): AppThunk<Promise<any>> => (dispatch) => {
+  const url = `/api/v1/projects/${projectId}`;
+  return fetch(url)
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(res.statusText);
+      }
+    })
+    .then(
+      (res): NormalizedData => {
+        return normalize(res);
+      }
+    )
+    .then((res) => {
+      const { project, task } = res;
+      dispatch(updateProjectData(project));
+      dispatch(updateTaskData(task));
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
 export {
   fetchProjectsRequest,
   fetchProjectsSuccess,
@@ -175,4 +200,5 @@ export {
   postProject,
   deleteProject,
   completeProject,
+  fetchProject,
 };

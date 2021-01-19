@@ -117,11 +117,7 @@ const Main = () => {
                   />
                 </Route>
                 <Route exact path={url + "project/:projectId"}>
-                  <Project
-                    userState={userState}
-                    projectState={projectState}
-                    taskState={taskState}
-                  />
+                  <Project userState={userState} />
                 </Route>
                 <Route path={url + "support"}>
                   <Support />

@@ -41,3 +41,8 @@
   - Tags, Labels, Filters
 
 For more, see the User Manual in the application itself, or [here](https://github.com/sunjc826/todo-list/blob/main/submission/final/UserManual.pdf).
+
+- Issues
+
+  - Deletion of tasks on a shared project is currently problematic. Because fetch after deletion will only fetch tasks belonging to the current user. i.e. Tasks created by other users will not be fetched. For now, a manual refresh/remounting is required.
+    Creation of tasks on a shared project is ok.

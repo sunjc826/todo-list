@@ -193,7 +193,7 @@ const postTask = (
       const { user, project, task, label, tag, filter, activity } = res.json;
       dispatch(setUserData(user));
       dispatch(setProjectData(project));
-      dispatch(setTaskData(task));
+      dispatch(updateTaskData(task));
       dispatch(setLabelData(label));
       dispatch(setTagData(tag));
       dispatch(setFilterData(filter));

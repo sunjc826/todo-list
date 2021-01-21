@@ -20,11 +20,21 @@
   yarn install
   ```
 
-- Resetting database and using the most recent migrations
-  ```
-  rails db:schema:load (to clear db)
-  rails db:migrate
-  ```
+- Database commands
+
+  - To clear database data, `rails db:schema:load`
+  - To update migrations, `rails db:migrate`
+  - Do not use `db:seed`, since seed data is very much outdated
+
+- Starting application
+
+  - In terminal, type `rails server`
+  - Go to port 3000 on localhost
+
+- Testing
+
+  - Backend API testing: Insomnia
+  - Database access: `rails console`
 
 ## User
 

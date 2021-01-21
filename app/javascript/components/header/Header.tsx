@@ -17,10 +17,16 @@ import { logout } from "../../redux/actions";
 import QuickNewTask from "./QuickNewTask";
 import { SidebarContext } from "../Index";
 import ActivityModal from "./ActivityModal";
+import Toggle from "react-toggle";
 
 // import { ModalContext } from "../../customComponents";
 
-const Header = () => {
+interface AppProps {
+  darkMode?: boolean;
+  toggleDarkMode: () => void;
+}
+
+const Header = ({ darkMode, toggleDarkMode }: AppProps) => {
   const dispatch = useDispatch();
   const { sidebarActive, setSidebarActive, resetSidebar } = useContext(
     SidebarContext

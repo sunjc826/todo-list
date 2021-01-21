@@ -89,10 +89,43 @@ const Main = () => {
 
   const { url } = useRouteMatch();
   const { sidebarActive } = useContext(SidebarContext)!;
+
+  // not working
+  const [darkMode, setDarkMode] = useState(false);
+  const toggleDarkMode = () => setDarkMode(!darkMode);
+  // useEffect(() => {
+  //   console.log("darkmode", darkMode);
+  //   let darkModeClassList = ["bg-dark", "text-light"];
+  //   let lightModeClassList = ["bg-light", "text-dark"];
+  //   if (darkMode) {
+  //     const elements = document.querySelectorAll("div");
+  //     elements.forEach((ele) => {
+  //       if (ele.classList.contains("navbar")) {
+  //         return;
+  //       }
+  //       for (let i = 0; i < darkModeClassList.length; i++) {
+  //         ele.classList.remove(lightModeClassList[i]);
+  //         ele.classList.add(darkModeClassList[i]);
+  //       }
+  //     });
+  //   } else {
+  //     const elements = document.querySelectorAll("div, ul, li");
+  //     elements.forEach((ele) => {
+  //       if (ele.classList.contains("navbar")) {
+  //         return;
+  //       }
+  //       for (let i = 0; i < darkModeClassList.length; i++) {
+  //         ele.classList.add(lightModeClassList[i]);
+  //         ele.classList.remove(darkModeClassList[i]);
+  //       }
+  //     });
+  //   }
+  // }, [darkMode]);
+
   return (
     <Fragment>
       <AlertContext.Provider value={{ toggleAlert }}>
-        <Header />
+        <Header toggleDarkMode={toggleDarkMode} />
         {doneEffect && (
           <Wrapper>
             <Sidebar />

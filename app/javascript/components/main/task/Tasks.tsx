@@ -1,5 +1,13 @@
-import React, { useState, useContext } from "react";
-import { Row, Col, Container, Badge, Button, Progress } from "reactstrap";
+import React, { useState, useContext, useEffect } from "react";
+import {
+  Row,
+  Col,
+  Container,
+  Badge,
+  Button,
+  Progress,
+  ButtonGroup,
+} from "reactstrap";
 import { TimeContext } from "../../Index";
 import TaskList from "./TaskList";
 import OverdueTaskList from "./OverdueTaskList";
@@ -13,7 +21,6 @@ import {
 } from "../../../helperFunctions";
 import { useQuery } from "../../../customHooks";
 import { AlertContext } from "../../Main";
-import { State } from "../../../redux/shared";
 import { TaskState } from "../../../redux/task/taskReducer";
 import { TagState } from "../../../redux/tag/tagReducer";
 import { LabelState } from "../../../redux/label/labelReducer";
@@ -29,6 +36,7 @@ interface AppProps {
 }
 
 const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
+  const [colSize, setColSize] = useState(12);
   const [showIncomplete, setShowIncomplete] = useState(false);
   const toggleShowIncomplete = () => setShowIncomplete(!showIncomplete);
 
@@ -39,8 +47,11 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
   const taskErrMsg = taskState.errMsg;
   let taskData = taskState.data;
 
-  const DAYS_DISPLAYED = 30;
-  let dateList = generateDateList({ curDate: date, days: DAYS_DISPLAYED });
+  const [daysDisplayed, setDaysDisplayed] = useState(30);
+  useEffect(() => {
+    setDaysDisplayed(30);
+  }, []);
+  let dateList = generateDateList({ curDate: date, days: daysDisplayed });
   let tasksComponent = null;
   let badgesComponent = null; // shows the current tag/label/filter that is in effect
   let completedCount, totalTask, completionPercentage;
@@ -216,7 +227,9 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
       }
     }
     overdueTasksComponent = (
-      <OverdueTaskList key="overdue" tasklist={overdueTasklist} />
+      <Col xs={colSize} key="overdue">
+        <OverdueTaskList tasklist={overdueTasklist} />
+      </Col>
     );
 
     // can give a more efficient implementation, by sorting by date, then partitioning
@@ -229,7 +242,11 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
           tasklist.push(ele);
         }
       }
-      return <TaskList key={day.toString()} day={day} tasklist={tasklist} />;
+      return (
+        <Col xs={colSize} key={day.toString()}>
+          <TaskList day={day} tasklist={tasklist} />
+        </Col>
+      );
     });
 
     currentTasksComponent.unshift(overdueTasksComponent);
@@ -238,12 +255,25 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
 
   return (
     <Container>
-      <Row className="align-items-center mt-2">
-        <Col xs="6" className="mr-auto">
+      <Row className="align-items-center mt-2 ">
+        <Col xs="4" className="mr-auto">
           <p className="my-2">{dateString}</p>
           {badgesComponent}
         </Col>
-        <Col xs="6" className="text-right">
+        <Col xs="4" className="text-center">
+          <ButtonGroup>
+            <Button outline onClick={() => setColSize(12)}>
+              <i className="fas fa-grip-lines"></i>
+            </Button>
+            <Button outline onClick={() => setColSize(6)}>
+              <i className="fas fa-th-large"></i>
+            </Button>
+            <Button outline onClick={() => setColSize(4)}>
+              <i className="fas fa-th"></i>
+            </Button>
+          </ButtonGroup>
+        </Col>
+        <Col xs="4" className="text-right">
           <label>
             <span>
               Showing {showIncomplete ? "Incomplete Tasks" : "All Tasks"}
@@ -264,7 +294,18 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
           </Col>
         ) : null}
       </Row>
-      {tasksComponent}
+      <Row>{tasksComponent}</Row>
+      <Row>
+        <Col xs="12" className="text-center">
+          <Button
+            outline
+            color="primary"
+            onClick={() => setDaysDisplayed(daysDisplayed + 30)}
+          >
+            Show More
+          </Button>
+        </Col>
+      </Row>
     </Container>
   );
 };

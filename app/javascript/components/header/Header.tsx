@@ -26,7 +26,7 @@ interface AppProps {
   toggleDarkMode: () => void;
 }
 
-const Header = ({ darkMode, toggleDarkMode }: AppProps) => {
+const Header = () => {
   const dispatch = useDispatch();
   const { sidebarActive, setSidebarActive, resetSidebar } = useContext(
     SidebarContext

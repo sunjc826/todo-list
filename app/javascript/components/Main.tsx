@@ -91,8 +91,8 @@ const Main = () => {
   const { sidebarActive } = useContext(SidebarContext)!;
 
   // not working
-  const [darkMode, setDarkMode] = useState(false);
-  const toggleDarkMode = () => setDarkMode(!darkMode);
+  // const [darkMode, setDarkMode] = useState(false);
+  // const toggleDarkMode = () => setDarkMode(!darkMode);
   // useEffect(() => {
   //   console.log("darkmode", darkMode);
   //   let darkModeClassList = ["bg-dark", "text-light"];
@@ -125,7 +125,7 @@ const Main = () => {
   return (
     <Fragment>
       <AlertContext.Provider value={{ toggleAlert }}>
-        <Header toggleDarkMode={toggleDarkMode} />
+        <Header />
         {doneEffect && (
           <Wrapper>
             <Sidebar />

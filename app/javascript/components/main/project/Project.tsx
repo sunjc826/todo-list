@@ -91,6 +91,7 @@ const Project = ({ userState }: AppProps) => {
   const [modalOpen, setModalOpen] = useState(false);
   const toggleModal = () => setModalOpen(!modalOpen);
   let ownsProject = true;
+
   let projectComponent;
 
   if (projectLoading) {

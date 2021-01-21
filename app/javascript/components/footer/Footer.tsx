@@ -1,4 +1,3 @@
-// currently not in use
 import React from "react";
 import { Container, Row } from "reactstrap";
 

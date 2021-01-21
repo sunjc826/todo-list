@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, Fragment, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Row, Col, ListGroupItem, Button, Badge } from "reactstrap";
 import { dateToString, getColorForPercentage } from "../../../helperFunctions";
@@ -9,7 +9,6 @@ import QuickNewTask from "../../header/QuickNewTask";
 import { AppDispatch, Data, Id, TaskAttributes } from "../../../redux/shared";
 import { RootState } from "../../../redux/rootReducer";
 import CheckComplete from "./CheckComplete";
-import Tasks from "./Tasks";
 import { useHistory } from "react-router-dom";
 
 const Tiny = styled.div`
@@ -52,15 +51,15 @@ const Task = ({ task, showDate }: AppProps) => {
   const { subtasks, comments, tags, labels } = task.relationships;
 
   let project;
+  let projectIsShared = false;
   if (!projectLoading && projectId) {
-    for (let id in projectData) {
-      // TypeScript prefers Number over parseInt
-      // As parseInt expects a string
-      if (parseInt(id) === Number(projectId)) {
-        project = projectData[id];
-        break;
-      }
-    }
+    // for (let id in projectData) {
+    // if (Number(id) === Number(projectId)) {
+    project = projectData![projectId];
+    projectIsShared = project.relationships.sharedUsers.data.length > 0;
+    // break;
+    // }
+    // }
   }
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -180,21 +179,26 @@ const Task = ({ task, showDate }: AppProps) => {
             </Row>
           </Col>
           <Col xs="4" className="text-right">
-            <Button
-              type="button"
-              color="warning"
-              className="d-inline btn-transition"
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleEdit();
-              }}
-            >
-              Edit <i className="fas fa-edit"></i>
-            </Button>
-            <CheckComplete
-              completed={completed}
-              handleComplete={handleComplete}
-            />
+            {!projectIsShared ? (
+              <Fragment>
+                <Button
+                  type="button"
+                  color="warning"
+                  className="d-inline btn-transition"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleEdit();
+                  }}
+                >
+                  Edit <i className="fas fa-edit"></i>
+                </Button>
+                <CheckComplete
+                  completed={completed}
+                  handleComplete={handleComplete}
+                />
+              </Fragment>
+            ) : null}
+
             {project && (
               <p>
                 <i className="fas fa-circle"></i> {project.attributes.title}

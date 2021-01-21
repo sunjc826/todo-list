@@ -25,7 +25,6 @@ import {
   validEmail,
 } from "../../validators";
 import { AppDispatch } from "../../redux/shared";
-import { inherits } from "util";
 import Footer from "../footer/Footer";
 const Viewport = styled.div`
   height: 100vh;
@@ -363,9 +362,5 @@ const Login = () => {
     </Fragment>
   );
 };
-/*
-<Row className={`h-80 m-0 align-items-center text-center `}>
-          <Col xs={{ size: 8 }} md={{ size: 4 }} className="mx-auto"></Col>
-        </Row>
-*/
+
 export default Login;

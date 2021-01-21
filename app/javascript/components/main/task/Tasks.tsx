@@ -227,7 +227,7 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
       }
     }
     overdueTasksComponent = (
-      <Col xs={colSize} key="overdue">
+      <Col xs={colSize} key="overdue" className="mb-3">
         <OverdueTaskList tasklist={overdueTasklist} />
       </Col>
     );
@@ -243,7 +243,7 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
         }
       }
       return (
-        <Col xs={colSize} key={day.toString()}>
+        <Col xs={colSize} key={day.toString()} className="mb-3">
           <TaskList day={day} tasklist={tasklist} />
         </Col>
       );

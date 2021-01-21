@@ -40,6 +40,8 @@ const ProjectList = ({ collapseOpen }: AppProps) => {
     projectListComponent = projectList.map((project) => {
       const projectId = project.id;
       const projectOwnerId = project.attributes.userId;
+      const isOwner = projectOwnerId === userId;
+      const isShared = project.relationships.sharedUsers.data.length > 0;
       const handleClick = (e: React.MouseEvent) => {
         history.push(`/project/${projectId}`);
         e.stopPropagation();
@@ -52,7 +54,11 @@ const ProjectList = ({ collapseOpen }: AppProps) => {
           onClick={handleClick}
         >
           <Link to={`/project/${projectId}`}>{project.attributes.title}</Link>{" "}
-          {projectOwnerId !== userId && <i className="fas fa-user-friends"></i>}
+          {!isOwner ? (
+            <i className="fas fa-user-friends"></i>
+          ) : isShared ? (
+            <i className="fas fa-crown"></i>
+          ) : null}
         </ListGroupItem>
       );
     });

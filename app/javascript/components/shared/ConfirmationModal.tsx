@@ -17,7 +17,6 @@ const ConfirmationModal = ({
   toggleModal,
 }: AppProps) => {
   const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
     toggleModal();
     handleConfirm(e);
   };

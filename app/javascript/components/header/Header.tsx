@@ -19,6 +19,7 @@ import { SidebarContext } from "../Index";
 import ActivityModal from "./ActivityModal";
 import Toggle from "react-toggle";
 import ConfirmationModal from "../shared/ConfirmationModal";
+import { AppDispatch } from "../../redux/shared";
 
 // import { ModalContext } from "../../customComponents";
 
@@ -28,7 +29,7 @@ interface AppProps {
 }
 
 const Header = () => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const { sidebarActive, setSidebarActive, resetSidebar } = useContext(
     SidebarContext
   )!;
@@ -62,7 +63,7 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    dispatch(logout);
+    dispatch(logout());
   };
 
   return (

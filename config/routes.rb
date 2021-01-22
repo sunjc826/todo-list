@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       patch "/projects/:id/complete", to: "projects#complete"
       patch "/projects/:id/share/:user_id", to: "projects#share"
       resources :users, only: [:index, :show, :create, :update, :destroy]
+      patch "/users/:id/change_password", to: "users#change_password"
     end
   end
 

@@ -55,7 +55,14 @@ import {
   generatePostRequest,
   generateDeleteRequest,
 } from "../../helperFunctions";
-import { Id, AppThunk, Data, NormalizedData, UserAttributes } from "../shared";
+import {
+  Id,
+  AppThunk,
+  Data,
+  NormalizedData,
+  UserAttributes,
+  AppDispatch,
+} from "../shared";
 
 const registrationsUrl = "/api/v1/registrations";
 const sessionsUrl = "/api/v1/sessions";

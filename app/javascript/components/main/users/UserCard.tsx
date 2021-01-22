@@ -19,14 +19,23 @@ interface AppProps {
   ele: Data<UserAttributes>;
   isCurrentUser: boolean;
   interactive?: boolean;
+  projectId?: string;
 }
-interface ParamTypes {
-  projectId: string;
-}
-const UserCard = ({ ele, isCurrentUser, interactive }: AppProps) => {
+
+const UserCard = ({ ele, isCurrentUser, interactive, projectId }: AppProps) => {
   const userState = useSelector((state: RootState) => state.user);
+  const projectState = useSelector((state: RootState) => state.project);
+
   const userId = userState.userId;
-  const { projectId } = useParams<ParamTypes>();
+
+  let isSharedUser = false;
+  if (interactive) {
+    const sharedUsers = projectState.data![projectId!].relationships
+      .sharedUsers;
+    const sharedUser = sharedUsers?.data.find((user) => user.id === ele.id);
+    isSharedUser = sharedUser !== undefined;
+  }
+
   const dispatch: AppDispatch = useDispatch();
 
   const shareProjectWith = (shareWithId: Id) => {
@@ -54,9 +63,33 @@ const UserCard = ({ ele, isCurrentUser, interactive }: AppProps) => {
   };
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+
     shareProjectWith(ele.id);
     alert("Shared Project!");
   };
+
+  let buttonComponent = null;
+  if (interactive) {
+    if (isSharedUser) {
+      buttonComponent = (
+        <Button color="success" disabled outline>
+          Shared!
+        </Button>
+      );
+    } else if (isCurrentUser) {
+      buttonComponent = (
+        <Button color="info" disabled outline>
+          Owner
+        </Button>
+      );
+    } else {
+      buttonComponent = (
+        <Button color="primary" onClick={handleClick}>
+          Share
+        </Button>
+      );
+    }
+  }
 
   return (
     <Card body>
@@ -66,15 +99,7 @@ const UserCard = ({ ele, isCurrentUser, interactive }: AppProps) => {
       <CardText>
         <i className="far fa-envelope"></i> {ele.attributes.email}
       </CardText>
-      {interactive ? (
-        <Button
-          color={isCurrentUser ? "danger" : "primary"}
-          onClick={handleClick}
-          disabled={isCurrentUser}
-        >
-          Share
-        </Button>
-      ) : null}
+      {buttonComponent}
     </Card>
   );
 };

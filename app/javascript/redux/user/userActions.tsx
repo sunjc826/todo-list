@@ -216,7 +216,6 @@ const fetchUserData = (userId: Id): AppThunk<Promise<any>> => (dispatch) => {
       }
     )
     .then((res) => {
-      console.log(res);
       // break up compound document into parts
       // and store into different parts of the redux store
       const { user, project, task, label, tag, filter, activity } = res;

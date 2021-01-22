@@ -1,0 +1,178 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{parskip}
+\usepackage{graphicx}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+% Margins
+\usepackage[top=2.5cm, left=3cm, right=3cm, bottom=4.0cm]{geometry}
+
+\title{User Manual}
+\author{Jia Cheng}
+\date{January 2020}
+
+\begin{document}
+\maketitle
+
+\section{Login/Registration page}
+\begin{itemize}
+  \item Registration requires unique email (with respect to model-level validation).
+  \item I have yet to implement database level restrictions on uniqueness.
+  \item After registration/login, a session is created until the browser is closed.
+  \item After registration/login , the user will be redirected to the homepage.
+  \item If login is successful, the user should see a Welcome, [user’s name] message below the Jumbotron.
+\end{itemize}
+
+
+\section{Header}
+
+\subsection{TodoApp NavBrand}
+\begin{itemize}
+  \item Clicking this will redirect the user to the homepage.
+\end{itemize}
+
+
+\subsection{Sidebar toggler}
+\begin{itemize}
+  \item Opens and closes the sidebar
+  \item When the sidebar closes, all opened lists(Projects, Tags, Labels, Filters) in the sidebar will be closed.
+\end{itemize}
+
+
+\subsection{Home link}
+\begin{itemize}
+  \item Redirects to the homepage
+\end{itemize}
+
+
+\subsection{Search bar}
+\begin{itemize}
+  \item If the current route does not begin with “/tasks”, the user will be redirected to “/tasks” with the relevant search parameters as long the search bar text field is non-empty.
+  \item The tasks will be filtered based on whether the task name contains the search term.  Note that search is case-sensitive.
+  \item If the user is currently on a “/tasks…” page, with certain filters applied, then the page will filter by both the applied filter as well as the search term.
+\end{itemize}
+
+
+\subsection{Quick Add New Task}
+\begin{itemize}
+  \item Allows the user to quickly add a task on any page.
+\end{itemize}
+
+
+\subsection{Support}
+\begin{itemize}
+  \item Links to support page. For decoration.
+\end{itemize}
+
+
+\subsection{Statistics}
+\begin{itemize}
+  \item A graph showcasing the number of tasks for the next 10 or so days.
+
+\end{itemize}
+
+\subsection{All activities}
+\begin{itemize}
+  \item An activity log. Records task-related activities, e.g. creation of tasks, and creation/deletion of comments and subtasks. Being a rather basic implementation, each activity item does not actually say exactly which task/subtask/comment is added/deleted.
+\end{itemize}
+
+\subsection{Other Users}
+\begin{itemize}
+  \item Shows a list of other accounts using this app.
+\end{itemize}
+
+
+\subsection{Logout}
+\begin{itemize}
+  \item Logs the user out and resets the session.
+\end{itemize}
+
+\section{Sidebar}
+\subsection{All tasks}
+\begin{itemize}
+  \item View all tasks without filters.
+\end{itemize}
+
+
+\subsection{Projects}
+\begin{itemize}
+  \item The numbers next to the project indicate the following: Number of projects owned by you/Number of projects shared with you.
+  \item Click to open a list consisting of the current projects.
+  \item Click the corresponding projects to view the project’s details and the tasks associated with the project.
+  \item Projects with a 2-person icon are those that are shared with you.
+  \item Projects with a crown icon are projects you have shared with others.
+\end{itemize}
+
+
+
+\subsection{Tags}
+\begin{itemize}
+  \item Tags are essentially permanent labels that cannot be deleted.
+  \item The tags “Work”, “Social”, “Personal” are created per-user during registration.
+\end{itemize}
+
+
+\subsection{Labels}
+\begin{itemize}
+  \item Labels work just like tags, however, the user can assign bootstrap colors to the label during label creation.
+\end{itemize}
+
+\subsection{Filters}
+\begin{itemize}
+  \item A filter is a collection of filter fields, which will all be applied in the app view.
+  \item The user can specify a start date and end date (at the backend it is required that start date < end date), as well as a group of tags and labels that will become part of the filter.
+  
+\end{itemize}
+
+\section{Main view}
+\subsection{All task view}
+\begin{itemize}
+  \item Shows all tasks ordered by date.
+  \item Under the overdue section, the user is not allowed to create tasks. (However, the user can still create an overdue task using Quick Add Task).
+  \item Click add new task to create a task without any tags or labels.
+  \item Click on each task to see its details, like subtasks, comments and activity log for that specific task.
+  \item Click on the edit button of any task to edit its parameters.
+  \item Click on the round checkbox next to any task to toggle its state of completion.
+  \item Editing of subtasks and comments is not supported.
+\end{itemize}
+
+
+\subsection{Project View}
+\begin{itemize}
+  \item Shows a list of tasks (not ordered by date) that are relevant to the project.
+  \item Any task created here will belong to the project.
+  \item Tasks within each project can be sorted (ascending/descending) based on deadline or priority.
+  \item A project can be marked as completed, thereby completing all tasks belonging to the project. Uncompleting a task belonging to a project will automatically uncomplete the project.
+  \item Click on the share button on your own projects to share your projects with other users.
+\end{itemize}
+
+
+
+\subsection{Tag/Label View}
+\begin{itemize}
+  \item Shows the tasks with the currently selected tag/label.
+  \item Any task created here will have the currently selected tag/label.
+\end{itemize}
+
+
+\subsection{Filter View}
+\begin{itemize}
+  \item Shows the tasks after filtering by the currently selected filter.
+  \item Any task created under the filter view will have precisely the tags and labels associated with the current filter. 
+\end{itemize}
+
+\section{Deletion}
+\begin{itemize}
+  \item The following items can be deleted:
+  \item Labels (Click on the cross next to the label on the sidebar to delete it)
+  \item Projects (In the project view there is a delete project button that will also delete the associated tasks)
+  \item Tasks (Click on the circled cross on the left of each task)
+  \item Subtasks and Comments (Click of the circled cross)
+  \item Note: Deletion of filters is not implemented.
+\end{itemize}
+
+
+\end{document}

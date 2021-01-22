@@ -8,6 +8,7 @@ import {
   CardText,
   Button,
   Jumbotron,
+  Badge,
 } from "reactstrap";
 import normalize from "json-api-normalizer";
 import {
@@ -19,6 +20,7 @@ import { UserState } from "../../../redux/user/userReducer";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/rootReducer";
 import UserCard from "./UserCard";
+import { useParams } from "react-router-dom";
 
 // This will not make use of the redux store
 
@@ -26,12 +28,18 @@ import UserCard from "./UserCard";
 interface AppProps {
   interactive?: boolean;
 }
-
+interface ParamTypes {
+  projectId: string;
+}
 const UserList = ({ interactive }: AppProps) => {
   const userState = useSelector((state: RootState) => state.user);
   const [usersData, setUsersData] = useState<DataRecord<UserAttributes>>();
   const userId = userState.userId;
-
+  const projectState = useSelector((state: RootState) => state.project);
+  const { projectId } = useParams<ParamTypes>();
+  const [userBadgesComponent, setUserBadgesComponent] = useState<JSX.Element[]>(
+    []
+  );
   useEffect(() => {
     const url = "/api/v1/users";
     fetch(url)
@@ -46,10 +54,28 @@ const UserList = ({ interactive }: AppProps) => {
         return normalize(res);
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setUsersData(res.user);
       });
   }, []);
+
+  useEffect(() => {
+    if (interactive && usersData) {
+      console.log("reached");
+      const sharedUsers = projectState.data![projectId!].relationships
+        .sharedUsers.data;
+      const arr = sharedUsers.map((ele) => {
+        const user = usersData![ele.id];
+        const name = user.attributes.name;
+        return (
+          <Badge color="primary" key={ele.id}>
+            {name}
+          </Badge>
+        );
+      });
+      setUserBadgesComponent(arr);
+    }
+  }, [usersData]);
 
   const usersComponent = [];
   if (usersData) {
@@ -68,6 +94,7 @@ const UserList = ({ interactive }: AppProps) => {
             ele={ele}
             isCurrentUser={isCurrentUser}
             interactive={interactive}
+            projectId={projectId}
           />
         </Col>
       );
@@ -77,6 +104,7 @@ const UserList = ({ interactive }: AppProps) => {
 
   return (
     <Container>
+      {interactive ? <Row>{userBadgesComponent}</Row> : null}
       <Row className="mt-1">{usersComponent}</Row>
     </Container>
   );

@@ -1,0 +1,73 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{parskip}
+\usepackage{graphicx}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+% Margins
+\usepackage[top=2.5cm, left=3cm, right=3cm, bottom=4.0cm]{geometry}
+
+\title{Reflection}
+\author{Jia Cheng}
+\date{January 2020}
+
+\begin{document}
+\maketitle
+
+
+\section{Introduction}
+Through this project, I have learnt how to write a frontend and backend application and how to make them communicate. Although this seemed to be a basic application at first, the actual implementation turned out to be surprisingly complex. 
+
+The most difficult part of this project was learning Ruby on Rails’ various domain specific languages. DSLs are extremely powerful as they allow us to write “code that writes code”. For example the use of ActiveRecord Associations allows so many internal operations to be abstracted into merely a few statements. However, the process of learning a DSL is almost harder than learning a new general purpose programming language, because each individual DSL has very specific applications and hence the commands of different DSLs can differ greatly.
+
+I am perhaps most proud of the fact that my application is able to handle a large number of entities (User, Task, Project, Subtask, Comment, Filter, Label, Tag). The object-oriented approach I took allows the project to be readily extended to add new features. For example, I can easily add a new color field to the Tag entity. Of course, this meant that the redux store is rather massive, but it was worth the effort.
+
+The only incomplete feature in this app regards shared projects. Previously working functionalities like adding, deleting, editing tasks within a project all required significant refactoring from both the frontend and the backend, and I have say, my code looked quite a bit uglier. Hence, I decided to stop at making things work for creation and deletion.
+
+
+\section{Looking forward}
+There are also some things that I have yet to try, and will be the goals of my future learning.
+\begin{enumerate}
+  \item Greater separation between front end application and back end application. Instead of relying react-rails’ integration of React and Rails, I would like to make an application where these are completely separate applications.
+  \item More advanced usages of Redux. Right now my code still has plenty of repetitive code. I would like to learn more about higher level abstractions (e.g. higher order reducers) with respect to action creators and reducers.
+  \item More advanced usages of React. Currently, I have only used the basic hooks offered by React. I would like to learn more about memoization, useCallback, custom hooks.
+\end{enumerate}
+
+
+\section{Optional objectives}
+Here, I would like to discuss my impressions of the optional objectives of this assignment, and their level of utility to my project. 
+\subsection{Cron scheduler}
+During development, since I was changing my schema rather regularly, coupled with logical errors in my code that did not manipulate the database correctly, rails db:schema:load + rails db:migrate was ran very often. So, I did not find any use in doing database backups.
+
+\subsection{TypeScript}
+I wrote my application originally in Javascript, as I am much more familiar with JavaScript and I decided to stick with what I know best.
+After I finished implementing most of the functionality of my app, I decided to learn some TypeScript, and have converted most of my .js files to .ts/.tsx files.
+
+\subsubsection{Benefits}
+\begin{itemize}
+  \item Auto-completion: TypeScript makes auto-imports and code auto-completion a lot easier. This is especially true when revisiting my project after a 1 week hiatus. VS Code gave extremely useful auto-suggestions when I accessed deeply nested Javascript objects.
+  \item Debugging:there were a number of minor bugs in my code like passing the wrong parameters to a function that I would not have spotted with vanilla Javascript. TypeScript’s stricter requirements highlighted those errors to me.
+\end{itemize}
+
+In retrospect, I believe I made the right choice using JavaScript first. The conversion from JavaScript to TypeScript was very tedious. If I had started with TypeScript, the learning curve of TypeScript, combined with the learning curves of Ruby, Redux and React may have been too much to handle. After all, one of the advantages of JavaScript’s ducktyping is that it is very easy to prototype code. And for smaller projects, debugging with runtime errors is rather viable as well. For a single-person project like the TodoApp, JavaScript serves its purpose very well.
+
+\subsection{Hosting}
+My application has been deployed to Heroku. The deployment link is in my project description on GitHub.
+
+\subsection{Redux}
+Redux was crucial to the development of my project for the following reasons:
+\begin{enumerate}
+  \item I had an object-oriented mindset when initially designing my database structure. Due to the large number of object types (Project, Task, Label, Subtask etc.) in my project, redux was needed to compartmentalize data fetched from the backend. (i.e. creation of rootReducer from projectReducer, taskReducer etc).
+  \item I have a large number of React Components, some of which are deeply nested. A central source of information is needed to reduce prop drilling and unnecessary fetches from the backend.
+  \item All communication (HTTP Requests) between the frontend and the backend lies within the ActionCreators files (xxxAction.tsx) in my application. This further improved the organisation of my code. 
+\end{enumerate}
+
+\section{Conclusion}
+In conclusion, I am quite satisfied with what I have achieved over the December holidays. In the past, I did not have the patience to stick with a project for long, because I also wanted to move onto something new. However, as I planned out the project from the start, in the form of a entity-relationship diagram, I had clear goals in mind, and it gave me the extra push needed to complete the project.
+
+While the world of web development is extremely vast, and almost overwhelming, I now, moreso than before, know what I do not know. While I have solved many problems in the course of this project, there are many others that I have yet to understand fully. With this, I am driven to become a better, more knowledgeable web developer.
+
+\end{document}

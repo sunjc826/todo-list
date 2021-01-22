@@ -18,6 +18,7 @@ import QuickNewTask from "./QuickNewTask";
 import { SidebarContext } from "../Index";
 import ActivityModal from "./ActivityModal";
 import Toggle from "react-toggle";
+import ConfirmationModal from "../shared/ConfirmationModal";
 
 // import { ModalContext } from "../../customComponents";
 
@@ -44,8 +45,12 @@ const Header = () => {
   const [activityTooltipOpen, setActivityTooltipOpen] = useState(false);
   const [usersTooltipOpen, setUsersTooltipOpen] = useState(false);
 
-  const [modalOpen, setModalOpen] = useState({ task: false, activity: false });
-  const toggleModal = (type: "task" | "activity") => () =>
+  const [modalOpen, setModalOpen] = useState({
+    task: false,
+    activity: false,
+    confirm: false,
+  });
+  const toggleModal = (type: "task" | "activity" | "confirm") => () =>
     setModalOpen({
       ...modalOpen,
       [type]: !modalOpen[type],
@@ -54,6 +59,10 @@ const Header = () => {
   const toggleSidebar = () => {
     setSidebarActive(!sidebarActive);
     resetSidebar();
+  };
+
+  const handleLogout = () => {
+    dispatch(logout);
   };
 
   return (
@@ -65,6 +74,13 @@ const Header = () => {
       <ActivityModal
         modalOpen={modalOpen["activity"]}
         toggleModal={toggleModal("activity")}
+      />
+      <ConfirmationModal
+        action="Confirm Logout"
+        message="Do you wish to logout?"
+        handleConfirm={handleLogout}
+        modalOpen={modalOpen["confirm"]}
+        toggleModal={toggleModal("confirm")}
       />
       <Container fluid>
         <NavbarBrand href="/">
@@ -169,7 +185,7 @@ const Header = () => {
             </NavItem>
             <NavItem>
               <Button
-                onClick={() => dispatch(logout())}
+                onClick={toggleModal("confirm")}
                 className="btn-transition"
               >
                 Logout <i className="fas fa-sign-out-alt"></i>

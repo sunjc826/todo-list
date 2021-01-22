@@ -42,6 +42,7 @@ import normalize from "json-api-normalizer";
 import ShareModal from "./ShareModal";
 import { UserState } from "../../../redux/user/userReducer";
 import { RootState } from "../../../redux/rootReducer";
+import ConfirmationModal from "../../shared/ConfirmationModal";
 
 interface AppProps {
   userState: UserState;
@@ -90,6 +91,11 @@ const Project = ({ userState }: AppProps) => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const toggleModal = () => setModalOpen(!modalOpen);
+
+  const [confirmationModalOpen, setConfirmationModalOpen] = useState(false);
+  const toggleConfirmationModal = () =>
+    setConfirmationModalOpen(!confirmationModalOpen);
+
   let ownsProject = true;
 
   let projectComponent;
@@ -157,6 +163,13 @@ const Project = ({ userState }: AppProps) => {
         <Modal isOpen={modalOpen} toggle={toggleModal} size="lg">
           <ShareModal toggleModal={toggleModal} />
         </Modal>
+        <ConfirmationModal
+          action="Delete"
+          message="Are you sure you want to delete project?"
+          modalOpen={confirmationModalOpen}
+          toggleModal={toggleConfirmationModal}
+          handleConfirm={handleClick}
+        />
         <Row className="my-3">
           <Col xs="6">
             <h2>{title}</h2>
@@ -214,7 +227,7 @@ const Project = ({ userState }: AppProps) => {
             <Button
               type="button"
               color="danger"
-              onClick={handleClick}
+              onClick={toggleConfirmationModal}
               style={{ display: "inline" }}
               className="btn-transition"
             >

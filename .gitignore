@@ -4,6 +4,13 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 
+# ignore .tex output files other than pdf
+*.synctex.gz
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+
 # Ignore bundler config.
 /.bundle
 

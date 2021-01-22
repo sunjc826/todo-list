@@ -53,13 +53,13 @@ const Statistics = ({ taskState }: AppProps) => {
     for (const day of dateList) {
       data[day] = 0;
     }
-    console.log(data);
+    // console.log(data);
     for (const key in taskData) {
       const ele = taskData[key];
       const day = new Date(ele.attributes.dateString).toLocaleDateString(
         "en-CA"
       );
-      console.log(day);
+      // console.log(day);
 
       if (!isNaN(data[day])) {
         data[day]++;
@@ -75,7 +75,7 @@ const Statistics = ({ taskState }: AppProps) => {
         taskCount: data[day],
       });
     }
-    console.log(chartData);
+    // console.log(chartData);
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

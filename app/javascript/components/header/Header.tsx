@@ -77,7 +77,7 @@ const Header = () => {
         toggleModal={toggleModal("activity")}
       />
       <ConfirmationModal
-        action="Confirm Logout"
+        action="Logout"
         message="Do you wish to logout?"
         handleConfirm={handleLogout}
         modalOpen={modalOpen["confirm"]}

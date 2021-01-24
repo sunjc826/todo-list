@@ -24,7 +24,15 @@ const TaskList = ({ day, tasklist }: AppProps) => {
         <Col xs="12">
           <ListGroup flush>
             <ListGroupItem>
-              <h6 className="font-weight-bold">{dateToString(day)}</h6>
+              <h6
+                className={
+                  tasklist.length > 0
+                    ? "font-weight-bold"
+                    : "font-weight-bold text-muted"
+                }
+              >
+                {dateToString(day)}
+              </h6>
             </ListGroupItem>
             {taskComponentList}
 

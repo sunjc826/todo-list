@@ -184,6 +184,18 @@ const getColorForPercentage = (pct: number) => {
   // or output as hex if preferred
 };
 
+// https://stackoverflow.com/questions/47702879/bootstrap-4-hex-colors-for-rails-app
+const bootstrapColorToHex = {
+  primary: "#0275d8",
+  success: "#5cb85c",
+  info: "#5bc0de",
+  warning: "#f0ad4e",
+  danger: "#d9534f",
+  dark: "#343a40",
+  secondary: "#868e96",
+  light: "#f8f9fa",
+};
+
 export {
   dateToString,
   getMillisecondsToNextHour,
@@ -198,4 +210,5 @@ export {
   generateEditRequest,
   listContains,
   getColorForPercentage,
+  bootstrapColorToHex,
 };

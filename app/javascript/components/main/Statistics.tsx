@@ -26,13 +26,17 @@ import {
   Button,
   Input,
 } from "reactstrap";
-
+import { TagState } from "../../redux/tag/tagReducer";
+import { LabelState } from "../../redux/label/labelReducer";
+import { bootstrapColorToHex } from "../../helperFunctions";
 interface AppProps {
   taskState: TaskState;
+  tagState: TagState;
+  labelState: LabelState;
 }
 const DEFAULT_DAYS = 10;
 
-const Statistics = ({ taskState }: AppProps) => {
+const Statistics = ({ taskState, tagState, labelState }: AppProps) => {
   const { date } = useContext(TimeContext)!;
   const { toggleAlert } = useContext(AlertContext)!;
   let maxTask = 0;
@@ -40,6 +44,12 @@ const Statistics = ({ taskState }: AppProps) => {
   const taskLoading = taskState.loading;
   const taskErrMsg = taskState.errMsg;
   let taskData = taskState.data;
+  const tagData = tagState.data;
+  const labelData = labelState.data;
+
+  const [showTags, setShowTags] = useState(true);
+  const [showLabels, setShowLabels] = useState(true);
+
   const chartData = [];
   if (taskLoading) {
     toggleAlert({ message: "Tasks loading...", color: "info" });
@@ -49,9 +59,17 @@ const Statistics = ({ taskState }: AppProps) => {
     const dateList = generateDateList({ curDate: date, days }).map((ele) =>
       ele.toLocaleDateString("en-CA")
     );
-    const data: Record<string, number> = {};
+    const data: Record<string, any> = {};
+
     for (const day of dateList) {
-      data[day] = 0;
+      data[day] = { all: 0, tag: {}, label: {} };
+
+      for (const tagId in tagData) {
+        data[day]["tag"][tagId] = 0;
+      }
+      for (const labelId in labelData) {
+        data[day]["label"][labelId] = 0;
+      }
     }
     // console.log(data);
     for (const key in taskData) {
@@ -59,10 +77,19 @@ const Statistics = ({ taskState }: AppProps) => {
       const day = new Date(ele.attributes.dateString).toLocaleDateString(
         "en-CA"
       );
-      // console.log(day);
+      const relatedTags = ele.relationships.tags.data;
+      const relatedLabels = ele.relationships.labels.data;
 
-      if (!isNaN(data[day])) {
-        data[day]++;
+      if (data[day]) {
+        data[day]["all"]++;
+        relatedTags.forEach((tag) => {
+          const tagId = tag.id;
+          data[day]["tag"][tagId]++;
+        });
+        relatedLabels.forEach((label) => {
+          const labelId = label.id;
+          data[day]["label"][labelId]++;
+        });
       }
     }
     // convert data to chart data
@@ -72,7 +99,9 @@ const Statistics = ({ taskState }: AppProps) => {
       chartData.push({
         fullDate: day,
         date: day.substring(day.length - 2, day.length),
-        taskCount: data[day],
+        taskCount: data[day]["all"],
+        tagTaskCount: data[day]["tag"],
+        labelTaskCount: data[day]["label"],
       });
     }
     // console.log(chartData);
@@ -87,6 +116,40 @@ const Statistics = ({ taskState }: AppProps) => {
     }
   };
 
+  const tagLines = [];
+  for (const tagId in tagData) {
+    const accessor = (data: any) => {
+      return data["tagTaskCount"][tagId];
+    };
+    const tagLine = (
+      <Line
+        key={"t" + tagId}
+        type="monotone"
+        dataKey={accessor}
+        stroke={bootstrapColorToHex["dark"]}
+        name={tagData[tagId].attributes.description}
+      />
+    );
+    tagLines.push(tagLine);
+  }
+  const labelLines = [];
+  for (const labelId in labelData) {
+    const accessor = (data: any) => {
+      return data["labelTaskCount"][labelId];
+    };
+    const color = labelData[labelId].attributes.color;
+    const labelLine = (
+      <Line
+        key={"l" + labelId}
+        type="monotone"
+        dataKey={accessor}
+        stroke={bootstrapColorToHex[color]}
+        name={labelData[labelId].attributes.description}
+      />
+    );
+    labelLines.push(labelLine);
+  }
+
   // https://github.com/babel/babel/issues/11038
   // workaround: Add "d3-array": "2.3.3" to resolutions in package.json
   return (
@@ -99,7 +162,15 @@ const Statistics = ({ taskState }: AppProps) => {
             data={chartData}
             margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
           >
-            <Line type="monotone" dataKey="taskCount" stroke="#8884d8" />
+            <Legend align="right" verticalAlign="top" height={36} />
+            <Line
+              type="monotone"
+              dataKey="taskCount"
+              stroke="#8884d8"
+              name="Total Tasks"
+            />
+            {showTags ? tagLines : null}
+            {showLabels ? labelLines : null}
             <CartesianGrid stroke="#ccc" />
             <XAxis dataKey="date" />
             <YAxis
@@ -129,6 +200,14 @@ const Statistics = ({ taskState }: AppProps) => {
               />
             </FormGroup>
           </Form>
+        </Col>
+        <Col xs="12">
+          <Button onClick={() => setShowTags(!showTags)} className="mr-1">
+            {showTags ? "Hide" : "Show"} Tags
+          </Button>
+          <Button onClick={() => setShowLabels(!showLabels)}>
+            {showLabels ? "Hide" : "Show"} Labels
+          </Button>
         </Col>
       </Row>
     </Container>

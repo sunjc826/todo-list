@@ -156,7 +156,7 @@ const Main = () => {
                   <Support />
                 </Route>
                 <Route exact path={url + "statistics"}>
-                  <Statistics taskState={taskState} />
+                  <Statistics taskState={taskState} tagState={tagState} labelState={labelState} />
                 </Route>
                 <Route path={url + "home"}>
                   <Home userState={userState} />

@@ -38,6 +38,7 @@ const SubtaskTab = ({ taskId, taskRelations, ownsTask }: AppProps) => {
               {...subtask.attributes}
               taskId={taskId}
               subtaskId={subtask.id}
+              ownsTask={ownsTask}
             />
           </Col>
         </Row>

@@ -51,6 +51,7 @@ const CommentTab = ({ taskId, taskRelations, ownsTask }: AppProps) => {
               {...comment.attributes}
               taskId={taskId}
               commentId={comment.id}
+              ownsTask={ownsTask}
             />
           </Col>
         </Row>

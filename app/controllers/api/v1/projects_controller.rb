@@ -5,13 +5,8 @@ module Api
       include RequireLoginConcern
 
       def show
-        
-        if @current_user.projects.exists?(id: params[:id])
-          project = @current_user.projects.find(params[:id])
-        else
-          project = @current_user.shared_projects.find(params[:id])
-        end
-        render json: ProjectSerializer.new(project, {include: [:tasks, :comments, :subtasks, :activities]}).serializable_hash.to_json
+        set_project(params[:id])
+        render json: ProjectSerializer.new(@project, {include: [:tasks, :comments, :subtasks, :activities]}).serializable_hash.to_json
       end
 
       def create
@@ -38,26 +33,26 @@ module Api
 
       def complete
         project_id = params[:id]
-        project = @current_user.projects.find(project_id)
+        @project = @current_user.projects.find(project_id)
         # https://stackoverflow.com/questions/20779746/difference-between-save-and-update-in-using-with-different-http-requests
         # Alternative to xxx.update({new_attr}) is to directly modify attributes and then calling save
 
-        if project.completed # set project and related tasks to uncompleted
-          project.completed = false
-          project.tasks.each do |task|
+        if @project.completed # set project and related tasks to uncompleted
+          @project.completed = false
+          @project.tasks.each do |task|
             task.completed = false
             task.save!
           end
         else # set project and related tasks to completed
-          project.completed = true
-          project.tasks.each do |task|
+          @project.completed = true
+          @project.tasks.each do |task|
             task.completed = true
             task.save!
           end
         end
 
-        if project.save
-          render json: ProjectSerializer.new(project, {include: [:tasks]}).serializable_hash.to_json
+        if @project.save
+          render json: ProjectSerializer.new(@project, {include: [:tasks]}).serializable_hash.to_json
         else
           render json: :unprocessable_entity
         end
@@ -89,6 +84,14 @@ module Api
       private
       def project_params
         params.require(:project).permit(:title, :content, :completed)
+      end
+
+      def set_project(id)
+        if @current_user.projects.exists?(id: id)
+          @project = @current_user.projects.find(id)
+        else
+          @project = @current_user.shared_projects.find(id)
+        end
       end
     end
   end

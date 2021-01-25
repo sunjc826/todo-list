@@ -9,9 +9,10 @@ interface AppProps {
   content: string;
   taskId: Id;
   subtaskId: Id;
+  ownsTask: boolean;
 }
 
-const Subtask = ({ content, taskId, subtaskId }: AppProps) => {
+const Subtask = ({ content, taskId, subtaskId, ownsTask }: AppProps) => {
   const dispatch = useDispatch();
   const handleClick = (e: React.MouseEvent) => {
     dispatch(deleteSubtask(taskId, subtaskId));
@@ -21,10 +22,12 @@ const Subtask = ({ content, taskId, subtaskId }: AppProps) => {
   return (
     <ListGroupItem>
       <p>
-        <DeleteButton
-          className="far fa-times-circle"
-          onClick={handleClick}
-        ></DeleteButton>
+        {ownsTask && (
+          <DeleteButton
+            className="far fa-times-circle"
+            onClick={handleClick}
+          ></DeleteButton>
+        )}
         {" " + content}
       </p>
     </ListGroupItem>

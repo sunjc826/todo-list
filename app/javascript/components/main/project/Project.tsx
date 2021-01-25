@@ -180,6 +180,7 @@ const Project = ({ userState }: AppProps) => {
             <CheckComplete
               completed={completed}
               handleComplete={handleComplete}
+              active={ownsProject}
             />
             <Dropdown
               isOpen={dropdownOpen}

@@ -74,9 +74,8 @@ const Task = ({ task, showDate }: AppProps) => {
 
   // const [onHover, setOnHover] = useState(false);
   const handleComplete = (e: React.MouseEvent) => {
-    if (ownsTask) {
-      dispatch(toggleCompleteTask(task.id));
-    }
+    dispatch(toggleCompleteTask(task.id));
+
     e.stopPropagation();
   };
 
@@ -194,7 +193,7 @@ const Task = ({ task, showDate }: AppProps) => {
             <CheckComplete
               completed={completed}
               handleComplete={handleComplete}
-              ownsTask={ownsTask}
+              active={ownsTask}
             />
             {project && (
               <p>

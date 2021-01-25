@@ -9,9 +9,10 @@ interface AppProps {
   content: string;
   taskId: Id;
   commentId: Id;
+  ownsTask: boolean;
 }
 
-const Comment = ({ content, taskId, commentId }: AppProps) => {
+const Comment = ({ content, taskId, commentId, ownsTask }: AppProps) => {
   const dispatch = useDispatch();
   const handleClick = (e: React.MouseEvent) => {
     dispatch(deleteComment(taskId, commentId));
@@ -21,10 +22,12 @@ const Comment = ({ content, taskId, commentId }: AppProps) => {
   return (
     <ListGroupItem>
       <p>
-        <DeleteButton
-          className="far fa-times-circle"
-          onClick={handleClick}
-        ></DeleteButton>
+        {ownsTask && (
+          <DeleteButton
+            className="far fa-times-circle"
+            onClick={handleClick}
+          ></DeleteButton>
+        )}
         {" " + content}
       </p>
     </ListGroupItem>

@@ -23,9 +23,10 @@ import { RootState } from "../../../../redux/rootReducer";
 interface AppProps {
   taskId: Id;
   taskRelations: NonUserRelationshipRecord;
+  ownsTask: boolean;
 }
 
-const CommentTab = ({ taskId, taskRelations }: AppProps) => {
+const CommentTab = ({ taskId, taskRelations, ownsTask }: AppProps) => {
   const commentState = useSelector((state: RootState) => state.comment);
   const dispatch: AppDispatch = useDispatch();
 
@@ -110,7 +111,7 @@ const CommentTab = ({ taskId, taskRelations }: AppProps) => {
       <Col xs="12">
         <ListGroup flush>{commentsComponent}</ListGroup>
       </Col>
-      <Col xs="12">{form}</Col>
+      {ownsTask && <Col xs="12">{form}</Col>}
     </Row>
   );
 };

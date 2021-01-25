@@ -10,7 +10,12 @@ import { RootState } from "../../../../redux/rootReducer";
 
 type Toggleable = "1" | "2" | "3";
 
-const Tabs = () => {
+interface AppProps {
+  belongsToProject?: boolean;
+  ownsTask: boolean;
+}
+
+const Tabs = ({ belongsToProject, ownsTask }: AppProps) => {
   const { taskId } = useContext(TaskContext)!;
 
   const [doneEffect, setDoneEffect] = useState(false);
@@ -18,11 +23,13 @@ const Tabs = () => {
 
   useEffect(() => {
     setDoneEffect(true);
-    dispatch(fetchTaskData(taskId));
+    if (!belongsToProject) {
+      dispatch(fetchTaskData(taskId));
+    }
   }, []);
 
   const taskState = useSelector((state: RootState) => state.task);
-  const task = taskState.data![taskId];
+  const task = taskState.data![taskId!];
   const taskRelations = task.relationships;
 
   const [activeTab, setActiveTab] = useState("1");
@@ -49,13 +56,25 @@ const Tabs = () => {
       {doneEffect && (
         <TabContent activeTab={activeTab}>
           <TabPane tabId="1">
-            <SubtaskTab taskId={taskId} taskRelations={taskRelations} />
+            <SubtaskTab
+              taskId={taskId}
+              taskRelations={taskRelations}
+              ownsTask={ownsTask}
+            />
           </TabPane>
           <TabPane tabId="2">
-            <CommentTab taskId={taskId} taskRelations={taskRelations} />
+            <CommentTab
+              taskId={taskId}
+              taskRelations={taskRelations}
+              ownsTask={ownsTask}
+            />
           </TabPane>
           <TabPane tabId="3">
-            <ActivityTab taskId={taskId} taskRelations={taskRelations} />
+            <ActivityTab
+              taskId={taskId}
+              taskRelations={taskRelations}
+              ownsTask={ownsTask}
+            />
           </TabPane>
         </TabContent>
       )}

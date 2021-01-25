@@ -6,4 +6,7 @@ class ProjectSerializer
   has_many :shared_project_users
   has_many :shared_users, class_name: "User", through: :shared_project_users, foreign_key: "project_id", serializer: UserSerializer
   has_many :tasks
+  has_many :comments, through: :tasks
+  has_many :subtasks, through: :tasks
+  has_many :activities, through: :tasks
 end

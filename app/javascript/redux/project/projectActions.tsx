@@ -27,9 +27,12 @@ import {
   ProjectAttributes,
 } from "../shared";
 import { setTaskData, updateTaskData } from "../task/taskActions";
-import { setSubtaskData } from "../subtask/subtaskActions";
-import { setCommentData } from "../comment/commentActions";
-import { setActivityData } from "../activity/activityActions";
+import { setSubtaskData, updateSubtaskData } from "../subtask/subtaskActions";
+import { setCommentData, updateCommentData } from "../comment/commentActions";
+import {
+  setActivityData,
+  updateActivityData,
+} from "../activity/activityActions";
 
 const projectsUrl = "/api/v1/projects";
 
@@ -182,9 +185,12 @@ const fetchProject = (projectId: Id): AppThunk<Promise<any>> => (dispatch) => {
       }
     )
     .then((res) => {
-      const { project, task } = res;
+      const { project, task, comment, subtask, activity } = res;
       dispatch(updateProjectData(project));
       dispatch(updateTaskData(task));
+      dispatch(updateCommentData(comment));
+      dispatch(updateSubtaskData(subtask));
+      dispatch(updateActivityData(activity));
     })
     .catch((err) => {
       console.log(err.message);

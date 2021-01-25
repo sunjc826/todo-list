@@ -17,6 +17,7 @@ interface AppProps {
   priority: number;
   projectId?: Id;
   dateString: string;
+  ownsTask: boolean;
 }
 
 const TaskModal = ({
@@ -28,6 +29,7 @@ const TaskModal = ({
   priority,
   projectId,
   dateString,
+  ownsTask
 }: AppProps) => {
   return (
     <Modal isOpen={modalOpen} toggle={toggleModal} scrollable size="lg">
@@ -40,7 +42,7 @@ const TaskModal = ({
         <SmallHeading>{content}</SmallHeading>
       </ModalHeader>
       <ModalBody>
-        <Tabs />
+        <Tabs belongsToProject={!!projectId} ownsTask={ownsTask} />
       </ModalBody>
       <ModalFooter>
         <Button color="danger" onClick={toggleModal}>

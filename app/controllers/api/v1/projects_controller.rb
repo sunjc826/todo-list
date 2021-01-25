@@ -11,7 +11,7 @@ module Api
         else
           project = @current_user.shared_projects.find(params[:id])
         end
-        render json: ProjectSerializer.new(project, {include: [:tasks]}).serializable_hash.to_json
+        render json: ProjectSerializer.new(project, {include: [:tasks, :comments, :subtasks, :activities]}).serializable_hash.to_json
       end
 
       def create

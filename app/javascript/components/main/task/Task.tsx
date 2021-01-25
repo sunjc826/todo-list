@@ -39,7 +39,7 @@ const Task = ({ task, showDate }: AppProps) => {
   const projectLoading = projectState.loading;
   const projectErrMsg = projectState.errMsg;
   const projectData = projectState.data;
-
+  const userId = useSelector((state: RootState) => state.user.userId);
   const {
     completed,
     content,
@@ -52,14 +52,10 @@ const Task = ({ task, showDate }: AppProps) => {
 
   let project;
   let projectIsShared = false;
+  let ownsTask = task.attributes.userId === userId;
   if (!projectLoading && projectId) {
-    // for (let id in projectData) {
-    // if (Number(id) === Number(projectId)) {
     project = projectData![projectId];
     projectIsShared = project.relationships.sharedUsers.data.length > 0;
-    // break;
-    // }
-    // }
   }
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -78,7 +74,9 @@ const Task = ({ task, showDate }: AppProps) => {
 
   // const [onHover, setOnHover] = useState(false);
   const handleComplete = (e: React.MouseEvent) => {
-    dispatch(toggleCompleteTask(task.id));
+    if (ownsTask) {
+      dispatch(toggleCompleteTask(task.id));
+    }
     e.stopPropagation();
   };
 
@@ -127,6 +125,7 @@ const Task = ({ task, showDate }: AppProps) => {
           toggleModal={toggleModal}
           projectTitle={project ? project.attributes.title : null}
           {...task.attributes}
+          ownsTask={ownsTask}
         />
         <QuickNewTask
           modalOpen={editOpen}
@@ -180,27 +179,26 @@ const Task = ({ task, showDate }: AppProps) => {
           </Col>
           <Col xs="4" className="text-right">
             {!projectIsShared ? (
-              <Fragment>
-                <Button
-                  type="button"
-                  color="warning"
-                  className="d-inline btn-transition"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleEdit();
-                  }}
-                >
-                  Edit <i className="fas fa-edit"></i>
-                </Button>
-                <CheckComplete
-                  completed={completed}
-                  handleComplete={handleComplete}
-                />
-              </Fragment>
+              <Button
+                type="button"
+                color="warning"
+                className="d-inline btn-transition"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleEdit();
+                }}
+              >
+                Edit <i className="fas fa-edit"></i>
+              </Button>
             ) : null}
-
+            <CheckComplete
+              completed={completed}
+              handleComplete={handleComplete}
+              ownsTask={ownsTask}
+            />
             {project && (
               <p>
+                {ownsTask && <i className="fas fa-user-circle"></i>}{" "}
                 <i className="fas fa-circle"></i> {project.attributes.title}
               </p>
             )}

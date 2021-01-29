@@ -292,17 +292,19 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
           {badgesComponent}
         </Col>
         <Col xs="4" className="text-center">
-          <ButtonGroup>
-            <Button outline onClick={() => setColSize(12)}>
-              <i className="fas fa-grip-lines"></i>
-            </Button>
-            <Button outline onClick={() => setColSize(6)}>
-              <i className="fas fa-th-large"></i>
-            </Button>
-            <Button outline onClick={() => setColSize(4)}>
-              <i className="fas fa-th"></i>
-            </Button>
-          </ButtonGroup>
+          {!hideDates && (
+            <ButtonGroup>
+              <Button outline onClick={() => setColSize(12)}>
+                <i className="fas fa-grip-lines"></i>
+              </Button>
+              <Button outline onClick={() => setColSize(6)}>
+                <i className="fas fa-th-large"></i>
+              </Button>
+              <Button outline onClick={() => setColSize(4)}>
+                <i className="fas fa-th"></i>
+              </Button>
+            </ButtonGroup>
+          )}
         </Col>
         <Col xs="4" className="text-right">
           {hideDates && (

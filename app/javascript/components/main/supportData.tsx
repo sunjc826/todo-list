@@ -74,6 +74,7 @@ const data = {
     Click on each task to see its details, like subtasks, comments and activity log for that specific task. 
     Click on the edit button of any task to edit its parameters. 
     Click on the round checkbox next to any task to toggle its state of completion. 
+    Click on hide tasks to collapse the date groups that separate tasks by date.
     Editing of subtasks and comments is not supported. 
     
     Project View 

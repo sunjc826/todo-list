@@ -14,7 +14,11 @@ import {
   Modal,
 } from "reactstrap";
 import Task from "../task/Task";
-import { compareDateByDay } from "../../../helperFunctions";
+import {
+  compareDateByDay,
+  SortCategory,
+  sortTaskList,
+} from "../../../helperFunctions";
 import { TimeContext } from "../../Index";
 import NewTask from "../task/NewTask";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,6 +47,8 @@ import ShareModal from "./ShareModal";
 import { UserState } from "../../../redux/user/userReducer";
 import { RootState } from "../../../redux/rootReducer";
 import ConfirmationModal from "../../shared/ConfirmationModal";
+import { priorityComparator, dateComparator } from "../../../helperFunctions";
+import SortDropdown from "../../shared/SortDropdown";
 
 interface AppProps {
   userState: UserState;
@@ -51,20 +57,6 @@ interface AppProps {
 interface ParamTypes {
   projectId: string;
 }
-
-const priorityComparator: Comparator<Data<TaskAttributes>> = (a, b) => {
-  return a.attributes.priority < b.attributes.priority ? -1 : 1;
-};
-
-const dateComparator: Comparator<Data<TaskAttributes>> = (a, b) => {
-  return compareDateByDay({
-    date1: a.attributes.dateString,
-    date2: b.attributes.dateString,
-    strict: true,
-  })
-    ? -1
-    : 1;
-};
 
 const Project = ({ userState }: AppProps) => {
   const { projectId } = useParams<ParamTypes>();
@@ -86,7 +78,7 @@ const Project = ({ userState }: AppProps) => {
   const [newTask, setNewTask] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
-  const [sortBy, setSortBy] = useState<"none" | "date" | "priority">("none");
+  const [sortBy, setSortBy] = useState<SortCategory>("none");
   const [sortAscending, setSortAscending] = useState(true);
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -118,24 +110,11 @@ const Project = ({ userState }: AppProps) => {
     }
 
     // sorting
-    if (sortBy !== "none") {
-      let comparator: Comparator<Data<TaskAttributes>>;
-      switch (sortBy) {
-        case "date":
-          comparator = dateComparator;
-          break;
-        case "priority":
-          comparator = priorityComparator;
-          break;
-        default:
-          throw new Error("Case unaccounted for");
-      }
-      if (sortAscending) {
-        taskList.sort(comparator);
-      } else {
-        taskList.sort((a, b) => comparator(b, a));
-      }
-    }
+    sortTaskList({
+      taskList: taskList,
+      sortBy: sortBy,
+      sortAscending: sortAscending,
+    });
 
     const taskListComponent = taskList.map((task) => {
       return <Task task={task} showDate key={task.id} />;
@@ -182,49 +161,14 @@ const Project = ({ userState }: AppProps) => {
               handleComplete={handleComplete}
               active={ownsProject}
             />
-            <Dropdown
-              isOpen={dropdownOpen}
-              toggle={toggleDropdown}
-              style={{ display: "inline" }}
-              className="mr-3"
-            >
-              <DropdownToggle caret>Sort</DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem header>Sort by</DropdownItem>
-                <DropdownItem
-                  onClick={() => setSortBy("none")}
-                  active={sortBy === "none"}
-                >
-                  Reset
-                </DropdownItem>
-                <DropdownItem
-                  onClick={() => setSortBy("date")}
-                  active={sortBy === "date"}
-                >
-                  Date
-                </DropdownItem>
-                <DropdownItem
-                  onClick={() => setSortBy("priority")}
-                  active={sortBy === "priority"}
-                >
-                  Priority
-                </DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem header>Sort order</DropdownItem>
-                <DropdownItem
-                  onClick={() => setSortAscending(true)}
-                  active={sortAscending}
-                >
-                  Ascending
-                </DropdownItem>
-                <DropdownItem
-                  onClick={() => setSortAscending(false)}
-                  active={!sortAscending}
-                >
-                  Descending
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+            <SortDropdown
+              dropdownOpen={dropdownOpen}
+              toggleDropdown={toggleDropdown}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+              sortAscending={sortAscending}
+              setSortAscending={setSortAscending}
+            />
             <Button
               type="button"
               color="danger"

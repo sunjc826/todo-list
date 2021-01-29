@@ -18,6 +18,7 @@ import {
   compareDateByDay,
   dateLiesBetween,
   listContains,
+  sortTaskList,
 } from "../../../helperFunctions";
 import { useQuery } from "../../../customHooks";
 import { AlertContext } from "../../Main";
@@ -27,6 +28,9 @@ import { LabelState } from "../../../redux/label/labelReducer";
 import { FilterState } from "../../../redux/filter/filterReducer";
 import Toggle from "react-toggle";
 import { useHistory } from "react-router-dom";
+import { priorityComparator, dateComparator } from "../../../helperFunctions";
+import SortDropdown from "../../shared/SortDropdown";
+import AllTaskList from "./AllTaskList";
 
 interface AppProps {
   taskState: TaskState;
@@ -39,6 +43,13 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
   const [colSize, setColSize] = useState(12);
   const [showIncomplete, setShowIncomplete] = useState(false);
   const toggleShowIncomplete = () => setShowIncomplete(!showIncomplete);
+  const [hideDates, setHideDates] = useState(false);
+  const toggleHideDates = () => setHideDates(!hideDates);
+  // SortDropdown states
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+  const [sortBy, setSortBy] = useState<"none" | "date" | "priority">("none");
+  const [sortAscending, setSortAscending] = useState(true);
 
   const { date } = useContext(TimeContext)!;
   const dateString = dateToString(date);
@@ -214,43 +225,63 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
     } else {
       completionPercentage = (completedCount / totalTask) * 100;
     }
-    let overdueTasksComponent = null;
-    let currentTasksComponent = null;
-    let overdueTasklist = [];
 
-    for (let id in taskData) {
-      const ele = taskData[id];
-      const taskDate = ele.attributes.dateString;
-
-      if (compareDateByDay({ date1: taskDate, date2: date, strict: true })) {
-        overdueTasklist.push(ele);
-      }
-    }
-    overdueTasksComponent = (
-      <Col xs={colSize} key="overdue" className="mb-3">
-        <OverdueTaskList tasklist={overdueTasklist} />
-      </Col>
-    );
-
-    // can give a more efficient implementation, by sorting by date, then partitioning
-    currentTasksComponent = dateList.map((day) => {
-      const tasklist = [];
-      for (const id in taskData) {
+    if (hideDates) {
+      let allTaskList = [];
+      for (let id in taskData) {
         const ele = taskData[id];
-        const taskDate = new Date(ele.attributes.dateString);
-        if (sameDay(taskDate, day)) {
-          tasklist.push(ele);
-        }
+        allTaskList.push(ele);
       }
-      return (
-        <Col xs={colSize} key={day.toString()} className="mb-3">
-          <TaskList day={day} tasklist={tasklist} />
+
+      sortTaskList({
+        taskList: allTaskList,
+        sortBy: sortBy,
+        sortAscending: sortAscending,
+      });
+      tasksComponent = (
+        <Col xs="12">
+          <AllTaskList tasklist={allTaskList} />
         </Col>
       );
-    });
+    } else {
+      let overdueTasksComponent = null;
+      let currentTasksComponent = null;
+      let overdueTasklist = [];
 
-    currentTasksComponent.unshift(overdueTasksComponent);
-    tasksComponent = currentTasksComponent;
+      for (let id in taskData) {
+        const ele = taskData[id];
+        const taskDate = ele.attributes.dateString;
+
+        if (compareDateByDay({ date1: taskDate, date2: date, strict: true })) {
+          overdueTasklist.push(ele);
+        }
+      }
+      overdueTasksComponent = (
+        <Col xs={colSize} key="overdue" className="mb-3">
+          <OverdueTaskList tasklist={overdueTasklist} />
+        </Col>
+      );
+
+      // can give a more efficient implementation, by sorting by date, then partitioning
+      currentTasksComponent = dateList.map((day) => {
+        const tasklist = [];
+        for (const id in taskData) {
+          const ele = taskData[id];
+          const taskDate = new Date(ele.attributes.dateString);
+          if (sameDay(taskDate, day)) {
+            tasklist.push(ele);
+          }
+        }
+        return (
+          <Col xs={colSize} key={day.toString()} className="mb-3">
+            <TaskList day={day} tasklist={tasklist} />
+          </Col>
+        );
+      });
+
+      currentTasksComponent.unshift(overdueTasksComponent);
+      tasksComponent = currentTasksComponent;
+    }
   }
 
   return (
@@ -274,6 +305,21 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
           </ButtonGroup>
         </Col>
         <Col xs="4" className="text-right">
+          {hideDates && (
+            <SortDropdown
+              dropdownOpen={dropdownOpen}
+              toggleDropdown={toggleDropdown}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+              sortAscending={sortAscending}
+              setSortAscending={setSortAscending}
+            />
+          )}
+          <Button onClick={toggleHideDates}>
+            {hideDates ? "Show" : "Hide"} Dates
+          </Button>
+        </Col>
+        <Col xs="12" className="text-right">
           <label>
             <span>
               Showing {showIncomplete ? "Incomplete Tasks" : "All Tasks"}
@@ -295,17 +341,19 @@ const Tasks = ({ taskState, tagState, labelState, filterState }: AppProps) => {
         ) : null}
       </Row>
       <Row>{tasksComponent}</Row>
-      <Row>
-        <Col xs="12" className="text-center">
-          <Button
-            outline
-            color="primary"
-            onClick={() => setDaysDisplayed(daysDisplayed + 30)}
-          >
-            Show More
-          </Button>
-        </Col>
-      </Row>
+      {!hideDates && (
+        <Row>
+          <Col xs="12" className="text-center">
+            <Button
+              outline
+              color="primary"
+              onClick={() => setDaysDisplayed(daysDisplayed + 30)}
+            >
+              Show More
+            </Button>
+          </Col>
+        </Row>
+      )}
     </Container>
   );
 };

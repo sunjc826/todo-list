@@ -1,4 +1,5 @@
 // In this application, for simplicity, I will ignore issues like timezone
+import { Comparator, Data, TaskAttributes } from "./redux/shared";
 
 type DateString = Date | string;
 
@@ -196,6 +197,49 @@ const bootstrapColorToHex = {
   light: "#f8f9fa",
 };
 
+const priorityComparator: Comparator<Data<TaskAttributes>> = (a, b) => {
+  return a.attributes.priority < b.attributes.priority ? -1 : 1;
+};
+
+const dateComparator: Comparator<Data<TaskAttributes>> = (a, b) => {
+  return compareDateByDay({
+    date1: a.attributes.dateString,
+    date2: b.attributes.dateString,
+    strict: true,
+  })
+    ? -1
+    : 1;
+};
+type SortCategory = "none" | "date" | "priority";
+const sortTaskList = ({
+  taskList,
+  sortBy,
+  sortAscending,
+}: {
+  taskList: Data<TaskAttributes>[];
+  sortBy: SortCategory;
+  sortAscending: boolean;
+}) => {
+  if (sortBy !== "none") {
+    let comparator: Comparator<Data<TaskAttributes>>;
+    switch (sortBy) {
+      case "date":
+        comparator = dateComparator;
+        break;
+      case "priority":
+        comparator = priorityComparator;
+        break;
+      default:
+        throw new Error("Case unaccounted for");
+    }
+    if (sortAscending) {
+      taskList.sort(comparator);
+    } else {
+      taskList.sort((a, b) => comparator(b, a));
+    }
+  }
+};
+
 export {
   dateToString,
   getMillisecondsToNextHour,
@@ -211,4 +255,8 @@ export {
   listContains,
   getColorForPercentage,
   bootstrapColorToHex,
+  priorityComparator,
+  dateComparator,
+  SortCategory,
+  sortTaskList,
 };

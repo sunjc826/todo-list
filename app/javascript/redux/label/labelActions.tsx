@@ -90,9 +90,9 @@ const deleteLabel = (labelId: Id): AppThunk<Promise<any>> => (dispatch) => {
     .then((res) => {
       const { user, label, task, filter } = res;
       dispatch(setUserData(user));
+      dispatch(setTaskData(task));
       dispatch(setLabelData(label));
       dispatch(setFilterData(filter));
-      dispatch(setTaskData(task));
     });
 };
 

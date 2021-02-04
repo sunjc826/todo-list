@@ -175,6 +175,7 @@ const Project = ({ userState }: AppProps) => {
               onClick={toggleConfirmationModal}
               style={{ display: "inline" }}
               className="btn-transition"
+              disabled={!ownsProject}
             >
               Delete Project <i className="fas fa-trash"></i>
             </Button>

@@ -53,6 +53,5 @@
 For more, see the User Manual in the application itself, or [here](https://github.com/sunjc826/todo-list/blob/main/submission/final/UserManual.pdf).
 
 - Issues
-  shared_project_use
   - Project sharing is very experimental. See warning below.
   - I have removed the ability to edit tasks belonging to shared projects. However, it is still possible for the user to edit tasks before sharing. **Please _DO NOT_ add labels to tasks in projects that you plan to share!** Since other users don't have your labels, the frontend app will crash when trying to access those labels.
